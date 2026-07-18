@@ -1,0 +1,149 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import CatCard from "../components/CatCard.astro";
+
+const cats = await getCollection("cats");
+const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoster);
+---
+
+<Base
+  title="Cats available for adoption"
+  description="Meet the kittens currently looking for homes at TinyPaws — filter by age, energy, and adoption status."
+>
+  <PageHero
+    title="Cats available for adoption"
+    lead="Everyone here grew up in a foster home, so we can tell you exactly who you're meeting."
+  />
+
+  <section class="section">
+    <div class="container">
+      <form class="filters" aria-label="Filter cats">
+        <fieldset>
+          <legend>Age</legend>
+          <label><input type="radio" name="age" value="all" checked /> All</label>
+          <label><input type="radio" name="age" value="kitten" /> Under 6 months</label>
+          <label><input type="radio" name="age" value="junior" /> 6 months +</label>
+        </fieldset>
+        <fieldset>
+          <legend>Status</legend>
+          <label><input type="radio" name="status" value="all" checked /> All</label>
+          <label><input type="radio" name="status" value="available" /> Available</label>
+        </fieldset>
+      </form>
+
+      <p class="filter-count" role="status" aria-live="polite"></p>
+
+      <div class="cat-grid" id="cat-grid">
+        {byWait.map((c) => {
+          const months = parseInt(c.data.age);
+          return (
+            <div
+              class="cat-cell"
+              data-age={months < 6 ? "kitten" : "junior"}
+              data-status={c.data.status}
+            >
+              <CatCard
+                slug={c.id}
+                name={c.data.name}
+                age={c.data.age}
+                sex={c.data.sex}
+                status={c.data.status}
+                coat={c.data.coat}
+                accent={c.data.accent}
+                temperament={c.data.temperament}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+  .filters fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .filters legend {
+    float: left;
+    margin-right: 6px;
+    font: 500 1rem/1 var(--font-display);
+    padding-top: 10px;
+  }
+  .filters label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--paw-cream);
+    border-radius: var(--radius-pill);
+    padding: 9px 16px;
+    cursor: pointer;
+    font-size: var(--size-small);
+  }
+  .filters label:has(input:checked) {
+    background: var(--paw-brown);
+    color: var(--paw-cream);
+  }
+  .filters input {
+    accent-color: var(--paw-orange);
+  }
+  .filter-count {
+    margin-top: var(--space-2);
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.65);
+  }
+  .cat-grid {
+    margin-top: var(--space-3);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+  .cat-cell[hidden] {
+    display: none;
+  }
+  @media (max-width: 900px) {
+    .cat-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 600px) {
+    .cat-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>(".filters")!;
+  const cells = [...document.querySelectorAll<HTMLElement>(".cat-cell")];
+  const count = document.querySelector<HTMLElement>(".filter-count")!;
+  const apply = () => {
+    const data = new FormData(form);
+    const age = data.get("age");
+    const status = data.get("status");
+    let shown = 0;
+    for (const cell of cells) {
+      const ok =
+        (age === "all" || cell.dataset.age === age) &&
+        (status === "all" || cell.dataset.status === status);
+      cell.hidden = !ok;
+      if (ok) shown++;
+    }
+    count.textContent = `${shown} of ${cells.length} cats shown`;
+  };
+  form.addEventListener("change", apply);
+  apply();
+</script>

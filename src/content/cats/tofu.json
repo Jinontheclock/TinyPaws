@@ -1,0 +1,22 @@
+{
+  "name": "Tofu",
+  "age": "6 months",
+  "sex": "Male",
+  "breed": "White Domestic Shorthair",
+  "location": "Foster home — Richmond",
+  "daysInFoster": 45,
+  "temperament": ["Mellow", "Snuggly", "Quiet"],
+  "story": [
+    "Tofu was the smallest of his litter and is now the softest. He likes slow mornings, warm laundry, and being carried like a baguette.",
+    "Loud noises aren't his thing — a calm household would let this gentle boy bloom. He is happiest within arm's reach of his person."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vetted. Hearing tested — normal. Indoor-only recommended."
+  },
+  "status": "available",
+  "coat": "#E8E0D0",
+  "accent": "#DC6E00",
+  "quiz": { "energy": "low", "social": "velcro", "home": "quiet", "experience": "first-timer" }
+}

@@ -1,0 +1,41 @@
+---
+/* pill button from the style tile: orange fill (dark-brown text = AA) or
+   brown outline variant */
+interface Props {
+  href: string;
+  variant?: "primary" | "outline";
+}
+const { href, variant = "primary" } = Astro.props;
+---
+
+<a class={`btn btn--${variant}`} href={href}><slot /></a>
+
+<style>
+  .btn {
+    display: inline-block;
+    font: 500 var(--size-button) / 1 var(--font-display);
+    padding: 16px 34px;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    transition: transform 0.15s var(--ease), background 0.15s var(--ease),
+      color 0.15s var(--ease);
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .btn--primary {
+    background: var(--paw-orange);
+    color: var(--paw-brown);
+  }
+  .btn--primary:hover {
+    background: #e97e14;
+  }
+  .btn--outline {
+    border: 2px solid var(--paw-brown);
+    color: var(--paw-brown);
+  }
+  .btn--outline:hover {
+    background: var(--paw-brown);
+    color: var(--paw-cream);
+  }
+</style>

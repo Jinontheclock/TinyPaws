@@ -1,0 +1,214 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import { href } from "../lib/url";
+
+const cats = (await getCollection("cats")).filter((c) => c.data.status !== "adopted");
+const catData = cats.map((c) => ({
+  slug: c.id,
+  name: c.data.name,
+  age: c.data.age,
+  temperament: c.data.temperament,
+  ...c.data.quiz,
+}));
+
+const questions = [
+  {
+    key: "energy",
+    q: "Your ideal evening with a cat looks like…",
+    options: [
+      { value: "low", label: "A warm lap and a long film" },
+      { value: "medium", label: "Some play, some couch time" },
+      { value: "high", label: "Wand toys until we both collapse" },
+    ],
+  },
+  {
+    key: "social",
+    q: "How much cat do you want in your personal space?",
+    options: [
+      { value: "independent", label: "Nearby is fine — we respect boundaries" },
+      { value: "balanced", label: "Sociable, but not clingy" },
+      { value: "velcro", label: "On me. Always. Preferably purring" },
+    ],
+  },
+  {
+    key: "home",
+    q: "What's your home like on a normal day?",
+    options: [
+      { value: "quiet", label: "Calm and quiet" },
+      { value: "any", label: "Somewhere in between" },
+      { value: "busy", label: "Lively — people coming and going" },
+    ],
+  },
+  {
+    key: "experience",
+    q: "Have you had a cat before?",
+    options: [
+      { value: "first-timer", label: "This would be my first" },
+      { value: "any", label: "I've lived with cats before" },
+    ],
+  },
+  {
+    key: "hours",
+    q: "How often is someone home?",
+    options: [
+      { value: "most", label: "Most of the day" },
+      { value: "evenings", label: "Evenings and weekends" },
+    ],
+  },
+];
+---
+
+<Base
+  title="Match quiz"
+  description="Five quick questions that match your routine to the kittens currently in TinyPaws foster care. Simple scoring — no accounts, nothing stored."
+>
+  <PageHero
+    title="Find your match"
+    lead="Five questions, thirty seconds. A simple scoring quiz — not magic, just honest matchmaking against the cats in care right now."
+  />
+
+  <section class="section">
+    <div class="container quiz-wrap">
+      <form class="quiz" data-cats={JSON.stringify(catData)}>
+        {questions.map((question, qi) => (
+          <fieldset class="q">
+            <legend>
+              <span class="q-no">Q{qi + 1}</span>
+              {question.q}
+            </legend>
+            <div class="q-options">
+              {question.options.map((o) => (
+                <label>
+                  <input type="radio" name={question.key} value={o.value} required />
+                  <span>{o.label}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        ))}
+        <button class="submit" type="submit">See my match</button>
+      </form>
+
+      <div class="result" role="status" aria-live="polite" hidden>
+        <h2>Your best match: <span class="result-name"></span></h2>
+        <p class="result-why"></p>
+        <p class="result-runner"></p>
+        <a class="result-link" href="#">Meet <span class="result-name2"></span> →</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .quiz-wrap { max-width: 760px; }
+  .quiz { display: grid; gap: var(--space-4); }
+  .q {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+  .q legend {
+    font: 500 1.25rem/1.35 var(--font-display);
+    margin-bottom: var(--space-2);
+  }
+  .q-no {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: var(--paw-orange);
+    color: var(--paw-brown);
+    font-size: 0.95rem;
+  }
+  .q-options { display: grid; gap: 10px; }
+  .q-options label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--paw-cream);
+    border: 2px solid transparent;
+    border-radius: var(--radius-input);
+    padding: 14px 18px;
+    cursor: pointer;
+  }
+  .q-options label:has(input:checked) {
+    border-color: var(--paw-orange);
+    background: var(--paw-white);
+    font-weight: 500;
+  }
+  .q-options input { accent-color: var(--paw-orange); }
+  .submit {
+    justify-self: start;
+    font: 500 var(--size-button)/1 var(--font-display);
+    background: var(--paw-orange);
+    color: var(--paw-brown);
+    border: 0;
+    border-radius: var(--radius-pill);
+    padding: 16px 34px;
+    cursor: pointer;
+  }
+  .submit:hover { background: #e97e14; }
+  .result {
+    margin-top: var(--space-5);
+    background: var(--paw-brown);
+    color: var(--paw-cream);
+    border-radius: var(--radius-card);
+    padding: var(--space-4);
+  }
+  .result h2 { color: var(--paw-cream); }
+  .result-name { color: var(--paw-orange); }
+  .result-why { margin-top: 12px; }
+  .result-runner { margin-top: 8px; font-size: var(--size-small); opacity: 0.8; }
+  .result-link {
+    display: inline-block;
+    margin-top: var(--space-3);
+    color: var(--paw-cream);
+    font: 500 1.1rem/1 var(--font-display);
+  }
+</style>
+
+<script define:vars={{ base: import.meta.env.BASE_URL }}>
+  const form = document.querySelector(".quiz");
+  const cats = JSON.parse(form.dataset.cats);
+  const result = document.querySelector(".result");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    const a = Object.fromEntries(new FormData(form));
+
+    // transparent scoring: +2 exact matches, +1 for adjacent/neutral fits
+    const scored = cats.map((cat) => {
+      let score = 0;
+      const why = [];
+      if (cat.energy === a.energy) { score += 2; why.push(`matches your ${a.energy}-energy evenings`); }
+      else if (a.energy === "medium" || cat.energy === "medium") score += 1;
+      if (cat.social === a.social) { score += 2; why.push("wants the same amount of closeness you do"); }
+      else if (a.social === "balanced" || cat.social === "balanced") score += 1;
+      if (cat.home === a.home || cat.home === "any" || a.home === "any") { score += 2; why.push("suits your kind of household"); }
+      if (a.experience === "first-timer" && cat.experience === "first-timer") { score += 2; why.push("is famously easy for first-time adopters"); }
+      else score += 1;
+      if (a.hours === "evenings" && cat.social !== "velcro") score += 1;
+      if (a.hours === "most" && cat.social === "velcro") score += 1;
+      return { cat, score, why };
+    }).sort((x, y) => y.score - x.score);
+
+    const best = scored[0];
+    const runner = scored[1];
+    result.hidden = false;
+    result.querySelector(".result-name").textContent = best.cat.name;
+    result.querySelector(".result-name2").textContent = best.cat.name;
+    result.querySelector(".result-why").textContent =
+      `${best.cat.name} (${best.cat.age}, ${best.cat.temperament.slice(0, 2).join(" · ").toLowerCase()}) ` +
+      (best.why.length ? best.why.join(", ") + "." : "fits your answers best.");
+    result.querySelector(".result-runner").textContent =
+      runner ? `Close second: ${runner.cat.name} — worth a look too.` : "";
+    result.querySelector(".result-link").href =
+      `${base.replace(/\/$/, "")}/cats/${best.cat.slug}/`;
+    result.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+</script>

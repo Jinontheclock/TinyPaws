@@ -1,0 +1,22 @@
+{
+  "name": "Mochi",
+  "age": "4 months",
+  "sex": "Female",
+  "breed": "Domestic Shorthair",
+  "location": "Foster home — Mount Pleasant",
+  "daysInFoster": 38,
+  "temperament": ["Playful", "Curious", "Cuddly"],
+  "story": [
+    "Mochi came to us at three weeks old, bottle-fed by her foster after being found under a porch in East Van. She has repaid every feeding with double the purrs.",
+    "She is the kitten who greets you at the door, supervises your cooking, and falls asleep mid-pounce. Mochi would love a home with people around often — or a feline friend to keep her busy."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "First and second FVRCP done. Clean bill of health at her spay check-up."
+  },
+  "status": "available",
+  "coat": "#C98A4B",
+  "accent": "#F5ECD8",
+  "quiz": { "energy": "high", "social": "velcro", "home": "busy", "experience": "first-timer" }
+}

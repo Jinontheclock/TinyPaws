@@ -1,0 +1,85 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+
+const events = (await getCollection("events")).sort(
+  (a, b) => new Date(a.data.date).getTime() - new Date(b.data.date).getTime(),
+);
+const kindLabel = { adoption: "Adoption day", fundraiser: "Fundraiser", community: "Community" };
+---
+
+<Base
+  title="Events"
+  description="Upcoming TinyPaws adoption days, fundraisers, and volunteer orientations in Vancouver."
+>
+  <PageHero
+    title="Upcoming events"
+    lead="Adoption days are the best way to meet the kittens — fundraisers keep the vet bills paid."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="event-list">
+        {events.map((e) => (
+          <article class="event">
+            <div class="event-date">
+              <span class="event-kind" data-kind={e.data.kind}>{kindLabel[e.data.kind]}</span>
+              <p class="event-when">{e.data.date}</p>
+              <p class="event-time">{e.data.time}</p>
+            </div>
+            <div class="event-body">
+              <h2>{e.data.title}</h2>
+              <p class="event-place">{e.data.place}</p>
+              <p class="event-blurb">{e.data.blurb}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .event-list {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 860px;
+  }
+  .event {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--space-3);
+    background: var(--paw-white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-3);
+  }
+  .event-kind {
+    display: inline-block;
+    font: 500 0.8rem/1 var(--font-body);
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    background: var(--paw-cream);
+  }
+  .event-kind[data-kind="adoption"] { background: var(--paw-orange); }
+  .event-kind[data-kind="fundraiser"] { background: var(--paw-brown); color: var(--paw-cream); }
+  .event-when {
+    margin-top: 12px;
+    font: 500 1.2rem/1.2 var(--font-display);
+  }
+  .event-time {
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.65);
+  }
+  .event h2 { font-size: var(--size-h4); }
+  .event-place {
+    margin-top: 4px;
+    font-weight: 500;
+    color: var(--paw-orange-ink);
+  }
+  .event-blurb { margin-top: 10px; }
+  @media (max-width: 640px) {
+    .event { grid-template-columns: 1fr; }
+  }
+</style>

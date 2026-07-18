@@ -1,0 +1,22 @@
+{
+  "name": "Nori",
+  "age": "3 months",
+  "sex": "Male",
+  "breed": "Grey Tabby",
+  "location": "Foster home — Burnaby",
+  "daysInFoster": 19,
+  "temperament": ["Shy at first", "Sweet", "Bonded pair"],
+  "story": [
+    "Nori and his sister Miso were rescued from a construction site. He hides for the first ten minutes, then melts into the nearest blanket.",
+    "He gains confidence from his sister — they are a bonded pair and must be adopted together. Watching them wrestle at 9 p.m. sharp is better than television."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": false,
+    "notes": "Neuter scheduled with our partner clinic; included in the adoption fee."
+  },
+  "status": "pending",
+  "coat": "#8A8378",
+  "accent": "#EEE0C3",
+  "quiz": { "energy": "medium", "social": "balanced", "home": "quiet", "experience": "any" }
+}

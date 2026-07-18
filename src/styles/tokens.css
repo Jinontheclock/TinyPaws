@@ -1,0 +1,41 @@
+/* TinyPaws design tokens — straight from the style tile.
+   Palette: #DC6E00 · #301800 · #000000 · #F5ECD8 · #FFFFFF
+   Type: Nexa Round 64/40/32/24/20 + Lexend 16 (Fredoka substitutes
+   Nexa Round — commercial face, see README). */
+:root {
+  /* colour */
+  --paw-orange: #dc6e00;
+  /* AA-safe darkened orange for small text on cream (4.6:1) */
+  --paw-orange-ink: #a65300;
+  --paw-brown: #301800;
+  --paw-black: #000000;
+  --paw-cream: #f5ecd8;
+  --paw-white: #ffffff;
+  --paw-cream-deep: #eee0c3; /* section tint one step below cream */
+
+  /* type — Fredoka for display (Nexa Round stand-in), Lexend for body */
+  --font-display: "Fredoka", "Trebuchet MS", sans-serif;
+  --font-body: "Lexend", "Segoe UI", sans-serif;
+  --size-h1: clamp(2.5rem, 6vw, 4rem);      /* 64 */
+  --size-h2: clamp(1.75rem, 4vw, 2.5rem);   /* 40 */
+  --size-h3: clamp(1.5rem, 3vw, 2rem);      /* 32 */
+  --size-h4: 1.5rem;                        /* 24 */
+  --size-button: 1.25rem;                   /* 20 */
+  --size-body: 1rem;                        /* 16 */
+  --size-small: 0.875rem;
+
+  /* shape & space */
+  --radius-pill: 999px;
+  --radius-card: 20px;
+  --radius-input: 14px;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+  --space-5: 64px;
+  --space-6: 96px;
+  --measure: 65ch;
+
+  --shadow-card: 0 6px 24px rgba(48, 24, 0, 0.08);
+  --ease: cubic-bezier(0.33, 1, 0.68, 1);
+}

@@ -1,0 +1,40 @@
+---
+/* Illustrated stand-in portraits (owner will swap in real photos — see
+   README). Each cat gets its own coat colours so cards read distinct. */
+interface Props {
+  coat: string;
+  accent: string;
+  alt: string;
+}
+const { coat, accent, alt } = Astro.props;
+---
+
+<svg class="portrait" viewBox="0 0 300 300" role="img" aria-label={alt}>
+  <rect width="300" height="300" rx="0" fill={accent} />
+  <g>
+    <path d={`M84 96 L104 44 L138 82 Z`} fill={coat} />
+    <path d={`M216 96 L196 44 L162 82 Z`} fill={coat} />
+    <path d={`M84 96 L100 56 L126 84 Z`} fill="#F5ECD8" opacity="0.5" />
+    <path d={`M216 96 L200 56 L174 84 Z`} fill="#F5ECD8" opacity="0.5" />
+    <circle cx="150" cy="150" r="86" fill={coat} />
+    <circle cx="118" cy="140" r="10" fill="#301800" />
+    <circle cx="182" cy="140" r="10" fill="#301800" />
+    <circle cx="121" cy="136" r="3" fill="#FFFFFF" />
+    <circle cx="185" cy="136" r="3" fill="#FFFFFF" />
+    <path d="M150 158c5 0 9 3.4 9 7.6 0 3.4-3.4 6-9 6s-9-2.6-9-6c0-4.2 4-7.6 9-7.6Z" fill="#DC6E00" />
+    <path d="M150 171v10" stroke="#301800" stroke-width="4" stroke-linecap="round" />
+    <path d="M150 181c-6 8-16 8-22 2M150 181c6 8 16 8 22 2" stroke="#301800" stroke-width="4" fill="none" stroke-linecap="round" />
+    <g stroke="#301800" stroke-width="3" stroke-linecap="round" opacity="0.85">
+      <path d="M96 156h-34" /><path d="M98 168l-32 8" />
+      <path d="M204 156h34" /><path d="M202 168l32 8" />
+    </g>
+  </g>
+</svg>
+
+<style>
+  .portrait {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>

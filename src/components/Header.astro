@@ -1,0 +1,176 @@
+---
+import PawLogo from "./PawLogo.astro";
+import { href } from "../lib/url";
+
+const links = [
+  { label: "Adopt", path: "/adopt/" },
+  { label: "Match Quiz", path: "/quiz/" },
+  { label: "Adoption Info", path: "/adoption/" },
+  { label: "Get Involved", path: "/get-involved/" },
+  { label: "Events", path: "/events/" },
+];
+const current = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container header-row">
+    <a class="brand" href={href("/")} aria-label="TinyPaws home">
+      <PawLogo size={40} />
+      <span class="brand-name">TinyPaws</span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        {links.map((l) => (
+          <li>
+            <a href={href(l.path)} aria-current={current === href(l.path) ? "page" : undefined}>{l.label}</a>
+          </li>
+        ))}
+        <li class="nav-cta">
+          <a class="donate" href={href("/get-involved/#donate")}>Donate Now</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--paw-white);
+    border-bottom: 1px solid rgba(48, 24, 0, 0.08);
+  }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-block: 12px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .brand-name {
+    font: 600 1.35rem/1 var(--font-display);
+    color: var(--paw-brown);
+  }
+  .site-nav ul {
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 2.2vw, 30px);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .site-nav a {
+    font: 500 1rem/1 var(--font-body);
+    color: var(--paw-brown);
+    text-decoration: none;
+    padding: 8px 2px;
+  }
+  .site-nav a:hover,
+  .site-nav a[aria-current="page"] {
+    color: var(--paw-orange-ink);
+  }
+  .site-nav a[aria-current="page"] {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 2px;
+  }
+  .nav-cta .donate {
+    display: inline-block;
+    background: var(--paw-orange);
+    color: var(--paw-brown);
+    font: 500 1rem/1 var(--font-display);
+    padding: 12px 22px;
+    border-radius: var(--radius-pill);
+    transition: transform 0.15s var(--ease), background 0.15s var(--ease);
+  }
+  .nav-cta .donate:hover {
+    transform: translateY(-1px);
+    background: #e97e14;
+  }
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: 0;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .nav-toggle-bar {
+    width: 24px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--paw-brown);
+    transition: transform 0.2s var(--ease), opacity 0.2s var(--ease);
+  }
+
+  @media (max-width: 840px) {
+    .nav-toggle {
+      display: flex;
+    }
+    .site-nav {
+      display: none;
+      position: absolute;
+      inset: 100% 0 auto 0;
+      background: var(--paw-white);
+      border-bottom: 1px solid rgba(48, 24, 0, 0.08);
+      box-shadow: var(--shadow-card);
+    }
+    .site-nav.is-open {
+      display: block;
+    }
+    .site-nav ul {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 8px 24px 20px;
+    }
+    .site-nav li {
+      border-bottom: 1px solid rgba(48, 24, 0, 0.06);
+    }
+    .site-nav li:last-child {
+      border-bottom: 0;
+    }
+    .site-nav a {
+      display: block;
+      padding: 14px 2px;
+      font-size: 1.05rem;
+    }
+    .nav-cta {
+      padding-top: 12px;
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector(".nav-toggle");
+  const nav = document.getElementById("site-nav");
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!open));
+    nav?.classList.toggle("is-open", !open);
+  });
+</script>

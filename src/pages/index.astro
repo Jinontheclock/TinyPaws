@@ -1,0 +1,230 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Button from "../components/Button.astro";
+import CatCard from "../components/CatCard.astro";
+import PawLogo from "../components/PawLogo.astro";
+import { href } from "../lib/url";
+
+const cats = (await getCollection("cats"))
+  .filter((c) => c.data.status === "available")
+  .slice(0, 3);
+
+const steps = [
+  {
+    title: "Meet",
+    text: "Browse the cats, take the match quiz, or visit an adoption day to find your fit.",
+  },
+  {
+    title: "Apply",
+    text: "Send an adoption application. A volunteer follows up within a few days for a chat.",
+  },
+  {
+    title: "Welcome home",
+    text: "A short trial stay, then the paperwork — and a lifetime of tiny paws.",
+  },
+];
+---
+
+<Base
+  title="Small paws, safe homes"
+  description="TinyPaws is a volunteer-run kitten rescue in Vancouver. Meet adoptable kittens, learn the adoption process, foster, volunteer, or donate."
+>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <h1>Saving kittens, one paw at a&nbsp;time.</h1>
+        <p class="hero-lead">
+          TinyPaws is a volunteer-run kitten rescue in Vancouver. Small paws,
+          safe homes — that's the whole idea.
+        </p>
+        <div class="hero-actions">
+          <Button href={href("/adopt/")}>Meet the cats</Button>
+          <Button href={href("/quiz/")} variant="outline">Take the match quiz</Button>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="blob blob-a"></div>
+        <div class="blob blob-b"></div>
+        <div class="hero-paw"><PawLogo size={120} /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Ready for adoption</h2>
+      <p class="section-lead">
+        Every TinyPaws kitten grows up in a foster home, so we can tell you
+        exactly who they are.
+      </p>
+      <div class="cat-grid">
+        {cats.map((c) => (
+          <CatCard
+            slug={c.id}
+            name={c.data.name}
+            age={c.data.age}
+            sex={c.data.sex}
+            status={c.data.status}
+            coat={c.data.coat}
+            accent={c.data.accent}
+            temperament={c.data.temperament}
+          />
+        ))}
+      </div>
+      <div class="center-cta">
+        <Button href={href("/adopt/")} variant="outline">See all cats</Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container">
+      <h2>How adoption works</h2>
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li class="step">
+            <span class="step-no" aria-hidden="true">{i + 1}</span>
+            <h3 class="step-title">{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="center-cta">
+        <Button href={href("/adoption/")}>See the full process</Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container involve">
+      <div>
+        <h2>Can't adopt right now?</h2>
+        <p class="section-lead">
+          Rescues run on fosters, volunteers, and donations. An empty bathroom
+          and two weeks of your time can save a litter.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <Button href={href("/get-involved/#foster")}>Become a foster</Button>
+        <Button href={href("/get-involved/#donate")} variant="outline">Donate</Button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    background: var(--paw-cream);
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: var(--space-4);
+    padding-block: var(--space-6);
+  }
+  .hero-lead {
+    margin-top: var(--space-3);
+    font-size: 1.15rem;
+    max-width: 44ch;
+  }
+  .hero-actions {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .hero-art {
+    position: relative;
+    min-height: 320px;
+  }
+  .blob {
+    position: absolute;
+    background: var(--paw-orange);
+    border-radius: 999px;
+  }
+  .blob-a {
+    width: 200px;
+    height: 300px;
+    right: 90px;
+    top: 0;
+  }
+  .blob-b {
+    width: 130px;
+    height: 200px;
+    right: 0;
+    top: 110px;
+    background: var(--paw-brown);
+  }
+  .hero-paw {
+    position: absolute;
+    right: 150px;
+    top: 120px;
+    filter: drop-shadow(0 8px 18px rgba(48, 24, 0, 0.25));
+  }
+  .section-lead {
+    margin-top: 12px;
+    color: rgba(48, 24, 0, 0.8);
+  }
+  .cat-grid {
+    margin-top: var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+  .center-cta {
+    margin-top: var(--space-4);
+    text-align: center;
+  }
+  .steps {
+    list-style: none;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+  .step {
+    background: var(--paw-white);
+    border-radius: var(--radius-card);
+    padding: var(--space-3);
+    box-shadow: var(--shadow-card);
+  }
+  .step-no {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--paw-orange);
+    color: var(--paw-brown);
+    font: 600 1.3rem/1 var(--font-display);
+  }
+  .step-title {
+    margin-top: 14px;
+  }
+  .step p {
+    margin-top: 8px;
+  }
+  .involve {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  @media (max-width: 900px) {
+    .hero-grid,
+    .involve {
+      grid-template-columns: 1fr;
+    }
+    .hero-art {
+      min-height: 260px;
+    }
+    .cat-grid,
+    .steps {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

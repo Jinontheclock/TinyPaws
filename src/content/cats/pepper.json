@@ -1,0 +1,22 @@
+{
+  "name": "Pepper",
+  "age": "5 months",
+  "sex": "Female",
+  "breed": "Tuxedo",
+  "location": "Foster home — Commercial Drive",
+  "daysInFoster": 24,
+  "temperament": ["Bold", "Smart", "Independent"],
+  "story": [
+    "Pepper runs her foster room like a tiny CEO. She learned the puzzle feeder in one evening and opens the toy drawer herself.",
+    "She enjoys company on her own terms — play hard, then perch somewhere high to observe. An adopter who appreciates a clever, confident cat will love her."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Vaccinations up to date. Slightly sensitive stomach — on a consistent diet."
+  },
+  "status": "available",
+  "coat": "#301800",
+  "accent": "#F5ECD8",
+  "quiz": { "energy": "medium", "social": "independent", "home": "any", "experience": "any" }
+}

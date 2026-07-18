@@ -1,0 +1,22 @@
+{
+  "name": "Biscuit",
+  "age": "7 months",
+  "sex": "Male",
+  "breed": "Orange Tabby",
+  "location": "Foster home — Kitsilano",
+  "daysInFoster": 61,
+  "temperament": ["Gentle", "Lap cat", "Easygoing"],
+  "story": [
+    "Biscuit is the definition of an easy roommate. He was surrendered with his litter and has grown into a calm, biscuit-making gentleman who loves a sunny windowsill.",
+    "He settles quickly, travels well, and has never met a lap he didn't like. A quiet home — with or without another cat — would suit him perfectly."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vaccinated. Mild kitten cold in May, fully recovered."
+  },
+  "status": "available",
+  "coat": "#DC6E00",
+  "accent": "#F0E2C6",
+  "quiz": { "energy": "low", "social": "balanced", "home": "quiet", "experience": "first-timer" }
+}

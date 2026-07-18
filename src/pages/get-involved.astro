@@ -1,0 +1,165 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import Button from "../components/Button.astro";
+import { href } from "../lib/url";
+---
+
+<Base
+  title="Get involved"
+  description="Foster a litter, volunteer at events, or donate to cover veterinary care — three ways to keep TinyPaws running."
+>
+  <PageHero
+    title="Get involved"
+    lead="TinyPaws has no shelter building — just people. Fosters, volunteers, and donors are the whole operation."
+  />
+
+  <section class="section" id="foster">
+    <div class="container split">
+      <div>
+        <h2>Foster a litter</h2>
+        <p class="body-gap">
+          Fostering means giving kittens a spare room and a routine for two to
+          eight weeks while they grow big enough for adoption. We cover food,
+          litter, supplies, and every vet visit — you supply the safe space and
+          the socializing.
+        </p>
+        <ul class="ticks">
+          <li>All supplies and vet costs covered</li>
+          <li>A mentor foster on call for every placement</li>
+          <li>Works around your schedule — say no anytime</li>
+        </ul>
+        <Button href={href("/events/")}>Join a foster orientation</Button>
+      </div>
+      <div class="panel panel--cream" aria-hidden="true">
+        <p class="big-stat">2–8</p>
+        <p>weeks per placement, start to adoption</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream" id="volunteer">
+    <div class="container split split--flip">
+      <div class="panel panel--white" aria-hidden="true">
+        <p class="big-stat">4 h</p>
+        <p>a month is the typical volunteer shift</p>
+      </div>
+      <div>
+        <h2>Volunteer</h2>
+        <p class="body-gap">
+          Adoption-day setup, transport runs between fosters and the vet,
+          photography, and events — most roles need no cat-handling experience,
+          just reliability.
+        </p>
+        <ul class="ticks">
+          <li>Adoption days · transport · photography · events</li>
+          <li>Orientation night every month (see Events)</li>
+          <li>Great for students — we sign off volunteer hours</li>
+        </ul>
+        <Button href={href("/events/")}>See upcoming orientations</Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="donate">
+    <div class="container donate-wrap">
+      <h2>Donate</h2>
+      <p class="body-gap">
+        Veterinary care is our biggest cost — a single litter's vaccines,
+        deworming, and spay/neuter run about $900. Donations go there first,
+        then to food and supplies.
+      </p>
+      <div class="donate-tiers">
+        <div class="tier"><p class="tier-amt">$25</p><p>vaccinates one kitten</p></div>
+        <div class="tier"><p class="tier-amt">$80</p><p>covers a spay or neuter</p></div>
+        <div class="tier"><p class="tier-amt">$150</p><p>funds a litter's first month</p></div>
+      </div>
+      <p class="donate-note">
+        This demo doesn't process payments. In the live site this button leads
+        to the rescue's payment provider.
+      </p>
+      <Button href={href("/get-involved/#donate")}>Donate (demo)</Button>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+  .split--flip {
+    grid-template-columns: 0.8fr 1.2fr;
+  }
+  .body-gap {
+    margin-top: var(--space-2);
+  }
+  .ticks {
+    list-style: none;
+    margin: var(--space-3) 0 var(--space-4);
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .ticks li {
+    padding-left: 30px;
+    position: relative;
+    font-weight: 500;
+  }
+  .ticks li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--paw-orange-ink);
+    font-weight: 700;
+  }
+  .panel {
+    border-radius: var(--radius-card);
+    padding: var(--space-4);
+    text-align: center;
+  }
+  .panel--cream { background: var(--paw-cream); }
+  .panel--white { background: var(--paw-white); box-shadow: var(--shadow-card); }
+  .big-stat {
+    font: 600 3.4rem/1 var(--font-display);
+    color: var(--paw-orange-ink);
+  }
+  .panel p:last-child {
+    margin-top: 8px;
+    margin-inline: auto;
+    max-width: 22ch;
+  }
+  .donate-wrap { max-width: 760px; }
+  .donate-tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-block: var(--space-4);
+  }
+  .tier {
+    background: var(--paw-cream);
+    border-radius: var(--radius-card);
+    padding: var(--space-3);
+    text-align: center;
+  }
+  .tier-amt {
+    font: 600 2.2rem/1 var(--font-display);
+    color: var(--paw-brown);
+  }
+  .tier p:last-child { margin: 8px auto 0; }
+  .donate-note {
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.65);
+    margin-bottom: var(--space-3);
+  }
+  @media (max-width: 900px) {
+    .split,
+    .split--flip,
+    .donate-tiers {
+      grid-template-columns: 1fr;
+    }
+    .split--flip .panel { order: 2; }
+  }
+</style>

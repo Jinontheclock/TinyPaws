@@ -1,0 +1,78 @@
+---
+import CatPortrait from "./CatPortrait.astro";
+import { href } from "../lib/url";
+
+interface Props {
+  slug: string;
+  name: string;
+  age: string;
+  sex: string;
+  status: string;
+  coat: string;
+  accent: string;
+  temperament: string[];
+}
+const { slug, name, age, sex, status, coat, accent, temperament } = Astro.props;
+---
+
+<article class="cat-card">
+  <a class="cat-card-link" href={href(`/cats/${slug}/`)}>
+    <div class="cat-card-media">
+      <CatPortrait coat={coat} accent={accent} alt={`Illustrated portrait of ${name}`} />
+      {status !== "available" && <span class="cat-card-status">{status}</span>}
+    </div>
+    <div class="cat-card-body">
+      <h3 class="cat-card-name">{name}</h3>
+      <p class="cat-card-meta">{sex} · {age}</p>
+      <p class="cat-card-traits">{temperament.slice(0, 3).join(" · ")}</p>
+    </div>
+  </a>
+</article>
+
+<style>
+  .cat-card {
+    background: var(--paw-white);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+  .cat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(48, 24, 0, 0.14);
+  }
+  .cat-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .cat-card-media {
+    position: relative;
+  }
+  .cat-card-status {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--paw-brown);
+    color: var(--paw-cream);
+    font: 500 0.8rem/1 var(--font-body);
+    text-transform: capitalize;
+    padding: 7px 14px;
+    border-radius: var(--radius-pill);
+  }
+  .cat-card-body {
+    padding: 18px 20px 22px;
+  }
+  .cat-card-name {
+    font-size: 1.4rem;
+  }
+  .cat-card-meta {
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .cat-card-traits {
+    margin-top: 6px;
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.65);
+  }
+</style>

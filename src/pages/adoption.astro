@@ -1,0 +1,209 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+
+const steps = [
+  { title: "1 · Browse & meet", text: "Look through the adoptable cats, take the match quiz, or meet kittens at an adoption day. Bonded pairs go home together." },
+  { title: "2 · Apply", text: "Fill in the application below. It isn't first-come-first-served — we match on fit, not speed." },
+  { title: "3 · Chat with a volunteer", text: "A foster volunteer calls you within a few days to talk lifestyle, home setup, and any other pets." },
+  { title: "4 · Trial stay", text: "A one-week trial at your home with supplies provided, so everyone can be sure — including the cat." },
+  { title: "5 · Make it official", text: "Sign the adoption agreement and pay the fee ($240, covering vaccines, spay/neuter, and microchip)." },
+];
+---
+
+<Base
+  title="Adoption process"
+  description="How adopting a TinyPaws kitten works, from application to trial stay — plus the adoption application form."
+>
+  <PageHero
+    title="How adoption works"
+    lead="Five steps, no surprises. The fee ($240) covers vaccines, spay or neuter, and a microchip."
+  />
+
+  <section class="section">
+    <div class="container process">
+      <ol class="timeline">
+        {steps.map((s) => (
+          <li>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--cream" id="apply">
+    <div class="container form-wrap">
+      <h2>Adoption application</h2>
+      <p class="form-note">
+        Demo form — validation runs in your browser and nothing is sent
+        anywhere.
+      </p>
+
+      <form class="apply-form" novalidate>
+        <div class="field">
+          <label for="f-name">Full name</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required />
+          <p class="error" id="f-name-error"></p>
+        </div>
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required />
+          <p class="error" id="f-email-error"></p>
+        </div>
+        <div class="field">
+          <label for="f-cat">Which cat are you applying for?</label>
+          <select id="f-cat" name="cat" required>
+            <option value="">Choose a cat…</option>
+            <option>Mochi</option>
+            <option>Biscuit</option>
+            <option>Pepper</option>
+            <option>Nori (bonded with Miso)</option>
+            <option>Clementine</option>
+            <option>Tofu</option>
+            <option>Not sure yet — help me choose</option>
+          </select>
+          <p class="error" id="f-cat-error"></p>
+        </div>
+        <div class="field">
+          <label for="f-home">Tell us about your home</label>
+          <textarea
+            id="f-home"
+            name="home"
+            rows="4"
+            required
+            placeholder="Apartment or house? Other pets? Kids? Anything you'd want a foster to know."></textarea>
+          <p class="error" id="f-home-error"></p>
+        </div>
+        <button class="submit" type="submit">Send application</button>
+        <p class="success" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+    max-width: 720px;
+  }
+  .timeline li {
+    position: relative;
+    padding-left: 28px;
+    border-left: 3px solid var(--paw-orange);
+  }
+  .timeline p {
+    margin-top: 6px;
+  }
+  .form-wrap {
+    max-width: 720px;
+  }
+  .form-note {
+    margin-top: 10px;
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.65);
+  }
+  .apply-form {
+    margin-top: var(--space-4);
+    display: grid;
+    gap: var(--space-3);
+  }
+  .field {
+    display: grid;
+    gap: 8px;
+  }
+  label {
+    font: 500 1.05rem/1.3 var(--font-display);
+  }
+  input,
+  select,
+  textarea {
+    font: 400 1rem/1.4 var(--font-body);
+    color: var(--paw-brown);
+    background: var(--paw-white);
+    border: 2px solid rgba(48, 24, 0, 0.18);
+    border-radius: var(--radius-input);
+    padding: 14px 16px;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--paw-orange);
+  }
+  .field.is-invalid input,
+  .field.is-invalid select,
+  .field.is-invalid textarea {
+    border-color: #b3261e;
+  }
+  .error {
+    min-height: 1.2em;
+    font-size: var(--size-small);
+    color: #b3261e;
+  }
+  .submit {
+    justify-self: start;
+    font: 500 var(--size-button) / 1 var(--font-display);
+    background: var(--paw-orange);
+    color: var(--paw-brown);
+    border: 0;
+    border-radius: var(--radius-pill);
+    padding: 16px 34px;
+    cursor: pointer;
+    transition: background 0.15s var(--ease), transform 0.15s var(--ease);
+  }
+  .submit:hover {
+    background: #e97e14;
+    transform: translateY(-2px);
+  }
+  .success {
+    font-weight: 500;
+    color: #2c6b2f;
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>(".apply-form")!;
+  const success = form.querySelector<HTMLElement>(".success")!;
+
+  const validators: Record<string, (v: string) => string> = {
+    name: (v) => (v.trim().length >= 2 ? "" : "Please enter your name."),
+    email: (v) => (/^\S+@\S+\.\S+$/.test(v) ? "" : "Please enter a valid email address."),
+    cat: (v) => (v ? "" : "Please choose a cat (or “not sure yet”)."),
+    home: (v) => (v.trim().length >= 20 ? "" : "A couple of sentences helps us match you well (20+ characters)."),
+  };
+
+  const check = (el: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) => {
+    const msg = validators[el.name]?.(el.value) ?? "";
+    const field = el.closest(".field")!;
+    const error = field.querySelector<HTMLElement>(".error")!;
+    field.classList.toggle("is-invalid", !!msg);
+    error.textContent = msg;
+    el.setAttribute("aria-invalid", msg ? "true" : "false");
+    return !msg;
+  };
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const fields = [...form.querySelectorAll<HTMLInputElement>("input, select, textarea")];
+    const results = fields.map(check);
+    const firstBad = fields[results.indexOf(false)];
+    if (firstBad) {
+      firstBad.focus();
+      success.textContent = "";
+      return;
+    }
+    form.reset();
+    success.textContent =
+      "Application received (demo) — in the live rescue, a volunteer would reply within 3 days. Thank you!";
+  });
+  form.addEventListener("blur", (e) => {
+    const t = e.target as HTMLElement;
+    if (t.matches("input, select, textarea")) check(t as HTMLInputElement);
+  }, true);
+</script>
