@@ -1,12 +1,21 @@
 ---
-import PawLogo from "./PawLogo.astro";
+import { Image } from "astro:assets";
+import markOrange from "../assets/ui/mark-orange.webp";
 import { href } from "../lib/url";
 ---
 
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <PawLogo size={36} />
+      <Image
+        class="footer-mark"
+        src={markOrange}
+        alt=""
+        aria-hidden="true"
+        widths={[112]}
+        format="webp"
+        loading="lazy"
+      />
       <p class="footer-tag">Small paws, safe homes.</p>
       <p class="footer-note">
         A volunteer-run kitten rescue in Vancouver, BC. Every adoption starts
@@ -58,6 +67,10 @@ import { href } from "../lib/url";
     display: grid;
     grid-template-columns: 1.4fr 0.8fr 0.8fr 1.2fr;
     gap: var(--space-4);
+  }
+  .footer-mark {
+    width: 52px;
+    height: auto;
   }
   .footer-tag {
     font: 500 1.2rem/1.3 var(--font-display);

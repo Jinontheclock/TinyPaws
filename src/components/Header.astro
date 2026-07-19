@@ -1,9 +1,11 @@
 ---
-import PawLogo from "./PawLogo.astro";
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import wordmark from "../assets/ui/wordmark.webp";
 import { href } from "../lib/url";
 
 /* nav mirrors the hi-fi design: Adopt · Resources · Get Involved · Events ·
-   Gift Shop · About us, plus the search icon and the Donate Now pill */
+   Gift Shop · About us, plus the search toggle and the Donate Now pill */
 const links = [
   { label: "Adopt", path: "/adopt/" },
   { label: "Resources", path: "/resources/" },
@@ -13,13 +15,35 @@ const links = [
   { label: "About us", path: "/about/" },
 ];
 const current = Astro.url.pathname;
+
+/* the search index is baked in at build time — cats, pages, guides, shop */
+const cats = await getCollection("cats");
+const index = [
+  ...cats.map((c) => ({
+    title: c.data.name,
+    kind: "Cat",
+    text: `${c.data.sex} ${c.data.age} ${c.data.breed} ${c.data.temperament.join(" ")}`,
+    url: href(`/cats/${c.id}/`),
+  })),
+  { title: "Cats available for adoption", kind: "Page", text: "browse gallery adopt filter kittens", url: href("/adopt/") },
+  { title: "Match quiz", kind: "Page", text: "quiz match find your cat five questions", url: href("/quiz/") },
+  { title: "How adoption works", kind: "Page", text: "adoption process steps fee application form apply", url: href("/adoption/") },
+  { title: "Adoption application", kind: "Page", text: "apply form application", url: href("/adoption/#apply") },
+  { title: "Get involved", kind: "Page", text: "foster volunteer donate help wishlist", url: href("/get-involved/") },
+  { title: "Donate", kind: "Page", text: "donation give support vet bills", url: href("/get-involved/#donate") },
+  { title: "Events", kind: "Page", text: "adoption day fundraiser orientation calendar market", url: href("/events/") },
+  { title: "Resources", kind: "Page", text: "guides help questions contact", url: href("/resources/") },
+  { title: "Caring for a cat", kind: "Guide", text: "nutrition feeding health wellness behaviour bonded pairs kittens seniors", url: href("/resources/caring-for-a-cat/") },
+  { title: "Gift shop", kind: "Page", text: "merch tee shirt mug tote stickers beanie print shop cart", url: href("/shop/") },
+  { title: "About us", kind: "Page", text: "story mission contact rescue vancouver", url: href("/about/") },
+];
 ---
 
 <header class="site-header">
   <div class="container header-row">
     <a class="brand" href={href("/")} aria-label="TinyPaws home">
-      <PawLogo size={40} />
-      <span class="brand-name">TinyPaws</span>
+      <Image class="brand-mark" src={wordmark} alt="" widths={[200]} format="webp" loading="eager" />
+      <span class="sr-only">TinyPaws</span>
     </a>
 
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
@@ -36,18 +60,30 @@ const current = Astro.url.pathname;
           </li>
         ))}
         <li class="nav-search">
-          <a href={href("/search/")} aria-label="Search the site">
+          <button type="button" class="search-toggle" aria-expanded="false" aria-controls="search-panel" aria-label="Search the site">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2.4" />
               <path d="M15.5 15.5 L21 21" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
             </svg>
-          </a>
+          </button>
         </li>
         <li class="nav-cta">
           <a class="donate" href={href("/get-involved/#donate")}>Donate Now</a>
         </li>
       </ul>
     </nav>
+  </div>
+
+  <div class="search-panel" id="search-panel" data-index={JSON.stringify(index)} hidden>
+    <div class="container">
+      <form class="search-form" role="search">
+        <label class="sr-only" for="site-q">Search the site</label>
+        <input id="site-q" type="search" placeholder="Search cats, guides, pages…" autocomplete="off" />
+        <button type="button" class="search-close" aria-label="Close search">×</button>
+      </form>
+      <p class="search-count" role="status" aria-live="polite"></p>
+      <ul class="search-results"></ul>
+    </div>
   </div>
 </header>
 
@@ -66,15 +102,11 @@ const current = Astro.url.pathname;
     gap: var(--space-3);
     padding-block: 12px;
   }
-  .brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-  }
-  .brand-name {
-    font: 600 1.35rem/1 var(--font-display);
-    color: var(--paw-brown);
+  .brand { display: inline-flex; align-items: center; }
+  .brand-mark {
+    display: block;
+    height: 42px;
+    width: auto;
   }
   .site-nav ul {
     display: flex;
@@ -99,13 +131,21 @@ const current = Astro.url.pathname;
     text-underline-offset: 6px;
     text-decoration-thickness: 2px;
   }
-  .nav-search a {
+  .search-toggle {
+    all: unset;
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     padding: 8px;
+    color: var(--paw-brown);
+    border-radius: 50%;
   }
-  .nav-search svg {
-    display: block;
+  .search-toggle:hover,
+  .search-toggle[aria-expanded="true"] {
+    color: var(--paw-orange-ink);
+  }
+  .search-toggle:focus-visible {
+    outline: 3px solid var(--paw-orange);
   }
   .nav-cta .donate {
     display: inline-block;
@@ -119,6 +159,83 @@ const current = Astro.url.pathname;
   .nav-cta .donate:hover {
     transform: translateY(-1px);
     background: #e97e14;
+  }
+  /* ── inline search panel, dropping from the header ── */
+  .search-panel {
+    border-top: 1px solid rgba(48, 24, 0, 0.08);
+    background: var(--paw-white);
+    padding-block: var(--space-2) var(--space-3);
+    box-shadow: 0 18px 30px rgba(48, 24, 0, 0.12);
+  }
+  .search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  #site-q {
+    flex: 1;
+    min-width: 0;
+    font: 400 1.05rem/1.4 var(--font-body);
+    color: var(--paw-brown);
+    background: var(--paw-cream);
+    border: 2px solid transparent;
+    border-radius: var(--radius-pill);
+    padding: 13px 22px;
+  }
+  #site-q:focus {
+    outline: none;
+    border-color: var(--paw-orange);
+    background: var(--paw-white);
+  }
+  .search-close {
+    all: unset;
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    color: var(--paw-brown);
+  }
+  .search-close:hover { background: var(--paw-cream); }
+  .search-close:focus-visible { outline: 3px solid var(--paw-orange); }
+  .search-count {
+    margin-top: 8px;
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.6);
+  }
+  .search-results {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  .search-results :global(a) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--paw-cream);
+    border-radius: var(--radius-input);
+    padding: 11px 16px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .search-results :global(a:hover) {
+    background: var(--paw-cream-deep);
+  }
+  .search-results :global(.result-kind) {
+    flex: none;
+    font: 500 0.72rem/1 var(--font-body);
+    background: var(--paw-white);
+    border-radius: var(--radius-pill);
+    padding: 5px 10px;
+  }
+  .search-results :global(.result-title) {
+    font: 500 1rem/1.3 var(--font-display);
   }
   .nav-toggle {
     display: none;
@@ -169,8 +286,9 @@ const current = Astro.url.pathname;
       padding: 14px 2px;
       font-size: 1.05rem;
     }
-    .nav-search a {
+    .search-toggle {
       padding: 14px 2px;
+      border-radius: 0;
     }
     .nav-cta {
       padding-top: 12px;
@@ -195,4 +313,60 @@ const current = Astro.url.pathname;
     toggle.setAttribute("aria-expanded", String(!open));
     nav?.classList.toggle("is-open", !open);
   });
+
+  /* ── inline search ── */
+  const panel = document.getElementById("search-panel") as HTMLElement;
+  const sToggle = document.querySelector<HTMLButtonElement>(".search-toggle")!;
+  const input = panel.querySelector<HTMLInputElement>("#site-q")!;
+  const results = panel.querySelector<HTMLElement>(".search-results")!;
+  const count = panel.querySelector<HTMLElement>(".search-count")!;
+  const index: { title: string; kind: string; text: string; url: string }[] =
+    JSON.parse(panel.dataset.index!);
+
+  const run = () => {
+    const q = input.value.trim().toLowerCase();
+    results.innerHTML = "";
+    if (q.length < 2) {
+      count.textContent = "";
+      return;
+    }
+    const hits = index.filter(
+      (e) => e.title.toLowerCase().includes(q) || e.text.toLowerCase().includes(q),
+    );
+    count.textContent = hits.length
+      ? `${hits.length} result${hits.length > 1 ? "s" : ""}`
+      : "No results — try a shorter word.";
+    for (const h of hits.slice(0, 8)) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = h.url;
+      const kind = document.createElement("span");
+      kind.className = "result-kind";
+      kind.textContent = h.kind;
+      const title = document.createElement("span");
+      title.className = "result-title";
+      title.textContent = h.title;
+      a.append(kind, title);
+      li.append(a);
+      results.append(li);
+    }
+  };
+
+  const openSearch = (open: boolean) => {
+    panel.hidden = !open;
+    sToggle.setAttribute("aria-expanded", String(open));
+    if (open) input.focus();
+    else {
+      input.value = "";
+      run();
+    }
+  };
+  sToggle.addEventListener("click", () => openSearch(panel.hidden));
+  panel.querySelector(".search-close")!.addEventListener("click", () => openSearch(false));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !panel.hidden) openSearch(false);
+  });
+
+  input.addEventListener("input", run);
+  panel.querySelector(".search-form")!.addEventListener("submit", (e) => e.preventDefault());
 </script>

@@ -79,6 +79,12 @@ a {
   background: var(--paw-cream);
 }
 
+
+/* the hidden attribute always wins, even against display:grid/flex rules */
+[hidden] {
+  display: none !important;
+}
+
 /* visually hidden (for labels/skip link) */
 .sr-only {
   position: absolute;

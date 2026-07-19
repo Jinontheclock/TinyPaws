@@ -4,6 +4,55 @@ import PageHero from "../components/PageHero.astro";
 import bannerInvolve from "../assets/ui/banner-involve.jpg";
 import Button from "../components/Button.astro";
 import { href } from "../lib/url";
+
+/* the hi-fi Donate frame lists a five-part supply wishlist — kept here
+   with items a foster-based rescue actually runs out of */
+const wishlist = [
+  {
+    title: "Food Items",
+    items: [
+      "Kitten wet food (pâté — young kittens can't crunch yet)",
+      "Kitten formula (KMR) for bottle babies",
+      "Kitten dry food for the older litters",
+      "Lickable treats for socializing shy cats",
+    ],
+  },
+  {
+    title: "Toys and Enrichment",
+    items: [
+      "Wand toys and crinkle balls",
+      "Scratching posts and cardboard scratchers",
+      "Cat trees (gently used is perfect)",
+      "Puzzle feeders for the clever ones",
+    ],
+  },
+  {
+    title: "Grooming and Care",
+    items: [
+      "Unscented wipes and cotton pads",
+      "Flea combs and soft brushes",
+      "Nail clippers (kitten size)",
+      "Kitten-safe shampoo",
+    ],
+  },
+  {
+    title: "Daily Needs",
+    items: [
+      "Clumping litter and low-sided litter boxes",
+      "Fleece blankets and washable bedding",
+      "Heating pads for orphaned newborns",
+      "Carriers for vet runs and adoption days",
+    ],
+  },
+  {
+    title: "Technology Donations",
+    items: [
+      "Digital kitchen scales — daily weigh-ins catch problems early",
+      "Baby monitors or spare webcams for foster rooms",
+      "Pet-store gift cards for whatever the week brings",
+    ],
+  },
+];
 ---
 
 <Base
@@ -111,6 +160,34 @@ import { href } from "../lib/url";
         </p>
         <button class="donate-again" type="button">Choose a different amount</button>
       </div>
+    </div>
+  </section>
+
+  <section class="section section--cream" id="wishlist">
+    <div class="container">
+      <h2 class="center">Our Wishlist</h2>
+      <p class="wishlist-lead">
+        Prefer to give supplies instead of money? These are the things we run
+        out of fastest. New or gently used, everything goes straight into
+        foster homes — bring donations to any adoption event, or message us to
+        arrange a pickup.
+      </p>
+      <div class="wishlist-grid">
+        {wishlist.map((w) => (
+          <div class="wish-card">
+            <h3>{w.title}</h3>
+            <ul>
+              {w.items.map((it) => (
+                <li>{it}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p class="wishlist-note">
+        Please skip open food bags and scented litter — sensitive kitten noses
+        say thank you.
+      </p>
     </div>
   </section>
 </Base>
@@ -315,6 +392,53 @@ import { href } from "../lib/url";
   .donate-again:hover {
     background: var(--paw-cream);
     color: var(--paw-brown);
+  }
+  .center { text-align: center; }
+  .wishlist-lead {
+    margin: var(--space-2) auto 0;
+    max-width: 64ch;
+    text-align: center;
+  }
+  .wishlist-grid {
+    margin-top: var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: var(--space-2);
+  }
+  .wish-card {
+    background: var(--paw-white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-3);
+  }
+  .wish-card h3 { font-size: 1.15rem; }
+  .wish-card ul {
+    list-style: none;
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .wish-card li {
+    position: relative;
+    padding-left: 22px;
+    font-size: var(--size-small);
+  }
+  .wish-card li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.42em;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--paw-orange);
+  }
+  .wishlist-note {
+    margin-top: var(--space-3);
+    text-align: center;
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.65);
   }
   @media (max-width: 900px) {
     .split,
