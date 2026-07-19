@@ -4,9 +4,12 @@ import PageHero from "../components/PageHero.astro";
 import bannerInvolve from "../assets/ui/banner-involve.jpg";
 import Button from "../components/Button.astro";
 import { Image } from "astro:assets";
-import volOnboard from "../assets/cats/bean-1.jpg";
-import volFun from "../assets/cats/mittens-1.jpg";
-import volCommunity from "../assets/cats/opal-1.jpg";
+import volOnboard from "../assets/ui/people-onboarding.jpg";
+import volFun from "../assets/ui/people-shift.jpg";
+import volCommunity from "../assets/ui/people-community.jpg";
+import exp1 from "../assets/ui/people-exp-1.jpg";
+import exp2 from "../assets/ui/people-exp-2.jpg";
+import exp3 from "../assets/ui/people-exp-3.jpg";
 import { href } from "../lib/url";
 
 /* the hi-fi "What you can expect" band: circular photos, orange titles */
@@ -15,19 +18,42 @@ const expectations = [
     title: "Onboarding",
     text: "An orientation night every month covers handling, cleaning protocols, and what a shift actually looks like. No cat-handling experience needed — just reliability.",
     img: volOnboard,
-    alt: "Bean, a round-faced grey kitten, looking straight at the camera",
+    alt: "A volunteer gently cradling a tiny tabby kitten against his shoulder",
   },
   {
     title: "Lots of fun — and lots of pets",
     text: "Adoption-day setup, transport runs between fosters and the vet, photography, and events. Every role comes with more kitten time than you're prepared for.",
     img: volFun,
-    alt: "Mittens, a fluffy tabby kitten with white paws, mid-play",
+    alt: "A volunteer at the clinic table with two wobbly foster kittens",
   },
   {
     title: "Building community",
     text: "You'll join a group chat of fosters and volunteers who celebrate every adoption together. Students welcome — we sign off volunteer hours.",
     img: volCommunity,
-    alt: "Opal, a cream kitten curled up asleep on a soft blanket",
+    alt: "A smiling volunteer holding a brown tabby cat in her arms",
+  },
+];
+
+/* the hi-fi "Volunteer Experiences" rows: a foster photo and a short
+   first-person note (demo testimonials) */
+const experiences = [
+  {
+    name: "Maya, 29",
+    img: exp1,
+    alt: "Maya smiling with two foster kittens, one cream and one grey, in her arms",
+    text: "My first litter was two bottle babies who screamed all night. Eight weeks later I handed them to their new family and cried in the parking lot — then signed up for the next litter that evening. Fostering is the best worst idea I've ever had.",
+  },
+  {
+    name: "Priya, 34",
+    img: exp2,
+    alt: "Priya holding a calico foster cat against her shoulder at the clinic",
+    text: "I started as an adoption-day volunteer because I couldn't have cats in my rental. Two years and one lease change later, I've fostered eleven cats and failed exactly once — she's asleep on my couch right now.",
+  },
+  {
+    name: "Dan, 44",
+    img: exp3,
+    alt: "Dan holding a small grey foster kitten up to the camera",
+    text: "I do the vet runs. It's an hour a week of driving with a meowing passenger, and it's somehow the calmest part of my schedule. My kids keep score of how many cats Dad has chauffeured — we're at 63.",
   },
 ];
 
@@ -143,6 +169,23 @@ const wishlist = [
       </div>
       <div class="expect-cta">
         <Button href={href("/events/")}>See upcoming orientations</Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream" id="experiences">
+    <div class="container">
+      <h2 class="center">Volunteer experiences</h2>
+      <div class="exp-rows">
+        {experiences.map((e, i) => (
+          <div class="exp-row" data-reveal style={`transition-delay:${i * 0.08}s`}>
+            <Image class="exp-photo" src={e.img} alt={e.alt} widths={[420]} format="webp" loading="lazy" />
+            <div>
+              <h3>{e.name}</h3>
+              <p>{e.text}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -494,6 +537,38 @@ const wishlist = [
     margin-top: var(--space-5);
     text-align: center;
   }
+  /* the hi-fi volunteer experiences: photo cards with short testimonials */
+  .exp-rows {
+    margin-top: var(--space-5);
+    display: grid;
+    gap: var(--space-4);
+    max-width: 860px;
+    margin-inline: auto;
+  }
+  .exp-row {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: var(--space-4);
+    align-items: center;
+    background: var(--paw-white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-3);
+  }
+  .exp-photo {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: var(--radius-input);
+  }
+  .exp-row h3 {
+    color: var(--paw-orange-ink);
+    font-size: 1.15rem;
+  }
+  .exp-row p {
+    margin-top: 8px;
+    max-width: 58ch;
+  }
   /* the hi-fi wishlist band: taupe, icon circles left, item lists right */
   .wishlist-head { color: var(--paw-white); }
   .wishlist-lead {
@@ -581,6 +656,10 @@ const wishlist = [
     .split--flip .panel { order: 2; }
   }
   @media (max-width: 720px) {
+    .exp-row {
+      grid-template-columns: 1fr;
+    }
+    .exp-photo { height: 240px; }
     .expect-row,
     .wish-row {
       grid-template-columns: 1fr;
