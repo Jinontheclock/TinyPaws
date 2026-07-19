@@ -134,10 +134,14 @@ import { href } from "../lib/url";
     min-width: 0;
     font: 400 0.95rem/1.4 var(--font-body);
     color: var(--paw-brown);
-    background: var(--paw-cream);
-    border: 0;
-    border-radius: var(--radius-pill);
+    background: var(--paw-white);
+    border: 2px solid transparent;
+    border-radius: var(--radius-input);
     padding: 10px 16px;
+  }
+  .sub-form input:focus {
+    outline: none;
+    border-color: var(--paw-orange);
   }
   .sub-form button {
     font: 500 0.95rem/1 var(--font-display);

@@ -426,16 +426,16 @@ const wishlist = [
   }
   .donate-custom input {
     width: 100%;
-    font: inherit;
-    padding: 12px 16px;
-    border: 2px solid var(--paw-cream-deep);
+    font: 400 1rem/1.4 var(--font-body);
+    color: var(--paw-brown);
+    padding: 13px 16px;
+    border: 2px solid rgba(48, 24, 0, 0.18);
     border-radius: var(--radius-input);
     background: var(--paw-white);
   }
-  .donate-custom input:focus-visible {
-    outline: 3px solid var(--paw-orange);
-    outline-offset: 1px;
-    border-color: transparent;
+  .donate-custom input:focus {
+    outline: none;
+    border-color: var(--paw-orange);
   }
   .donate-note {
     font-size: var(--size-small);
@@ -580,7 +580,7 @@ const wishlist = [
   .wish-rows {
     margin-top: var(--space-5);
     display: grid;
-    gap: var(--space-5);
+    gap: var(--space-4);
     max-width: 820px;
     margin-inline: auto;
   }

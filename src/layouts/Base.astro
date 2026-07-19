@@ -33,6 +33,7 @@ const { title, description } = Astro.props;
     <Footer />
     <script>
       // shared scroll-in reveal for [data-reveal] elements
+      document.documentElement.classList.add("js");
       const els = document.querySelectorAll("[data-reveal]");
       if (els.length) {
         const io = new IntersectionObserver(

@@ -83,18 +83,19 @@ a {
   background: var(--paw-taupe);
 }
 
-/* scroll-in reveal: elements with data-reveal fade and rise once visible */
-[data-reveal] {
+/* scroll-in reveal: elements with data-reveal fade and rise once visible.
+   Gated on html.js so content stays visible without JavaScript. */
+html.js [data-reveal] {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
 }
-[data-reveal].is-in {
+html.js [data-reveal].is-in {
   opacity: 1;
   transform: none;
 }
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
+  html.js [data-reveal] {
     opacity: 1;
     transform: none;
     transition: none;

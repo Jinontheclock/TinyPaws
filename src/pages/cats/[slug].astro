@@ -58,16 +58,6 @@ const others = cats.filter((c) => c.id !== cat.id && c.data.status === "availabl
         <div class="about-story">
           <h2>About me</h2>
           {d.story.map((p) => <p class="story-p">{p}</p>)}
-        </div>
-        <div class="about-side">
-          <aside class="about-medical" aria-label="Medical record">
-            <h3>Medical</h3>
-            <ul>
-              <li>{d.medical.vaccinated ? "✓ Vaccinated" : "Vaccination in progress"}</li>
-              <li>{d.medical.spayed_neutered ? "✓ Spayed / neutered" : "Spay/neuter scheduled"}</li>
-            </ul>
-            <p class="medical-notes">{d.medical.notes}</p>
-          </aside>
           {d.photos && d.photos.length > 1 && (
             <div class="about-photo">
               <CatPhoto
@@ -82,6 +72,16 @@ const others = cats.filter((c) => c.id !== cat.id && c.data.status === "availabl
               />
             </div>
           )}
+        </div>
+        <div class="about-side">
+          <aside class="about-medical" aria-label="Medical record">
+            <h3>Medical</h3>
+            <ul>
+              <li>{d.medical.vaccinated ? "✓ Vaccinated" : "Vaccination in progress"}</li>
+              <li>{d.medical.spayed_neutered ? "✓ Spayed / neutered" : "Spay/neuter scheduled"}</li>
+            </ul>
+            <p class="medical-notes">{d.medical.notes}</p>
+          </aside>
         </div>
       </div>
 
@@ -218,6 +218,8 @@ const others = cats.filter((c) => c.id !== cat.id && c.data.status === "availabl
     padding: var(--space-3);
   }
   .about-photo {
+    margin-top: var(--space-3);
+    max-width: 420px;
     border-radius: var(--radius-card);
     overflow: hidden;
     box-shadow: var(--shadow-card);

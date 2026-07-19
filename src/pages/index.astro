@@ -150,11 +150,11 @@ const personalities = [
         class="featured-photo"
         src={featuredMochi}
         alt="Mochi, a warm brown tabby kitten, eyes closed and smiling in a sunbeam"
-        widths={[400]}
+        widths={[760]}
         format="webp"
         loading="lazy"
       />
-      <div>
+      <div class="featured-copy">
         <h2>Meet our featured cat!</h2>
         <p class="featured-p">
           Mochi is the youngest of the bunch — a four-month-old sweetheart who
@@ -304,7 +304,7 @@ const personalities = [
      polaroid frames, a pill, ringed circles — plus sticker accents */
   .collage {
     position: relative;
-    min-height: 480px;
+    min-height: 540px;
   }
   .col-piece {
     position: absolute;
@@ -341,62 +341,63 @@ const personalities = [
   }
   .col-miso {
     --rot: -4deg;
-    left: 24%;
+    left: 96px;
     top: 0;
     z-index: 3;
     animation-delay: -1s;
   }
-  .col-miso img { width: 218px; height: 300px; object-position: 42% 22%; }
+  .col-miso img { width: 248px; height: 330px; object-position: 42% 22%; }
   .col-clover {
     --rot: 3deg;
     right: 0;
-    top: 46px;
+    top: 30px;
     z-index: 2;
     animation-delay: -2.4s;
   }
   .col-clover img {
-    width: 196px;
-    height: 282px;
+    width: 212px;
+    height: 300px;
     border-radius: 999px;
+    border: 7px solid var(--paw-white);
     box-shadow: 0 14px 30px rgba(48, 24, 0, 0.2);
-    object-position: 55% 25%;
+    object-position: 62% 25%;
   }
   .col-waffles {
     --rot: 0deg;
-    left: 7%;
-    bottom: 26px;
+    left: 24px;
+    bottom: 14px;
     z-index: 4;
     animation-delay: -3.6s;
   }
   .col-waffles img {
-    width: 150px;
-    height: 150px;
+    width: 176px;
+    height: 176px;
     object-position: 52% 28%;
     border-radius: 50%;
-    border: 6px solid var(--paw-orange);
+    border: 7px solid var(--paw-orange);
     box-shadow: 0 12px 26px rgba(48, 24, 0, 0.2);
   }
   .col-hazel {
     --rot: 5deg;
-    right: 10px;
+    right: 14px;
     bottom: 0;
-    z-index: 4;
+    z-index: 2;
     animation-delay: -0.6s;
   }
-  .col-hazel img { width: 176px; height: 168px; object-position: 50% 22%; }
+  .col-hazel img { width: 204px; height: 192px; object-position: 50% 22%; }
   .col-pebble {
     --rot: -7deg;
     left: 0;
-    top: 34px;
+    top: 20px;
     z-index: 1;
     animation-delay: -2s;
   }
   .col-pebble img {
-    width: 118px;
-    height: 118px;
-    object-position: 50% 30%;
+    width: 136px;
+    height: 136px;
+    object-position: 32% 30%;
     border-radius: 50%;
-    border: 5px solid var(--paw-white);
+    border: 6px solid var(--paw-white);
     box-shadow: 0 10px 22px rgba(48, 24, 0, 0.18);
   }
   .col-sticker {
@@ -408,8 +409,8 @@ const personalities = [
   }
   .col-paw {
     color: var(--paw-orange);
-    right: 176px;
-    top: 0;
+    right: 196px;
+    top: -6px;
     transform: rotate(16deg);
   }
   .col-paw svg { width: 58px; height: 58px; }
@@ -426,13 +427,16 @@ const personalities = [
   .center { text-align: center; }
   .featured {
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 380px 1fr;
     gap: var(--space-5);
     align-items: center;
   }
+  .featured-copy {
+    padding-left: var(--space-5);
+  }
   .featured-photo {
-    width: 300px;
-    height: 300px;
+    width: 380px;
+    height: 380px;
     object-fit: cover;
     border-radius: 50%;
     box-shadow: var(--shadow-card);
@@ -562,25 +566,27 @@ const personalities = [
     .pstep:not(:last-child)::after { display: none; }
     /* compact collage: same pieces, tighter frame */
     .collage {
-      min-height: 350px;
-      max-width: 420px;
+      min-height: 390px;
+      max-width: 440px;
       margin-inline: auto;
       width: 100%;
     }
-    .col-miso img { width: 158px; height: 216px; }
-    .col-clover img { width: 138px; height: 200px; }
-    .col-waffles img { width: 110px; height: 110px; }
-    .col-hazel img { width: 128px; height: 122px; }
-    .col-hazel { right: 12px; }
-    .col-pebble img { width: 86px; height: 86px; }
-    .col-paw { right: 116px; }
+    .col-miso { left: 56px; }
+    .col-miso img { width: 172px; height: 232px; }
+    .col-clover img { width: 148px; height: 212px; }
+    .col-waffles img { width: 124px; height: 124px; }
+    .col-hazel img { width: 142px; height: 134px; }
+    .col-hazel { right: 8px; }
+    .col-pebble img { width: 96px; height: 96px; }
+    .col-paw { right: 120px; top: 0; }
     .col-paw svg { width: 44px; height: 44px; }
     .col-heart svg { width: 34px; height: 34px; }
     .featured-photo {
-      width: 240px;
-      height: 240px;
+      width: 260px;
+      height: 260px;
       margin-inline: auto;
     }
+    .featured-copy { padding-left: 0; }
     .wh-photo { order: 2; }
   }
 </style>
