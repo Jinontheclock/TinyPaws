@@ -92,7 +92,7 @@ const personalities = [
     </div>
   </section>
 
-  <section class="section section--cream">
+  <section class="section section--deep">
     <div class="container featured">
       <Image
         class="featured-photo"
@@ -142,14 +142,16 @@ const personalities = [
       <div class="pers-grid">
         {personalities.map((p) => (
           <article class="pers-card">
-            <Image
-              class="pers-photo"
-              src={p.img}
-              alt={p.alt}
-              widths={[400]}
-              format="webp"
-              loading="lazy"
-            />
+            <div class="pers-photo-wrap">
+              <Image
+                class="pers-photo"
+                src={p.img}
+                alt={p.alt}
+                widths={[400]}
+                format="webp"
+                loading="lazy"
+              />
+            </div>
             <h3>{p.name}</h3>
             <p>{p.blurb}</p>
             <div class="pers-cta">
@@ -315,21 +317,35 @@ const personalities = [
     gap: var(--space-3);
   }
   .pers-card {
+    display: flex;
+    flex-direction: column;
     background: var(--paw-white);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
     padding: var(--space-3);
+    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+  .pers-card:hover {
+    transform: translateY(-6px) rotate(-0.6deg);
+    box-shadow: 0 16px 36px rgba(48, 24, 0, 0.22);
+  }
+  .pers-photo-wrap {
+    overflow: hidden;
+    border-radius: var(--radius-input);
   }
   .pers-photo {
     width: 100%;
     aspect-ratio: 4 / 3;
     height: auto;
     object-fit: cover;
-    border-radius: var(--radius-input);
+    transition: transform 0.35s var(--ease);
+  }
+  .pers-card:hover .pers-photo {
+    transform: scale(1.05);
   }
   .pers-card h3 { margin-top: 14px; }
   .pers-card p { margin-top: 6px; }
-  .pers-cta { margin-top: var(--space-2); }
+  .pers-cta { margin-top: auto; padding-top: var(--space-2); }
   .why,
   .helped {
     display: grid;

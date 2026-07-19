@@ -71,6 +71,10 @@ a {
 .section {
   padding-block: var(--space-6);
 }
+.section--deep {
+  background: var(--paw-cream-deep);
+}
+
 .section--cream {
   background: var(--paw-cream);
 }
