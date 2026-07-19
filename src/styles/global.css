@@ -8,6 +8,12 @@
 
 html {
   scroll-behavior: smooth;
+  /* no rubber-band bounce past the top or bottom of the page */
+  overscroll-behavior-y: none;
+}
+
+body {
+  overscroll-behavior-y: none;
 }
 
 /* anchored sections land below the sticky header */
