@@ -1,0 +1,36 @@
+{
+  "name": "Marmalade",
+  "age": "8 years",
+  "sex": "Male",
+  "breed": "Persian",
+  "location": "Foster home — Vancouver",
+  "daysInFoster": 64,
+  "temperament": [
+    "Grumpy face",
+    "Golden heart",
+    "Senior"
+  ],
+  "story": [
+    "Marmalade's face says he has seen things and disapproves of most of them. His purr, which starts the moment you sit down, says otherwise.",
+    "He came to us when his elderly owner moved into care. He needs daily brushing and a soft spot by a window — in exchange you get the most devoted grump in the rescue."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Senior bloodwork clear. Daily brushing required; groomed monthly."
+  },
+  "status": "available",
+  "coat": "#D98A2B",
+  "accent": "#EEE0C3",
+  "photos": [
+    "../../assets/cats/marmalade-1.jpg",
+    "../../assets/cats/marmalade-2.jpg"
+  ],
+  "photoAlt": "Marmalade, a fluffy orange Persian with a magnificent grumpy face",
+  "quiz": {
+    "energy": "low",
+    "social": "balanced",
+    "home": "quiet",
+    "experience": "any"
+  }
+}

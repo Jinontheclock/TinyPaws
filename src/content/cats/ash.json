@@ -1,0 +1,35 @@
+{
+  "name": "Ash",
+  "age": "1 year",
+  "sex": "Male",
+  "breed": "Grey Tabby",
+  "location": "Foster home — Coquitlam",
+  "daysInFoster": 29,
+  "temperament": [
+    "Food motivated",
+    "Easygoing",
+    "Solid"
+  ],
+  "story": [
+    "Ash has never missed a meal and never intends to. The sound of a food bowl being touched summons him from anywhere in the house.",
+    "Between meals he's a relaxed, unbothered roommate who gets along with everyone — cats, kids, and the vacuum cleaner."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vetted. On measured meals — he'd prefer you didn't know that."
+  },
+  "status": "available",
+  "coat": "#8A8378",
+  "accent": "#EEE0C3",
+  "photos": [
+    "../../assets/cats/ash-1.jpg"
+  ],
+  "photoAlt": "Ash, a sturdy grey tabby crouched next to his food bowl",
+  "quiz": {
+    "energy": "medium",
+    "social": "balanced",
+    "home": "busy",
+    "experience": "first-timer"
+  }
+}

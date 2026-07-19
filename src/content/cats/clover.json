@@ -1,0 +1,35 @@
+{
+  "name": "Clover",
+  "age": "1 year",
+  "sex": "Female",
+  "breed": "Calico",
+  "location": "Foster home — Vancouver",
+  "daysInFoster": 31,
+  "temperament": [
+    "Silly",
+    "Trusting",
+    "Belly-up"
+  ],
+  "story": [
+    "Clover greets every morning upside down. Her foster has never once seen her sit like a regular cat — it's belly up, feet in the air, full trust from day one.",
+    "She loves wand toys, warm laundry, and being told she's ridiculous. She'd suit a playful home that appreciates a clown."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vetted and microchipped."
+  },
+  "status": "available",
+  "coat": "#C97B2D",
+  "accent": "#EEE0C3",
+  "photos": [
+    "../../assets/cats/clover-1.jpg"
+  ],
+  "photoAlt": "Clover, a calico cat rolling on her back in a teal cat bed",
+  "quiz": {
+    "energy": "high",
+    "social": "balanced",
+    "home": "busy",
+    "experience": "any"
+  }
+}

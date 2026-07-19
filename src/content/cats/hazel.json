@@ -1,0 +1,35 @@
+{
+  "name": "Hazel",
+  "age": "5 months",
+  "sex": "Female",
+  "breed": "Brown Tabby",
+  "location": "Foster home — New Westminster",
+  "daysInFoster": 24,
+  "temperament": [
+    "Clever",
+    "Busy",
+    "Box enthusiast"
+  ],
+  "story": [
+    "Hazel figured out the treat drawer in two days and the door handle in five. Her foster now describes her as 'a raccoon with better manners.'",
+    "She needs a home that will keep her brain busy — puzzle feeders, cardboard castles, and a human who enjoys being outsmarted."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vetted."
+  },
+  "status": "available",
+  "coat": "#8A6B45",
+  "accent": "#F5ECD8",
+  "photos": [
+    "../../assets/cats/hazel-1.jpg"
+  ],
+  "photoAlt": "Hazel, a brown tabby kitten sitting on a chair beside her cardboard house",
+  "quiz": {
+    "energy": "high",
+    "social": "balanced",
+    "home": "any",
+    "experience": "any"
+  }
+}

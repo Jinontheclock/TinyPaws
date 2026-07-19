@@ -48,7 +48,9 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
 
       <div class="cat-grid" id="cat-grid">
         {byWait.map((c) => {
-          const months = parseInt(c.data.age);
+          // "10 weeks" / "5 months" / "3 years" → age in months
+          const n = parseInt(c.data.age);
+          const months = /week/i.test(c.data.age) ? n / 4 : /year/i.test(c.data.age) ? n * 12 : n;
           return (
             <div
               class="cat-cell"

@@ -1,0 +1,35 @@
+{
+  "name": "Waffles",
+  "age": "4 months",
+  "sex": "Male",
+  "breed": "Cream Tabby",
+  "location": "Foster home — Surrey",
+  "daysInFoster": 26,
+  "temperament": [
+    "Soft",
+    "Observant",
+    "Sweet"
+  ],
+  "story": [
+    "Waffles watches the room like he's taking notes, then picks one person and follows them everywhere. His foster calls him the quietest shadow in Surrey.",
+    "He startles at loud noises but recovers fast with a lap nearby. A calm home would suit him perfectly."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vetted and microchipped."
+  },
+  "status": "available",
+  "coat": "#E3C08A",
+  "accent": "#FFFFFF",
+  "photos": [
+    "../../assets/cats/waffles-1.jpg"
+  ],
+  "photoAlt": "Waffles, a cream tabby kitten looking up with wide grey-green eyes",
+  "quiz": {
+    "energy": "low",
+    "social": "velcro",
+    "home": "quiet",
+    "experience": "first-timer"
+  }
+}

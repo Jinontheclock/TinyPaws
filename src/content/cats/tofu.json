@@ -2,10 +2,14 @@
   "name": "Tofu",
   "age": "6 months",
   "sex": "Male",
-  "breed": "White Domestic Shorthair",
+  "breed": "White & Grey Domestic Shorthair",
   "location": "Foster home — Richmond",
   "daysInFoster": 45,
-  "temperament": ["Mellow", "Snuggly", "Quiet"],
+  "temperament": [
+    "Mellow",
+    "Snuggly",
+    "Quiet"
+  ],
   "story": [
     "Tofu was the smallest of his litter and is now the softest. He likes slow mornings, warm laundry, and being carried like a baguette.",
     "Loud noises aren't his thing — a calm household would let this gentle boy bloom. He is happiest within arm's reach of his person."
@@ -18,5 +22,14 @@
   "status": "available",
   "coat": "#E8E0D0",
   "accent": "#DC6E00",
-  "quiz": { "energy": "low", "social": "velcro", "home": "quiet", "experience": "first-timer" }
+  "quiz": {
+    "energy": "low",
+    "social": "velcro",
+    "home": "quiet",
+    "experience": "first-timer"
+  },
+  "photos": [
+    "../../assets/cats/tofu-1.jpg"
+  ],
+  "photoAlt": "Tofu, a white kitten with soft grey tabby patches, standing on a fluffy blanket"
 }

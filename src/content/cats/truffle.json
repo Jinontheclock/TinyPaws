@@ -1,0 +1,35 @@
+{
+  "name": "Truffle",
+  "age": "2 years",
+  "sex": "Female",
+  "breed": "Scottish Fold mix",
+  "location": "Foster home — Richmond",
+  "daysInFoster": 18,
+  "temperament": [
+    "Calm",
+    "Round",
+    "Quietly funny"
+  ],
+  "story": [
+    "Truffle's folded ears make her look permanently unimpressed, which makes her sudden zoomies even funnier. She saves them for exactly 10 p.m.",
+    "She likes heated floors, slow blinks, and sitting near — not on — her people. A dignified companion for a dignified home."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vetted. Joints checked — healthy; we'll share fold-mix care notes at adoption."
+  },
+  "status": "available",
+  "coat": "#B8AC9C",
+  "accent": "#F5ECD8",
+  "photos": [
+    "../../assets/cats/truffle-1.jpg"
+  ],
+  "photoAlt": "Truffle, a grey Scottish fold mix with folded ears and amber eyes, lying on a mat",
+  "quiz": {
+    "energy": "low",
+    "social": "independent",
+    "home": "quiet",
+    "experience": "any"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "Sunny",
+  "age": "2 years",
+  "sex": "Male",
+  "breed": "Orange Tabby",
+  "location": "Foster home — East Vancouver",
+  "daysInFoster": 15,
+  "temperament": [
+    "Friendly",
+    "Confident",
+    "People cat"
+  ],
+  "story": [
+    "Sunny spent months greeting everyone on his block before a neighbour realized nobody actually owned him. He walked into his foster's carrier voluntarily.",
+    "He says hello to every visitor, delivery driver, and dog. If you want a cat who acts like a golden retriever, he's your guy."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vetted. FIV/FeLV negative."
+  },
+  "status": "available",
+  "coat": "#D97A1E",
+  "accent": "#F5ECD8",
+  "photos": [
+    "../../assets/cats/sunny-1.jpg"
+  ],
+  "photoAlt": "Sunny, an orange tabby sitting on a sunny sidewalk, looking straight at the camera",
+  "quiz": {
+    "energy": "medium",
+    "social": "velcro",
+    "home": "busy",
+    "experience": "first-timer"
+  }
+}

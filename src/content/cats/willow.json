@@ -1,0 +1,35 @@
+{
+  "name": "Willow",
+  "age": "4 years",
+  "sex": "Female",
+  "breed": "Domestic Longhair",
+  "location": "Foster home — Burnaby",
+  "daysInFoster": 52,
+  "temperament": [
+    "Serene",
+    "Fluffy",
+    "Watchful"
+  ],
+  "story": [
+    "Willow was a community cat who decided one autumn that doors and heating were, in fact, good. Her tail deserves its own adoption profile.",
+    "She's quiet and self-contained, happiest watching birds from a window perch. Weekly brushing keeps the magnificent coat magnificent."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vetted. Indoor-only recommended."
+  },
+  "status": "available",
+  "coat": "#9A9288",
+  "accent": "#EEE0C3",
+  "photos": [
+    "../../assets/cats/willow-1.jpg"
+  ],
+  "photoAlt": "Willow, a fluffy grey longhaired cat with green eyes, sitting in autumn leaves",
+  "quiz": {
+    "energy": "low",
+    "social": "independent",
+    "home": "quiet",
+    "experience": "any"
+  }
+}

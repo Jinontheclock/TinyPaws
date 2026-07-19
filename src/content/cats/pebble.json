@@ -1,0 +1,35 @@
+{
+  "name": "Pebble",
+  "age": "2 years",
+  "sex": "Female",
+  "breed": "Calico",
+  "location": "Foster home — Vancouver",
+  "daysInFoster": 21,
+  "temperament": [
+    "Sun worshipper",
+    "Mellow",
+    "Portable"
+  ],
+  "story": [
+    "Pebble's hobbies are finding the warmest square of pavement, sidewalk, or windowsill, and occupying it completely. She follows the sun around the house all day.",
+    "She's easy company — happy to be picked up, happy to be put down, happiest at whatever spot is 2 degrees warmer than everywhere else."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vetted and microchipped."
+  },
+  "status": "available",
+  "coat": "#B2560D",
+  "accent": "#EEE0C3",
+  "photos": [
+    "../../assets/cats/pebble-1.jpg"
+  ],
+  "photoAlt": "Pebble, a calico cat lying on warm pavement, looking up into the sun",
+  "quiz": {
+    "energy": "low",
+    "social": "balanced",
+    "home": "any",
+    "experience": "first-timer"
+  }
+}

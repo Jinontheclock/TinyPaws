@@ -5,7 +5,11 @@
   "breed": "Calico",
   "location": "Foster home — North Vancouver",
   "daysInFoster": 87,
-  "temperament": ["Chatty", "Affectionate", "Playful"],
+  "temperament": [
+    "Chatty",
+    "Affectionate",
+    "Playful"
+  ],
   "story": [
     "Clementine has opinions and shares them — about breakfast timing, closed doors, and the audacity of pigeons. Her chirps are her foster family's favourite alarm clock.",
     "She has waited longer than most because she needs to be the only pet. In exchange, you get a devoted shadow with a magnificent tail."
@@ -18,5 +22,14 @@
   "status": "available",
   "coat": "#B2560D",
   "accent": "#F5ECD8",
-  "quiz": { "energy": "medium", "social": "velcro", "home": "any", "experience": "any" }
+  "quiz": {
+    "energy": "medium",
+    "social": "velcro",
+    "home": "any",
+    "experience": "any"
+  },
+  "photos": [
+    "../../assets/cats/clementine-1.jpg"
+  ],
+  "photoAlt": "Clementine, a calico cat lounging on a grey blanket with bright green eyes"
 }

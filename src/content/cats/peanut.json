@@ -1,0 +1,35 @@
+{
+  "name": "Peanut",
+  "age": "10 weeks",
+  "sex": "Male",
+  "breed": "Orange Tabby",
+  "location": "Foster home — East Vancouver",
+  "daysInFoster": 12,
+  "temperament": [
+    "Curious",
+    "Brave",
+    "Tiny"
+  ],
+  "story": [
+    "Peanut was found alone behind a café and bottle-raised by his foster. He is small, loud, and utterly convinced he is in charge of the household.",
+    "He climbs everything, naps hard, and would love another young cat to grow up with."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": false,
+    "notes": "First vaccines done; neuter at six months, included in the fee."
+  },
+  "status": "available",
+  "coat": "#D97A1E",
+  "accent": "#EEE0C3",
+  "photos": [
+    "../../assets/cats/peanut-1.jpg"
+  ],
+  "photoAlt": "Peanut, a tiny orange kitten peering down from a wooden ledge",
+  "quiz": {
+    "energy": "high",
+    "social": "balanced",
+    "home": "busy",
+    "experience": "any"
+  }
+}

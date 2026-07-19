@@ -1,0 +1,35 @@
+{
+  "name": "Miso",
+  "age": "3 months",
+  "sex": "Female",
+  "breed": "Grey Tabby",
+  "location": "Foster home — Burnaby",
+  "daysInFoster": 19,
+  "temperament": [
+    "Loud",
+    "Confident",
+    "Bonded pair"
+  ],
+  "story": [
+    "Miso is Nori's sister and his complete opposite — she announces breakfast, greets strangers first, and has never met a cardboard box she didn't claim.",
+    "She and Nori are a bonded pair and must be adopted together. She does the talking; he does the cuddling. Between them it's a full cat."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": false,
+    "notes": "Spay scheduled with our partner clinic; included in the adoption fee."
+  },
+  "status": "pending",
+  "coat": "#9A9288",
+  "accent": "#F5ECD8",
+  "photos": [
+    "../../assets/cats/miso-1.jpg"
+  ],
+  "photoAlt": "Miso, a grey-and-white tabby kitten mid-meow on a teal background",
+  "quiz": {
+    "energy": "high",
+    "social": "velcro",
+    "home": "any",
+    "experience": "any"
+  }
+}

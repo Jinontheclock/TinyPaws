@@ -1,0 +1,35 @@
+{
+  "name": "Poppy",
+  "age": "8 months",
+  "sex": "Female",
+  "breed": "Calico",
+  "location": "Foster home — North Vancouver",
+  "daysInFoster": 40,
+  "temperament": [
+    "Poised",
+    "Photogenic",
+    "Independent"
+  ],
+  "story": [
+    "Poppy sits like she's posing for a portrait, because she usually is — her foster's camera roll is 90% Poppy at this point.",
+    "She's affectionate on her own schedule: aloof at noon, glued to your side by nine. Respect the schedule and you'll be rewarded."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vetted."
+  },
+  "status": "available",
+  "coat": "#B2560D",
+  "accent": "#FFFFFF",
+  "photos": [
+    "../../assets/cats/poppy-1.jpg"
+  ],
+  "photoAlt": "Poppy, a calico cat sitting upright with fairy lights glowing behind her",
+  "quiz": {
+    "energy": "medium",
+    "social": "independent",
+    "home": "any",
+    "experience": "any"
+  }
+}

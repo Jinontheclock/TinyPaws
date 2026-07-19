@@ -1,0 +1,35 @@
+{
+  "name": "Ginger",
+  "age": "3 years",
+  "sex": "Male",
+  "breed": "Orange Tabby",
+  "location": "Foster home — Coquitlam",
+  "daysInFoster": 22,
+  "temperament": [
+    "Dignified",
+    "Gentle",
+    "Lap cat"
+  ],
+  "story": [
+    "Ginger was surrendered when his family moved overseas. He took exactly one afternoon to decide his foster's reading chair was now a two-person chair.",
+    "He is past the chaos of kittenhood — what he wants is a routine, a window, and someone to supervise from the arm of the sofa."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vetted. Annual dental cleaning recommended."
+  },
+  "status": "available",
+  "coat": "#C1660F",
+  "accent": "#F5ECD8",
+  "photos": [
+    "../../assets/cats/ginger-1.jpg"
+  ],
+  "photoAlt": "Ginger, an orange tabby with calm green eyes, lying with one paw forward",
+  "quiz": {
+    "energy": "low",
+    "social": "velcro",
+    "home": "quiet",
+    "experience": "first-timer"
+  }
+}
