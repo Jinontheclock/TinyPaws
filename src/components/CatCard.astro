@@ -1,5 +1,6 @@
 ---
-import CatPortrait from "./CatPortrait.astro";
+import type { ImageMetadata } from "astro";
+import CatPhoto from "./CatPhoto.astro";
 import { href } from "../lib/url";
 
 interface Props {
@@ -7,18 +8,31 @@ interface Props {
   name: string;
   age: string;
   sex: string;
+  breed: string;
   status: string;
   coat: string;
   accent: string;
   temperament: string[];
+  photos?: ImageMetadata[];
+  photoAlt?: string;
 }
-const { slug, name, age, sex, status, coat, accent, temperament } = Astro.props;
+const { slug, name, age, sex, breed, status, coat, accent, temperament, photos, photoAlt } =
+  Astro.props;
 ---
 
 <article class="cat-card">
   <a class="cat-card-link" href={href(`/cats/${slug}/`)}>
     <div class="cat-card-media">
-      <CatPortrait coat={coat} accent={accent} alt={`Illustrated portrait of ${name}`} />
+      <CatPhoto
+        photo={photos?.[0]}
+        photoAlt={photoAlt}
+        name={name}
+        age={age}
+        breed={breed}
+        coat={coat}
+        accent={accent}
+        preset="card"
+      />
       {status !== "available" && <span class="cat-card-status">{status}</span>}
     </div>
     <div class="cat-card-body">

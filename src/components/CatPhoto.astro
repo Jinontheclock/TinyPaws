@@ -1,0 +1,68 @@
+---
+/* A cat's picture: the real photo when one exists, the illustrated
+   portrait (CatPortrait) when it doesn't. The fallback is deliberate —
+   a newly rescued kitten often has no photos yet, and the site should
+   say so honestly rather than hide the cat. */
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import CatPortrait from "./CatPortrait.astro";
+
+interface Props {
+  photo?: ImageMetadata;
+  photoAlt?: string;
+  name: string;
+  age: string;
+  breed: string;
+  coat: string;
+  accent: string;
+  preset?: "card" | "profile";
+  eager?: boolean;
+}
+const {
+  photo,
+  photoAlt,
+  name,
+  age,
+  breed,
+  coat,
+  accent,
+  preset = "card",
+  eager = false,
+} = Astro.props;
+
+/* card: square thumbnails in the grids · profile: the 4:3 hero */
+const PRESETS = {
+  card: { widths: [400, 800], sizes: "(max-width: 700px) 92vw, 360px", aspect: "1 / 1" },
+  profile: { widths: [400, 800, 1200], sizes: "(max-width: 900px) 92vw, 560px", aspect: "4 / 3" },
+} as const;
+const p = PRESETS[preset];
+
+const alt = photoAlt ?? `${name}, a ${age} ${breed}`;
+---
+
+{
+  photo ? (
+    <Image
+      class="cat-photo"
+      src={photo}
+      alt={alt}
+      widths={[...p.widths]}
+      sizes={p.sizes}
+      format="webp"
+      loading={eager ? "eager" : "lazy"}
+      fetchpriority={eager ? "high" : undefined}
+      style={`aspect-ratio: ${p.aspect};`}
+    />
+  ) : (
+    <CatPortrait coat={coat} accent={accent} alt={`Illustrated portrait of ${name}`} />
+  )
+}
+
+<style>
+  .cat-photo {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+</style>

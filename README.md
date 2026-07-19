@@ -77,3 +77,19 @@ Pushing to `main` triggers `.github/workflows/deploy.yml`
 (`withastro/action` → GitHub Pages). The site is served from
 `https://<owner>.github.io/TinyPaws/` — the `base` is set in
 `astro.config.mjs`.
+
+## Cat photos
+
+Cat pictures run through `astro:assets` (`photos` in each cat's JSON,
+files in `src/assets/cats/<slug>-1.jpg`) and ship as responsive webp.
+Cats without photos automatically fall back to their illustrated
+portrait — deliberate, since a new rescue often has no photos yet.
+Photos must be committed local assets (no hotlinking, no runtime cat
+APIs) so profiles stay stable and the site stays static.
+
+## Photo credits
+
+Photos come from Unsplash/Pexels (both license commercial use without
+attribution). Credited here anyway, as a courtesy:
+
+<!-- e.g. biscuit-1.jpg — Photographer Name, https://unsplash.com/... -->

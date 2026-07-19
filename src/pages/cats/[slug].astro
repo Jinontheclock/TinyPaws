@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import CatCard from "../../components/CatCard.astro";
-import CatPortrait from "../../components/CatPortrait.astro";
+import CatPhoto from "../../components/CatPhoto.astro";
 import { href } from "../../lib/url";
 
 export async function getStaticPaths() {
@@ -22,8 +22,20 @@ const others = cats.filter((c) => c.id !== cat.id && c.data.status === "availabl
 
       <div class="profile">
         <div class="profile-media">
-          <CatPortrait coat={d.coat} accent={d.accent} alt={`Illustrated portrait of ${d.name}`} />
-          <p class="media-note">Illustrated portrait — photos coming with the next foster update.</p>
+          <CatPhoto
+            photo={d.photos?.[0]}
+            photoAlt={d.photoAlt}
+            name={d.name}
+            age={d.age}
+            breed={d.breed}
+            coat={d.coat}
+            accent={d.accent}
+            preset="profile"
+            eager
+          />
+          {!d.photos?.length && (
+            <p class="media-note">Illustrated portrait — photos coming with the next foster update.</p>
+          )}
         </div>
 
         <div class="profile-body">
@@ -47,14 +59,30 @@ const others = cats.filter((c) => c.id !== cat.id && c.data.status === "availabl
           <h2>About me</h2>
           {d.story.map((p) => <p class="story-p">{p}</p>)}
         </div>
-        <aside class="about-medical" aria-label="Medical record">
-          <h3>Medical</h3>
-          <ul>
-            <li>{d.medical.vaccinated ? "✓ Vaccinated" : "Vaccination in progress"}</li>
-            <li>{d.medical.spayed_neutered ? "✓ Spayed / neutered" : "Spay/neuter scheduled"}</li>
-          </ul>
-          <p class="medical-notes">{d.medical.notes}</p>
-        </aside>
+        <div class="about-side">
+          <aside class="about-medical" aria-label="Medical record">
+            <h3>Medical</h3>
+            <ul>
+              <li>{d.medical.vaccinated ? "✓ Vaccinated" : "Vaccination in progress"}</li>
+              <li>{d.medical.spayed_neutered ? "✓ Spayed / neutered" : "Spay/neuter scheduled"}</li>
+            </ul>
+            <p class="medical-notes">{d.medical.notes}</p>
+          </aside>
+          {d.photos && d.photos.length > 1 && (
+            <div class="about-photo">
+              <CatPhoto
+                photo={d.photos[1]}
+                photoAlt={d.photoAlt}
+                name={d.name}
+                age={d.age}
+                breed={d.breed}
+                coat={d.coat}
+                accent={d.accent}
+                preset="card"
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       <div class="ctas">
@@ -85,10 +113,13 @@ const others = cats.filter((c) => c.id !== cat.id && c.data.status === "availabl
                 name={c.data.name}
                 age={c.data.age}
                 sex={c.data.sex}
+                breed={c.data.breed}
                 status={c.data.status}
                 coat={c.data.coat}
                 accent={c.data.accent}
                 temperament={c.data.temperament}
+                photos={c.data.photos}
+                photoAlt={c.data.photoAlt}
               />
             ))}
           </div>
@@ -175,10 +206,19 @@ const others = cats.filter((c) => c.id !== cat.id && c.data.status === "availabl
   .story-p {
     margin-top: var(--space-2);
   }
+  .about-side {
+    display: grid;
+    gap: var(--space-3);
+  }
   .about-medical {
     background: var(--paw-cream);
     border-radius: var(--radius-card);
     padding: var(--space-3);
+  }
+  .about-photo {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
   }
   .about-medical ul {
     list-style: none;
