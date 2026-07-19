@@ -5,136 +5,368 @@ import Button from "../../components/Button.astro";
 import bannerResources from "../../assets/ui/banner-resources.jpg";
 import { href } from "../../lib/url";
 
-/* topic grid mirrors the hi-fi Resources page; the first card links to the
-   full article, the rest anchor into its sections */
-const topics = [
-  { title: "Caring for a cat", text: "Food, comfort, play, and everything the first weeks ask of you.", link: "/resources/caring-for-a-cat/" },
-  { title: "Nutrition & feeding", text: "What to feed at every age, and how much is enough.", link: "/resources/caring-for-a-cat/#nutrition" },
-  { title: "Health & wellness", text: "Vaccines, spay/neuter, and the signs worth a vet call.", link: "/resources/caring-for-a-cat/#health" },
-  { title: "Behaviour basics", text: "Scratching, hiding, midnight zoomies — what's normal and what helps.", link: "/resources/caring-for-a-cat/#behaviour" },
-  { title: "Bonded pairs", text: "Why some kittens go home in twos, and why that's easier than it sounds.", link: "/resources/caring-for-a-cat/#bonded" },
-  { title: "Kittens & seniors", text: "The two ages that need the most from you — and give the most back.", link: "/resources/caring-for-a-cat/#ages" },
+/* the hi-fi Resources page: one long care guide as an accordion. Each
+   section has a brand illustration, a short teaser that stays visible, and
+   an expandable body. Content is general best-practice cat-care guidance —
+   fostered and vetted advice, not a substitute for a vet. */
+
+const svg = (inner: string) =>
+  `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+
+const icons = {
+  bowl: svg('<path d="M8 24 h32 a16 16 0 0 1 -32 0 Z"/><path d="M6 24 h36"/><path d="M18 16 c0 -3 2 -5 2 -8 M24 15 c0 -3 2 -5 2 -8 M30 16 c0 -3 2 -5 2 -8"/>'),
+  home: svg('<path d="M8 22 L24 9 L40 22"/><path d="M12 20 V39 H36 V20"/><path d="M24 39 V29 A3 3 0 0 1 30 29 V39"/><circle cx="19" cy="27" r="1.4" fill="currentColor"/>'),
+  play: svg('<path d="M10 40 L30 14"/><circle cx="33" cy="11" r="4"/><path d="M33 11 l6 -4 M33 11 l6 2 M33 11 l2 -6"/><circle cx="12" cy="38" r="3"/>'),
+  heart: svg('<path d="M24 39 C12 30 7 24 7 17.5 A8.5 8.5 0 0 1 24 14 A8.5 8.5 0 0 1 41 17.5 C41 24 36 30 24 39 Z"/>'),
+  brush: svg('<rect x="14" y="8" width="20" height="12" rx="4"/><path d="M18 20 v6 M24 20 v6 M30 20 v6"/><path d="M24 26 v14"/>'),
+  litter: svg('<path d="M9 18 h30 v16 a4 4 0 0 1 -4 4 h-22 a4 4 0 0 1 -4 -4 Z"/><path d="M9 18 L13 10 h22 l4 8"/><path d="M18 26 h12"/>'),
+  bonded: svg('<circle cx="17" cy="26" r="9"/><circle cx="31" cy="26" r="9"/><path d="M11 20 l-2 -6 4 3 M23 20 l2 -6 -4 3"/><path d="M25 20 l-2 -6 4 3 M37 20 l2 -6 -4 3"/>'),
+  kitten: svg('<circle cx="24" cy="27" r="11"/><path d="M15 20 l-3 -9 6 5 M33 20 l3 -9 -6 5"/><circle cx="20" cy="26" r="1.4" fill="currentColor"/><circle cx="28" cy="26" r="1.4" fill="currentColor"/><path d="M24 29 v2 M22 31 h4"/>'),
+  senior: svg('<circle cx="24" cy="26" r="11"/><path d="M15 19 l-3 -8 6 5 M33 19 l3 -8 -6 5"/><path d="M18 26 h3 M27 26 h3"/><path d="M21 31 q3 2 6 0"/>'),
+};
+
+const sections = [
+  {
+    id: "nutrition",
+    title: "Nutrition and feeding",
+    icon: icons.bowl,
+    teaser: "A healthy diet is one of the most important foundations of good cat care.",
+    body: [
+      { p: "Cats are obligate carnivores — they need meat-based protein to thrive, and a diet built around it keeps their coat glossy and their energy steady. Choose a complete-and-balanced food labelled for your cat's life stage." },
+      { ul: [
+        "Look for a named animal protein first on the label — chicken, salmon, turkey — not a vague \"meat by-product\".",
+        "Wet food adds the moisture cats don't drink on their own; a mix of wet and dry suits most adults.",
+        "Portion by weight and body condition, not the bag's generous \"suggested\" scoop — obesity is the most common feline health problem.",
+        "Fresh water in a wide, shallow bowl set away from the food; some cats prefer a pet fountain.",
+      ] },
+      { note: "Skip cow's milk (most cats are lactose intolerant), onions, garlic, grapes, and chocolate — all toxic to cats." },
+    ],
+  },
+  {
+    id: "environment",
+    title: "Environment and comfort",
+    icon: icons.home,
+    teaser: "Cats love routine and security — a predictable space lets a shy cat relax fast.",
+    body: [
+      { p: "A cat reads its home through height, hiding spots, and scent. Give them vertical space to climb, a quiet retreat to disappear into, and a sunny window to supervise the world from." },
+      { ul: [
+        "A cat tree or a cleared shelf lets them survey the room from up high — where cats feel safest.",
+        "At least one covered hideaway (a box, a cave bed) per cat, so they always have an exit.",
+        "Keep litter, food, and sleeping areas apart — cats dislike eating next to their bathroom.",
+        "In a multi-cat home, follow the \"one per cat, plus one\" rule for bowls, beds, and litter boxes.",
+      ] },
+    ],
+  },
+  {
+    id: "enrichment",
+    title: "Enrichment and play",
+    icon: icons.play,
+    teaser: "Mental and physical stimulation keeps cats happy and reduces behavioural issues.",
+    body: [
+      { p: "Play is how cats hunt, and hunting is most of what makes a cat a cat. A few short sessions a day burn energy, build your bond, and head off the boredom behind scratching and 3 a.m. zoomies." },
+      { ul: [
+        "Wand toys and crinkle balls let a cat chase, pounce, and \"catch\" — end on a win so they feel satisfied.",
+        "Rotate toys weekly so old favourites feel new again.",
+        "Puzzle feeders turn a meal into a hunt and slow down fast eaters.",
+        "Set aside daily playtime — especially important for indoor-only cats with no yard to patrol.",
+      ] },
+    ],
+  },
+  {
+    id: "emotional",
+    title: "Emotional needs",
+    icon: icons.heart,
+    teaser: "Cats bond deeply, on their own terms — read the signals and trust builds quickly.",
+    body: [
+      { p: "The myth that cats are aloof does them a disservice. They form strong attachments; they just ask you to speak their language. A slow blink is a cat saying \"I trust you\" — blink back." },
+      { ul: [
+        "Let a new cat set the pace: sit nearby, talk softly, and let curiosity bring them to you.",
+        "A raised tail with a little hook at the tip is a happy hello; a swishing tail means \"give me space\".",
+        "Never punish — cats don't connect it to the act, and it only teaches them to fear you. Redirect instead.",
+        "Consistency is comfort: feed, play, and wind down at roughly the same times each day.",
+      ] },
+    ],
+  },
+  {
+    id: "grooming",
+    title: "Grooming and hygiene",
+    icon: icons.brush,
+    teaser: "Cats groom themselves, but a little help keeps their coat and skin healthy.",
+    body: [
+      { p: "Most cats are fastidious self-cleaners, but regular brushing removes loose fur (and the hairballs that follow), spreads healthy oils, and gives you a weekly once-over for lumps, fleas, or sore spots." },
+      { ul: [
+        "Short-haired cats: a brush once a week. Long-haired cats: a few minutes daily to prevent mats.",
+        "Trim nail tips every few weeks — snip only the clear part, never the pink quick.",
+        "Introduce dental care early; brushing with cat-safe paste, or dental treats, protects teeth for life.",
+        "Cats rarely need baths — spot-clean with a damp cloth unless your vet advises otherwise.",
+      ] },
+    ],
+  },
+  {
+    id: "litter",
+    title: "Litter box maintenance",
+    icon: icons.litter,
+    teaser: "Cleanliness is key when it comes to litter habits — most \"accidents\" trace back here.",
+    body: [
+      { p: "A cat refusing the box is almost always telling you something: it's dirty, it's in the wrong spot, or something hurts. Get the setup right and litter problems mostly vanish." },
+      { ul: [
+        "Scoop at least once a day; do a full wash and refill weekly for clumping litter.",
+        "One box per cat, plus one spare, in quiet, low-traffic corners with an easy exit.",
+        "Unscented, clumping litter suits most cats — strong perfumes put sensitive noses off.",
+        "Sudden litter avoidance can signal a UTI or blockage — see a vet promptly if it appears out of nowhere.",
+      ] },
+    ],
+  },
+  {
+    id: "bonded",
+    title: "Bonded cats",
+    icon: icons.bonded,
+    teaser: "Bonded cats are a special pair (sometimes a trio!) who truly thrive when adopted together.",
+    body: [
+      { p: "Some cats grow up so attached — siblings, or long-time companions — that separating them causes real distress: hiding, going off food, calling for a friend who never comes back. We keep those pairs together, always." },
+      { ul: [
+        "Two cats keep each other company while you're out, and burn energy on each other instead of your curtains.",
+        "They teach each other social manners, which makes for gentler, better-adjusted adults.",
+        "Adopting a pair is often easier than one: they settle faster with a familiar face beside them.",
+      ] },
+    ],
+  },
+  {
+    id: "kittens",
+    title: "Caring for young kittens",
+    icon: icons.kitten,
+    teaser: "Kittens are bundles of energy and learning — they need extra attention as they grow into healthy adult cats.",
+    body: [
+      { p: "The first months shape a kitten for life. Warmth, frequent meals, and gentle handling now build the confident, sociable cat they'll be for the next fifteen years." },
+      { sub: "Nutrition", ul: [
+        "Kittens under four weeks often need bottle-fed kitten formula (KMR) — never cow's milk.",
+        "From four to eight weeks, they transition to wet kitten food.",
+        "High-protein kitten food (wet and dry) is essential until twelve months old.",
+      ] },
+      { sub: "Litter training", ul: [
+        "Low-sided litter boxes help little legs climb in.",
+        "Keep the area clean and free from distractions — and remember, accidents happen.",
+      ] },
+      { sub: "Socialization", ul: [
+        "This is a critical window for social growth — gently handle your kitten daily to build trust.",
+        "Expose them to everyday sounds, people, and environments while keeping them safe.",
+      ] },
+      { sub: "Vet visits", ul: [
+        "Kittens need a series of vaccinations, deworming, and flea prevention starting as early as six to eight weeks.",
+        "Plan to spay or neuter around four to six months, depending on size and health.",
+      ] },
+      { sub: "Safety", ul: [
+        "Kitten-proof your home — remove small objects, secure cords, and move toxic plants out of reach.",
+        "Supervise play with older pets or children to prevent injuries.",
+      ] },
+    ],
+  },
+  {
+    id: "seniors",
+    title: "Caring for senior cats",
+    icon: icons.senior,
+    teaser: "Senior cats (typically age 10 and up) are loving, wise companions who deserve extra TLC as they age.",
+    body: [
+      { p: "Older cats ask for less and give back just as much: a warm spot, a gentle routine, and a little patience with slower joints. In return you get the easiest, most affectionate roommates around." },
+      { ul: [
+        "Twice-yearly vet checks catch kidney, thyroid, and dental issues that are common — and treatable — with age.",
+        "Soft bedding and a low-sided litter box ease stiff joints; a ramp or step helps them reach favourite perches.",
+        "Senior-formula or vet-recommended food supports ageing kidneys and keeps weight steady.",
+        "Keep routines calm and predictable — sudden change is harder on an older cat.",
+      ] },
+    ],
+  },
 ];
 ---
 
 <Base
-  title="Resources"
-  description="Guides for cat adopters and fosters — feeding, health, behaviour, bonded pairs, and caring for kittens and seniors."
+  title="Cat care resources"
+  description="A practical cat-care guide from TinyPaws fosters — nutrition, comfort, play, grooming, litter, bonded pairs, and caring for kittens and senior cats."
 >
   <PageHero
     image={bannerResources}
     imageAlt="A fluffy orange Persian being gently groomed by his owner"
     imagePosition="45% 40%"
-    title="Resources"
-    lead="Whatever you're wondering about a cat, someone here has wondered it first. Start with the guides — and if you don't find your answer, ask."
+    title="Caring for a cat"
+    lead="Cats are independent, curious, and affectionate companions — but they still rely on us for their health, safety, and well-being. Whether you're a first-time cat parent or brushing up, this guide covers the essentials."
   />
 
   <section class="section">
-    <div class="container">
-      <h2 class="sr-only">Guides</h2>
-      <div class="topic-grid">
-        {topics.map((t) => (
-          <a class="topic" href={href(t.link)}>
-            <h3>{t.title}</h3>
-            <p>{t.text}</p>
-            <span class="topic-more" aria-hidden="true">Read the guide →</span>
-          </a>
+    <div class="container guide">
+      <div class="guide-list">
+        {sections.map((s, i) => (
+          <details class="acc" id={s.id} open={i === 0}>
+            <summary class="acc-head">
+              <span class="acc-icon" set:html={s.icon} />
+              <span class="acc-text">
+                <span class="acc-title">{s.title}</span>
+                <span class="acc-teaser">{s.teaser}</span>
+              </span>
+              <span class="acc-chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9 L12 15 L18 9" /></svg>
+              </span>
+            </summary>
+            <div class="acc-body">
+              {s.body.map((b) => (
+                <>
+                  {b.p && <p class="acc-p">{b.p}</p>}
+                  {b.sub && <h3 class="acc-sub">{b.sub}</h3>}
+                  {b.ul && (
+                    <ul class="acc-ul">
+                      {b.ul.map((li) => <li>{li}</li>)}
+                    </ul>
+                  )}
+                  {b.note && <p class="acc-note">{b.note}</p>}
+                </>
+              ))}
+            </div>
+          </details>
         ))}
       </div>
-    </div>
-  </section>
 
-  <section class="section section--cream">
-    <div class="container ask-wrap">
-      <h2>Didn't find your answer?</h2>
-      <p class="ask-lead">Send us the question — a foster volunteer will know.</p>
-      <form class="ask-form">
-        <div class="ask-row">
-          <label class="sr-only" for="ask-email">Email</label>
-          <input id="ask-email" name="email" type="email" required placeholder="Your email" />
-          <label class="sr-only" for="ask-q">Your question</label>
-          <input id="ask-q" name="q" type="text" required placeholder="Your question" />
+      <aside class="guide-help">
+        <div>
+          <h2>Didn't find your answer?</h2>
+          <p>Every cat is different. Message a foster volunteer — the people who raised these cats know them best.</p>
         </div>
-        <p class="ask-note">Demo form — nothing is sent anywhere.</p>
-        <Button type="submit">Contact us</Button>
-        <p class="ask-done" role="status" aria-live="polite"></p>
-      </form>
+        <Button href={href("/about/#contact")}>Ask a foster</Button>
+      </aside>
+
+      <p class="guide-disclaimer">
+        General guidance from our fosters — helpful for everyday care, but not
+        a substitute for your veterinarian. When in doubt, call your vet.
+      </p>
     </div>
   </section>
 </Base>
 
-<script>
-  const form = document.querySelector<HTMLFormElement>(".ask-form")!;
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    if (!form.reportValidity()) return;
-    form.reset();
-    form.querySelector<HTMLElement>(".ask-done")!.textContent =
-      "Question received (demo) — in the live rescue, a volunteer would reply by email.";
-  });
-</script>
-
 <style>
-  .topic-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-3);
+  .guide {
+    max-width: 860px;
   }
-  .topic {
-    display: block;
+  .guide-list {
+    display: grid;
+    gap: 12px;
+  }
+  .acc {
     background: var(--paw-white);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+  .acc-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
     padding: var(--space-3);
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    cursor: pointer;
+    list-style: none;
   }
-  .topic:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(48, 24, 0, 0.14);
+  .acc-head::-webkit-details-marker { display: none; }
+  .acc-head:focus-visible {
+    outline: 3px solid var(--paw-orange);
+    outline-offset: -3px;
   }
-  .topic p {
-    margin-top: 8px;
-  }
-  .topic-more {
-    display: inline-block;
-    margin-top: 14px;
-    font: 500 0.95rem/1 var(--font-display);
+  .acc-icon {
+    flex: none;
+    display: inline-grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--paw-cream);
     color: var(--paw-orange-ink);
   }
-  .ask-wrap { max-width: 720px; }
-  .ask-lead { margin-top: 10px; }
-  .ask-form { margin-top: var(--space-3); }
-  .ask-row {
+  .acc-icon :global(svg) { width: 30px; height: 30px; }
+  .acc-text {
     display: grid;
-    grid-template-columns: 1fr 1.6fr;
-    gap: var(--space-2);
+    gap: 4px;
+    flex: 1;
   }
-  .ask-row input {
-    font: 400 1rem/1.4 var(--font-body);
-    color: var(--paw-brown);
-    background: var(--paw-white);
-    border: 2px solid rgba(48, 24, 0, 0.18);
-    border-radius: var(--radius-input);
-    padding: 14px 16px;
+  .acc-title {
+    font: 600 1.3rem/1.2 var(--font-display);
+    color: var(--paw-orange-ink);
   }
-  .ask-row input:focus {
-    outline: none;
-    border-color: var(--paw-orange);
-  }
-  .ask-note {
-    margin-block: 12px;
+  .acc-teaser {
     font-size: var(--size-small);
-    color: rgba(48, 24, 0, 0.65);
+    color: rgba(48, 24, 0, 0.75);
   }
-  .ask-done {
-    margin-top: 12px;
-    font-weight: 500;
-    color: #2c6b2f;
+  .acc-chevron {
+    flex: none;
+    color: var(--paw-orange);
+    transition: transform 0.25s var(--ease);
   }
-  @media (max-width: 900px) {
-    .topic-grid { grid-template-columns: 1fr; }
-    .ask-row { grid-template-columns: 1fr; }
+  .acc-chevron svg { width: 26px; height: 26px; display: block; }
+  .acc[open] .acc-chevron { transform: rotate(180deg); }
+  .acc-body {
+    padding: 0 var(--space-3) var(--space-3);
+    padding-left: calc(var(--space-3) + 56px + var(--space-3));
+  }
+  .acc-p { margin-top: 4px; }
+  .acc-p + .acc-p { margin-top: var(--space-2); }
+  .acc-sub {
+    margin-top: var(--space-3);
+    font-size: 1.05rem;
+    color: var(--paw-brown);
+  }
+  .acc-ul {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 9px;
+  }
+  .acc-ul li {
+    position: relative;
+    padding-left: 24px;
+  }
+  .acc-ul li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--paw-orange);
+  }
+  .acc-note {
+    margin-top: var(--space-2);
+    background: var(--paw-cream);
+    border-radius: var(--radius-input);
+    padding: 12px 16px;
+    font-size: var(--size-small);
+  }
+  .guide-help {
+    margin-top: var(--space-5);
+    background: var(--paw-brown);
+    color: var(--paw-cream);
+    border-radius: var(--radius-card);
+    padding: var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .guide-help h2 { color: var(--paw-cream); }
+  .guide-help p {
+    margin-top: 8px;
+    opacity: 0.85;
+    max-width: 46ch;
+  }
+  .guide-disclaimer {
+    margin-top: var(--space-3);
+    text-align: center;
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.7);
+    max-width: none;
+  }
+  @media (max-width: 560px) {
+    .acc-icon { width: 44px; height: 44px; }
+    .acc-icon :global(svg) { width: 24px; height: 24px; }
+    .acc-body {
+      padding-left: var(--space-3);
+    }
   }
 </style>
