@@ -151,7 +151,13 @@ import { SHOP_ITEMS } from "../lib/shop-items";
     gap: var(--space-2);
     flex-wrap: wrap;
   }
-  .bag-line { font-weight: 500; }
+  .bag-line {
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    .bag-line { font-size: 0.82rem; }
+  }
   .bag-view {
     font: 500 0.9rem/1 var(--font-display);
     color: var(--paw-cream);

@@ -47,7 +47,7 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
         <p class="filter-count" role="status" aria-live="polite"></p>
       </form>
 
-      <div class="cat-grid" id="cat-grid">
+      <div class="cat-grid" id="cat-grid" style="scroll-margin-top: 96px">
         {byWait.map((c) => {
           // "10 weeks" / "5 months" / "3 years" → age in months
           const n = parseInt(c.data.age);
@@ -75,6 +75,8 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
           );
         })}
       </div>
+
+      <nav class="pager" aria-label="Cat list pages"></nav>
     </div>
   </section>
 </Base>
@@ -164,6 +166,30 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
       grid-template-columns: 1fr;
     }
   }
+  .pager {
+    margin-top: var(--space-4);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  .pager :global(button) {
+    font: 500 1rem/1 var(--font-display);
+    min-width: 44px;
+    height: 44px;
+    border: 2px solid var(--paw-brown);
+    border-radius: var(--radius-pill);
+    background: none;
+    color: var(--paw-brown);
+    cursor: pointer;
+    transition: background 0.15s var(--ease), color 0.15s var(--ease);
+  }
+  .pager :global(button:hover) {
+    background: var(--paw-cream-deep);
+  }
+  .pager :global(button[aria-current="page"]) {
+    background: var(--paw-brown);
+    color: var(--paw-cream);
+  }
   .learn-strip {
     background: var(--paw-cream-deep);
     padding-block: var(--space-3);
@@ -203,20 +229,50 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
   const form = document.querySelector<HTMLFormElement>(".filters")!;
   const cells = [...document.querySelectorAll<HTMLElement>(".cat-cell")];
   const count = document.querySelector<HTMLElement>(".filter-count")!;
+  const pager = document.querySelector<HTMLElement>(".pager")!;
+  const grid = document.querySelector<HTMLElement>("#cat-grid")!;
+
+  // ten cats per page; changing a filter goes back to page one
+  const PER_PAGE = 10;
+  let page = 0;
+
   const apply = () => {
     const data = new FormData(form);
     const age = data.get("age");
     const status = data.get("available") ? "available" : "all";
-    let shown = 0;
-    for (const cell of cells) {
-      const ok =
+    const matched = cells.filter(
+      (cell) =>
         (age === "all" || cell.dataset.age === age) &&
-        (status === "all" || cell.dataset.status === status);
-      cell.hidden = !ok;
-      if (ok) shown++;
+        (status === "all" || cell.dataset.status === status),
+    );
+    const pages = Math.max(1, Math.ceil(matched.length / PER_PAGE));
+    page = Math.min(page, pages - 1);
+    const start = page * PER_PAGE;
+    const visible = new Set(matched.slice(start, start + PER_PAGE));
+    for (const cell of cells) cell.hidden = !visible.has(cell);
+    count.textContent = matched.length
+      ? `${start + 1}–${start + visible.size} of ${matched.length} cats`
+      : "No cats match these filters";
+
+    pager.innerHTML = "";
+    pager.hidden = pages <= 1;
+    for (let i = 0; i < pages; i++) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = String(i + 1);
+      b.setAttribute("aria-label", `Page ${i + 1}`);
+      if (i === page) b.setAttribute("aria-current", "page");
+      b.addEventListener("click", () => {
+        page = i;
+        apply();
+        grid.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      pager.append(b);
     }
-    count.textContent = `${shown} of ${cells.length} cats shown`;
   };
-  form.addEventListener("change", apply);
+  form.addEventListener("change", () => {
+    page = 0;
+    apply();
+  });
   apply();
 </script>
