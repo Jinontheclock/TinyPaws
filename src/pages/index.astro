@@ -8,6 +8,7 @@ import colCradle from "../assets/ui/people-onboarding.jpg";
 import colFluffy from "../assets/ui/people-adopt-1.jpg";
 import colPair from "../assets/ui/people-adopt-2.jpg";
 import featuredMochi from "../assets/cats/mochi-1.jpg";
+import featuredMochi2 from "../assets/cats/mochi-2.jpg";
 import persBiscuit from "../assets/cats/biscuit-2.jpg";
 import persNori from "../assets/cats/nori-1.jpg";
 import persPepper from "../assets/cats/pepper-1.jpg";
@@ -146,14 +147,32 @@ const personalities = [
 
   <section class="section section--deep">
     <div class="container featured">
-      <Image
-        class="featured-photo"
-        src={featuredMochi}
-        alt="Mochi, a warm brown tabby kitten, eyes closed and smiling in a sunbeam"
-        widths={[760]}
-        format="webp"
-        loading="lazy"
-      />
+      <div class="featured-art" aria-hidden="false">
+        <Image
+          class="featured-photo"
+          src={featuredMochi}
+          alt="Mochi, a warm brown tabby kitten, eyes closed and smiling in a sunbeam"
+          widths={[680]}
+          format="webp"
+          loading="lazy"
+        />
+        <Image
+          class="featured-mini"
+          src={featuredMochi2}
+          alt="Mochi wrapped in a cream blanket, big eyes peeking out"
+          widths={[280]}
+          format="webp"
+          loading="lazy"
+        />
+        <span class="featured-paw" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="7" cy="9" r="1.9" />
+            <circle cx="12" cy="7.2" r="1.9" />
+            <circle cx="17" cy="9" r="1.9" />
+            <path d="M12 11.4 C15 11.4 17.2 13.7 17.2 15.8 C17.2 17.8 15.6 19 13.9 18.5 C12.9 18.2 11.1 18.2 10.1 18.5 C8.4 19 6.8 17.8 6.8 15.8 C6.8 13.7 9 11.4 12 11.4 Z" />
+          </svg>
+        </span>
+      </div>
       <div class="featured-copy">
         <h2>Meet our featured cat!</h2>
         <p class="featured-p">
@@ -434,13 +453,42 @@ const personalities = [
   .featured-copy {
     padding-left: var(--space-5);
   }
+  /* minimal mochi collage: big circle + small offset polaroid + paw */
+  .featured-art {
+    position: relative;
+    width: 360px;
+    justify-self: center;
+  }
   .featured-photo {
-    width: 380px;
-    height: 380px;
+    width: 320px;
+    height: 320px;
     object-fit: cover;
     border-radius: 50%;
+    border: 7px solid var(--paw-white);
     box-shadow: var(--shadow-card);
   }
+  .featured-mini {
+    position: absolute;
+    right: 0;
+    bottom: -14px;
+    width: 132px;
+    height: 132px;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: var(--radius-card);
+    border: 6px solid var(--paw-white);
+    box-shadow: 0 12px 26px rgba(48, 24, 0, 0.2);
+    transform: rotate(5deg);
+  }
+  .featured-paw {
+    position: absolute;
+    left: 2px;
+    top: -8px;
+    color: var(--paw-orange);
+    transform: rotate(-14deg);
+    filter: drop-shadow(0 4px 8px rgba(48, 24, 0, 0.18));
+  }
+  .featured-paw svg { width: 44px; height: 44px; }
   .featured-p {
     margin-top: var(--space-2);
     max-width: 62ch;
@@ -564,6 +612,10 @@ const personalities = [
       grid-template-columns: 1fr;
     }
     .pstep:not(:last-child)::after { display: none; }
+    .hero-grid {
+      padding-block: var(--space-3) var(--space-5);
+      gap: var(--space-3);
+    }
     /* compact collage: same pieces, tighter frame */
     .collage {
       min-height: 390px;
@@ -581,11 +633,20 @@ const personalities = [
     .col-paw { right: 120px; top: 0; }
     .col-paw svg { width: 44px; height: 44px; }
     .col-heart svg { width: 34px; height: 34px; }
-    .featured-photo {
-      width: 260px;
-      height: 260px;
+    .featured-art {
+      width: 250px;
       margin-inline: auto;
     }
+    .featured-photo {
+      width: 220px;
+      height: 220px;
+    }
+    .featured-mini {
+      width: 96px;
+      height: 96px;
+      bottom: -10px;
+    }
+    .featured-paw svg { width: 34px; height: 34px; }
     .featured-copy { padding-left: 0; }
     .wh-photo { order: 2; }
   }

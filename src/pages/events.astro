@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
+import bannerEvents from "../assets/ui/banner-events.jpg";
 import PageHero from "../components/PageHero.astro";
 
 const events = (await getCollection("events")).sort(
@@ -51,6 +52,9 @@ const calendarData = events.map((e) => {
   description="Upcoming TinyPaws adoption days, fundraisers, and volunteer orientations in Vancouver."
 >
   <PageHero
+    image={bannerEvents}
+    imageAlt="A grey-and-white tabby kitten mid-meow on a teal background"
+    imagePosition="50% 35%"
     title="Upcoming events"
     lead="Adoption days are the best way to meet the kittens — fundraisers keep the vet bills paid."
   />

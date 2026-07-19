@@ -649,11 +649,15 @@ const wishlist = [
   }
   @media (max-width: 900px) {
     .split,
-    .split--flip,
-    .donate-tiers {
+    .split--flip {
       grid-template-columns: 1fr;
     }
     .split--flip .panel { order: 2; }
+    /* tiers stay on one row — just tighter */
+    .donate-tiers { gap: 10px; }
+    .tier { padding: var(--space-2) 10px; }
+    .tier-amt { font-size: 1.5rem; }
+    .tier p:last-child { font-size: 0.8rem; }
   }
   @media (max-width: 720px) {
     .exp-row {

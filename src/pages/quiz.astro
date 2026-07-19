@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
+import bannerQuiz from "../assets/ui/banner-quiz.jpg";
 import PageHero from "../components/PageHero.astro";
 import { href } from "../lib/url";
 
@@ -65,6 +66,9 @@ const questions = [
   description="Five quick questions that match your routine to the kittens currently in TinyPaws foster care. Simple scoring — no accounts, nothing stored."
 >
   <PageHero
+    image={bannerQuiz}
+    imageAlt="An orange tabby cat peering over a ledge with green eyes"
+    imagePosition="50% 45%"
     title="Find your match"
     lead="Five questions, thirty seconds. A simple scoring quiz — not magic, just honest matchmaking against the cats in care right now."
   />

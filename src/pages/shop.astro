@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import { href } from "../lib/url";
+import bannerShop from "../assets/ui/banner-shop.jpg";
 import { SHOP_ITEMS } from "../lib/shop-items";
 ---
 
@@ -10,6 +11,9 @@ import { SHOP_ITEMS } from "../lib/shop-items";
   description="TinyPaws merch — tees, mugs, totes, and stickers. Every dollar of profit goes to veterinary care."
 >
   <PageHero
+    image={bannerShop}
+    imageAlt="A calico cat rolling on her back in a teal cat bed"
+    imagePosition="74% 45%"
     title="Gift shop"
     lead="Every dollar of profit goes straight to vet bills. The cats thank you — in their own way, eventually."
   />
@@ -21,7 +25,7 @@ import { SHOP_ITEMS } from "../lib/shop-items";
     </div>
   </aside>
 
-  <section class="section">
+  <section class="section shop-main">
     <div class="container">
       <p class="shop-note">
         Demo shop — the bag and checkout flow work, but no payments happen
@@ -74,10 +78,13 @@ import { SHOP_ITEMS } from "../lib/shop-items";
 </script>
 
 <style>
+  .shop-main {
+    padding-top: var(--space-4);
+  }
   .shop-note {
     font-size: var(--size-small);
     color: rgba(48, 24, 0, 0.65);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-3);
   }
   .shop-grid {
     display: grid;

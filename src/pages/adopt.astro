@@ -18,6 +18,7 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
   <PageHero
     image={bannerAdopt}
     imageAlt="A lynx-point kitten with blue eyes rolling on a white blanket"
+    imagePosition="72% 38%"
     title="Cats available for adoption"
     lead="Everyone here grew up in a foster home, so we can tell you exactly who you're meeting."
   />
@@ -182,6 +183,19 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
     gap: var(--space-2);
     flex-wrap: wrap;
     justify-content: center;
+  }
+  @media (max-width: 640px) {
+    .learn-pills {
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+    .learn-pills :global(.btn) {
+      flex: 1;
+      text-align: center;
+      font-size: 1.05rem;
+      padding: 14px 12px;
+      white-space: nowrap;
+    }
   }
 </style>
 

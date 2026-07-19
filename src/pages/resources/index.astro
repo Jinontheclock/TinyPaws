@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
 import Button from "../../components/Button.astro";
+import bannerResources from "../../assets/ui/banner-resources.jpg";
 import { href } from "../../lib/url";
 
 /* topic grid mirrors the hi-fi Resources page; the first card links to the
@@ -21,6 +22,9 @@ const topics = [
   description="Guides for cat adopters and fosters — feeding, health, behaviour, bonded pairs, and caring for kittens and seniors."
 >
   <PageHero
+    image={bannerResources}
+    imageAlt="A fluffy orange Persian being gently groomed by his owner"
+    imagePosition="45% 40%"
     title="Resources"
     lead="Whatever you're wondering about a cat, someone here has wondered it first. Start with the guides — and if you don't find your answer, ask."
   />

@@ -9,8 +9,11 @@ interface Props {
   lead?: string;
   image?: ImageMetadata;
   imageAlt?: string;
+  /* object-position for the banner crop, e.g. "70% 40%" keeps a face
+     visible when narrow screens crop the sides */
+  imagePosition?: string;
 }
-const { title, lead, image, imageAlt = "" } = Astro.props;
+const { title, lead, image, imageAlt = "", imagePosition = "50% 50%" } = Astro.props;
 ---
 
 {
@@ -25,6 +28,7 @@ const { title, lead, image, imageAlt = "" } = Astro.props;
         format="webp"
         loading="eager"
         fetchpriority="high"
+        style={`object-position: ${imagePosition}`}
       />
       <div class="hero-veil" aria-hidden="true"></div>
       <div class="container hero-inner">

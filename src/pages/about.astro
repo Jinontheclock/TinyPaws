@@ -4,6 +4,7 @@ import PageHero from "../components/PageHero.astro";
 import Button from "../components/Button.astro";
 import { Image } from "astro:assets";
 import fosterFamily from "../assets/ui/foster-family.jpg";
+import bannerAbout from "../assets/ui/banner-about.jpg";
 
 /* mirrors the hi-fi About us: Our Story (full text) → Our Mission
    (five pillars with icons) → contact form. Story copy and the five
@@ -42,6 +43,9 @@ const mission = [
   description="TinyPaws is a volunteer-run kitten rescue in Vancouver — no shelter building, just fosters, volunteers, and a lot of very small paws."
 >
   <PageHero
+    image={bannerAbout}
+    imageAlt="A volunteer gently cradling a tiny tabby kitten against his shoulder"
+    imagePosition="50% 35%"
     title="About us"
     lead="A volunteer-run kitten rescue in Vancouver — no shelter building, just people who can't walk past a cardboard box that meows."
   />
