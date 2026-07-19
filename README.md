@@ -89,7 +89,6 @@ APIs) so profiles stay stable and the site stays static.
 
 ## Photo credits
 
-Photos come from Unsplash/Pexels (both license commercial use without
-attribution). Credited here anyway, as a courtesy:
-
-<!-- e.g. biscuit-1.jpg — Photographer Name, https://unsplash.com/... -->
+Cat and banner photos are carried over from the original TinyPaws
+student project's hi-fi design files, where the team sourced them
+during the course. They are used here in the same demo context.

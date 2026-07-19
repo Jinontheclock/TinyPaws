@@ -3,7 +3,10 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Button from "../components/Button.astro";
 import CatCard from "../components/CatCard.astro";
-import PawLogo from "../components/PawLogo.astro";
+import { Image } from "astro:assets";
+import heroBiscuit from "../assets/cats/biscuit-1.jpg";
+import heroMochi from "../assets/cats/mochi-1.jpg";
+import fosterFamily from "../assets/ui/foster-family.jpg";
 import { href } from "../lib/url";
 
 const cats = (await getCollection("cats"))
@@ -43,10 +46,24 @@ const steps = [
           <Button href={href("/quiz/")} variant="outline">Take the match quiz</Button>
         </div>
       </div>
-      <div class="hero-art" aria-hidden="true">
-        <div class="blob blob-a"></div>
-        <div class="blob blob-b"></div>
-        <div class="hero-paw"><PawLogo size={120} /></div>
+      <div class="hero-art">
+        <Image
+          class="hero-photo hero-photo--tall"
+          src={heroBiscuit}
+          alt="Biscuit, an orange tabby kitten, sprawled happily on a woven rug"
+          widths={[400]}
+          format="webp"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <Image
+          class="hero-photo hero-photo--short"
+          src={heroMochi}
+          alt="Mochi, a warm brown tabby kitten, smiling in a sunbeam"
+          widths={[400]}
+          format="webp"
+          loading="eager"
+        />
       </div>
     </div>
   </section>
@@ -107,11 +124,19 @@ const steps = [
           Rescues run on fosters, volunteers, and donations. An empty bathroom
           and two weeks of your time can save a litter.
         </p>
+        <div class="hero-actions involve-actions">
+          <Button href={href("/get-involved/#foster")}>Become a foster</Button>
+          <Button href={href("/get-involved/#donate")} variant="outline">Donate</Button>
+        </div>
       </div>
-      <div class="hero-actions">
-        <Button href={href("/get-involved/#foster")}>Become a foster</Button>
-        <Button href={href("/get-involved/#donate")} variant="outline">Donate</Button>
-      </div>
+      <Image
+        class="involve-photo"
+        src={fosterFamily}
+        alt="Two kids cuddling a sleeping tabby foster kitten"
+        widths={[520]}
+        format="webp"
+        loading="lazy"
+      />
     </div>
   </section>
 </Base>
@@ -139,33 +164,28 @@ const steps = [
     flex-wrap: wrap;
     gap: var(--space-2);
   }
+  /* the hi-fi hero's offset photo pair: two rounded pills, real adoptable cats */
   .hero-art {
     position: relative;
-    min-height: 320px;
+    min-height: 380px;
   }
-  .blob {
+  .hero-photo {
     position: absolute;
-    background: var(--paw-orange);
+    object-fit: cover;
     border-radius: 999px;
+    box-shadow: 0 14px 34px rgba(48, 24, 0, 0.2);
   }
-  .blob-a {
-    width: 200px;
-    height: 300px;
-    right: 90px;
+  .hero-photo--tall {
+    width: 230px;
+    height: 340px;
+    right: 130px;
     top: 0;
   }
-  .blob-b {
-    width: 130px;
-    height: 200px;
+  .hero-photo--short {
+    width: 160px;
+    height: 260px;
     right: 0;
-    top: 110px;
-    background: var(--paw-brown);
-  }
-  .hero-paw {
-    position: absolute;
-    right: 150px;
     top: 120px;
-    filter: drop-shadow(0 8px 18px rgba(48, 24, 0, 0.25));
   }
   .section-lead {
     margin-top: 12px;
@@ -216,6 +236,12 @@ const steps = [
     grid-template-columns: 1.2fr 0.8fr;
     align-items: center;
     gap: var(--space-4);
+  }
+  .involve-photo {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
   }
   @media (max-width: 900px) {
     .hero-grid,

@@ -18,5 +18,7 @@
   "status": "pending",
   "coat": "#8A8378",
   "accent": "#EEE0C3",
+  "photos": ["../../assets/cats/nori-1.jpg", "../../assets/cats/nori-2.jpg"],
+  "photoAlt": "Nori, a tiny grey tabby kitten with a sleepy, unimpressed face",
   "quiz": { "energy": "medium", "social": "balanced", "home": "quiet", "experience": "any" }
 }

@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
+import bannerAdoption from "../assets/ui/banner-adoption.jpg";
 
 const steps = [
   { title: "1 · Browse & meet", text: "Look through the adoptable cats, take the match quiz, or meet kittens at an adoption day. Bonded pairs go home together." },
@@ -16,6 +17,8 @@ const steps = [
   description="How adopting a TinyPaws kitten works, from application to trial stay — plus the adoption application form."
 >
   <PageHero
+    image={bannerAdoption}
+    imageAlt="An orange-and-white cat mid-groom, tongue out over a paw"
     title="How adoption works"
     lead="Five steps, no surprises. The fee ($240) covers vaccines, spay or neuter, and a microchip."
   />

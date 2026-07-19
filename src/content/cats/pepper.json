@@ -18,5 +18,7 @@
   "status": "available",
   "coat": "#301800",
   "accent": "#F5ECD8",
+  "photos": ["../../assets/cats/pepper-1.jpg"],
+  "photoAlt": "Pepper, a tuxedo kitten lying on a bed with both paws up",
   "quiz": { "energy": "medium", "social": "independent", "home": "any", "experience": "any" }
 }

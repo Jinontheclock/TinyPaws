@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
+import bannerAdopt from "../assets/ui/banner-adopt.jpg";
 import CatCard from "../components/CatCard.astro";
 
 const cats = await getCollection("cats");
@@ -13,6 +14,8 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
   description="Meet the kittens currently looking for homes at TinyPaws — filter by age, energy, and adoption status."
 >
   <PageHero
+    image={bannerAdopt}
+    imageAlt="A lynx-point kitten with blue eyes rolling on a white blanket"
     title="Cats available for adoption"
     lead="Everyone here grew up in a foster home, so we can tell you exactly who you're meeting."
   />

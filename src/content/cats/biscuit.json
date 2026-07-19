@@ -18,5 +18,7 @@
   "status": "available",
   "coat": "#DC6E00",
   "accent": "#F0E2C6",
+  "photos": ["../../assets/cats/biscuit-1.jpg", "../../assets/cats/biscuit-2.jpg"],
+  "photoAlt": "Biscuit, an orange tabby kitten, lying on a woven rug with one paw stretched out",
   "quiz": { "energy": "low", "social": "balanced", "home": "quiet", "experience": "first-timer" }
 }

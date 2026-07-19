@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
+import bannerInvolve from "../assets/ui/banner-involve.jpg";
 import Button from "../components/Button.astro";
 import { href } from "../lib/url";
 ---
@@ -10,6 +11,8 @@ import { href } from "../lib/url";
   description="Foster a litter, volunteer at events, or donate to cover veterinary care — three ways to keep TinyPaws running."
 >
   <PageHero
+    image={bannerInvolve}
+    imageAlt="An orange-and-white cat asleep on a soft white bed"
     title="Get involved"
     lead="TinyPaws has no shelter building — just people. Fosters, volunteers, and donors are the whole operation."
   />

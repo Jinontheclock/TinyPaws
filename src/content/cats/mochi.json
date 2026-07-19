@@ -18,5 +18,7 @@
   "status": "available",
   "coat": "#C98A4B",
   "accent": "#F5ECD8",
+  "photos": ["../../assets/cats/mochi-1.jpg", "../../assets/cats/mochi-2.jpg"],
+  "photoAlt": "Mochi, a warm brown tabby kitten, eyes closed and smiling in a sunbeam",
   "quiz": { "energy": "high", "social": "velcro", "home": "busy", "experience": "first-timer" }
 }
