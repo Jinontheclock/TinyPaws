@@ -52,8 +52,8 @@ import { href } from "../lib/url";
     </div>
   </div>
   <div class="container footer-legal">
-    <p>info@tinypaws.ca · (604) 123-4567 — demo contact details</p>
     <p>© 2026 TinyPaws Kitten Rescue · A student-built demo site — not a live organization.</p>
+    <p>info@tinypaws.ca · (604) 123-4567 — demo contact details</p>
   </div>
 </footer>
 
@@ -105,27 +105,19 @@ import { href } from "../lib/url";
     text-decoration: underline;
     text-underline-offset: 3px;
   }
+  /* legal block: © line first, each line on its own row (no side-by-side wrap) */
   .footer-legal {
     margin-top: var(--space-4);
     padding-top: var(--space-2);
     border-top: 1px solid rgba(245, 236, 216, 0.18);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 8px 24px;
   }
   .footer-legal p {
     font-size: var(--size-small);
     opacity: 0.65;
-    flex: none;
+    max-width: none;
   }
-  @media (max-width: 900px) {
-    .footer-legal {
-      display: block;
-    }
-    .footer-legal p {
-      margin-top: 6px;
-    }
+  .footer-legal p + p {
+    margin-top: 6px;
   }
   @media (max-width: 700px) {
     .footer-grid {

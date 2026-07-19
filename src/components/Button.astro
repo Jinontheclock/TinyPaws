@@ -1,11 +1,11 @@
 ---
-/* pill button from the style tile: orange fill (dark-brown text = AA) or
-   brown outline variant. With href it's a link; with type it's a real
-   <button> (e.g. form submits). */
+/* pill button from the style tile: orange fill (dark-brown text = AA),
+   brown outline, or solid dark-brown (the hi-fi "Start Your Journey").
+   With href it's a link; with type it's a real <button> (form submits). */
 interface Props {
   href?: string;
   type?: "submit" | "button";
-  variant?: "primary" | "outline";
+  variant?: "primary" | "outline" | "dark";
 }
 const { href, type, variant = "primary" } = Astro.props;
 ---
@@ -48,5 +48,12 @@ const { href, type, variant = "primary" } = Astro.props;
   .btn--outline:hover {
     background: var(--paw-brown);
     color: var(--paw-cream);
+  }
+  .btn--dark {
+    background: var(--paw-brown);
+    color: var(--paw-cream);
+  }
+  .btn--dark:hover {
+    background: #4a2a08;
   }
 </style>

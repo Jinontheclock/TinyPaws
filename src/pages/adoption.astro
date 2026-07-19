@@ -1,14 +1,48 @@
 ---
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
+import Button from "../components/Button.astro";
+import { Image } from "astro:assets";
 import bannerAdoption from "../assets/ui/banner-adoption.jpg";
+import stepBrowse from "../assets/cats/biscuit-1.jpg";
+import stepApply from "../assets/cats/mochi-2.jpg";
+import stepChat from "../assets/cats/nori-2.jpg";
+import stepTrial from "../assets/cats/pepper-1.jpg";
+import stepHome from "../assets/cats/pickles-1.jpg";
 
+/* the hi-fi "How to Adopt" path: circular cat photos in orange rings,
+   zigzagging down the page with a dashed spine between them */
 const steps = [
-  { title: "1 · Browse & meet", text: "Look through the adoptable cats, take the match quiz, or meet kittens at an adoption day. Bonded pairs go home together." },
-  { title: "2 · Apply", text: "Fill in the application below. It isn't first-come-first-served — we match on fit, not speed." },
-  { title: "3 · Chat with a volunteer", text: "A foster volunteer calls you within a few days to talk lifestyle, home setup, and any other pets." },
-  { title: "4 · Trial stay", text: "A one-week trial at your home with supplies provided, so everyone can be sure — including the cat." },
-  { title: "5 · Make it official", text: "Sign the adoption agreement and pay the fee ($240, covering vaccines, spay/neuter, and microchip)." },
+  {
+    title: "Browse & meet",
+    text: "Look through the adoptable cats, take the match quiz, or meet kittens at an adoption day. Bonded pairs go home together.",
+    img: stepBrowse,
+    alt: "Biscuit, an orange tabby kitten, sprawled happily on a woven rug",
+  },
+  {
+    title: "Submit an application",
+    text: "Fill in the application below. It isn't first-come-first-served — we match on fit, not speed.",
+    img: stepApply,
+    alt: "Mochi, a tiny brown tabby kitten wrapped in a cream blanket",
+  },
+  {
+    title: "Chat with a volunteer",
+    text: "A foster volunteer calls you within a few days to talk lifestyle, home setup, and any other pets.",
+    img: stepChat,
+    alt: "Nori, a grey tabby kitten, looking up with big round eyes",
+  },
+  {
+    title: "Trial stay",
+    text: "A one-week trial at your home with supplies provided, so everyone can be sure — including the cat.",
+    img: stepTrial,
+    alt: "Pepper, a tuxedo kitten lying on a bed with both paws up",
+  },
+  {
+    title: "Bring them home",
+    text: "Sign the adoption agreement and pay the fee ($240, covering vaccines, spay/neuter, and microchip).",
+    img: stepHome,
+    alt: "Pickles, a long-haired tabby kitten mid-stretch on a blanket",
+  },
 ];
 ---
 
@@ -26,14 +60,28 @@ const steps = [
   <section class="section">
     <div class="container process">
       <h2 class="sr-only">The five steps</h2>
-      <ol class="timeline">
-        {steps.map((s) => (
-          <li>
-            <h3>{s.title}</h3>
-            <p>{s.text}</p>
+      <ol class="zigzag">
+        {steps.map((s, i) => (
+          <li class={`zstep${i % 2 ? " zstep--flip" : ""}`} data-reveal>
+            <span class="zstep-photo">
+              <Image src={s.img} alt={s.alt} widths={[440]} format="webp" loading="lazy" />
+            </span>
+            <div class="zstep-copy">
+              <h3>
+                <span class="zstep-no">Step {i + 1}:</span> {s.title}
+              </h3>
+              <p>{s.text}</p>
+            </div>
           </li>
         ))}
       </ol>
+    </div>
+  </section>
+
+  <section class="ready-band">
+    <div class="container ready-inner">
+      <h2>Ready to adopt?</h2>
+      <Button href="#apply">Apply now</Button>
     </div>
   </section>
 
@@ -93,21 +141,94 @@ const steps = [
 </Base>
 
 <style>
-  .timeline {
+  /* zigzag path: photo rings alternate sides, a dashed spine links them */
+  .zigzag {
     list-style: none;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
+    max-width: 880px;
     display: grid;
-    gap: var(--space-3);
-    max-width: 720px;
+    gap: var(--space-5);
   }
-  .timeline li {
+  .zstep {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: var(--space-4);
+    align-items: center;
     position: relative;
-    padding-left: 28px;
-    border-left: 3px solid var(--paw-orange);
   }
-  .timeline p {
-    margin-top: 6px;
+  .zstep--flip {
+    grid-template-columns: 1fr 260px;
+  }
+  .zstep--flip .zstep-photo { order: 2; }
+  .zstep--flip .zstep-copy {
+    order: 1;
+    text-align: right;
+    justify-items: end;
+  }
+  .zstep--flip .zstep-copy p { margin-left: auto; }
+  .zstep:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: calc(-1 * var(--space-5));
+    height: var(--space-5);
+    border-left: 3px dashed rgba(48, 24, 0, 0.3);
+  }
+  .zstep-photo {
+    display: block;
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 8px solid var(--paw-orange);
+    box-shadow: var(--shadow-card);
+    justify-self: center;
+    transition: transform 0.3s var(--ease);
+  }
+  .zstep:hover .zstep-photo {
+    transform: scale(1.04) rotate(-2deg);
+  }
+  .zstep-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .zstep-no {
+    color: var(--paw-orange-ink);
+  }
+  .zstep-copy h3 { font-size: 1.4rem; }
+  .zstep-copy p {
+    margin-top: 10px;
+    max-width: 44ch;
+  }
+  /* the hi-fi "Ready to Adopt?" brown band */
+  .ready-band {
+    background: var(--paw-brown);
+    padding-block: var(--space-5);
+  }
+  .ready-inner {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
+    text-align: center;
+  }
+  .ready-band h2 { color: var(--paw-cream); }
+  @media (max-width: 720px) {
+    .zstep,
+    .zstep--flip {
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+    .zstep--flip .zstep-photo { order: 0; }
+    .zstep--flip .zstep-copy {
+      order: 1;
+      text-align: center;
+      justify-items: center;
+    }
+    .zstep-copy { text-align: center; }
+    .zstep-copy p { margin-inline: auto; }
+    .zstep:not(:last-child)::after { display: none; }
   }
   .form-wrap {
     max-width: 720px;

@@ -9,22 +9,27 @@ import persBiscuit from "../assets/cats/biscuit-2.jpg";
 import persNori from "../assets/cats/nori-1.jpg";
 import persPepper from "../assets/cats/pepper-1.jpg";
 import fosterFamily from "../assets/ui/foster-family.jpg";
+import familyCouple from "../assets/ui/family-couple.jpg";
 import { href } from "../lib/url";
 
-/* home structure mirrors the hi-fi: hero → featured cat → three steps →
-   personalities band → why we do what we do → you've helped us save */
+/* home structure mirrors the hi-fi: hero → featured cat → three steps
+   (icons joined by a dashed path) → personalities band → why we do /
+   you've helped (one section, alternating rows) */
 const steps = [
   {
     title: "Meet your match",
     text: "Browse the cats, take the match quiz, or visit an adoption day. Each one has a story and is looking for the right home.",
+    icon: '<path fill="currentColor" stroke="none" d="M20.5 21.5 L18.5 8.5 L29 16 A15 15 0 0 1 35 16 L45.5 8.5 L43.5 21.5 A14.5 14.5 0 0 1 46.5 30 C46.5 33.6 44.9 36.8 42.4 39 C48.5 41.6 52 46.2 52 50.5 C52 55 47 57.5 32 57.5 C17 57.5 12 55 12 50.5 C12 46.2 15.5 41.6 21.6 39 C19.1 36.8 17.5 33.6 17.5 30 A14.5 14.5 0 0 1 20.5 21.5 Z"/><path fill="none" d="M52 50 C58 49 60.5 44.5 59.5 39.5" stroke-width="3.4"/>',
   },
   {
     title: "Fill out an application",
     text: "A quick online form about your lifestyle and home, so we can make sure the fit is right — for you and the cat.",
+    icon: '<rect x="14" y="10" width="32" height="44" rx="4" stroke-width="3.4"/><path d="M25 10 h14 v6 a2 2 0 0 1 -2 2 h-10 a2 2 0 0 1 -2 -2 Z" fill="currentColor" stroke="none"/><path d="M21 26 h18 M21 33 h18 M21 40 h10" stroke-width="3.4"/><path d="M42 36 L52 46 L54.5 54 L46.5 51.5 L36.5 41.5 Z" fill="var(--paw-white)" stroke-width="3"/>',
   },
   {
     title: "Welcome home",
     text: "A short trial stay, then the paperwork — and a lifetime of tiny paws on your keyboard.",
+    icon: '<path d="M32 53 C20 44 12 36.5 12 27.5 A11.5 11.5 0 0 1 32 20 A11.5 11.5 0 0 1 52 27.5 C52 34 48 39.8 41 45.5 C38.5 47.5 36.5 50.5 38.5 53.5 C40 55.7 43 56 45 54.5" stroke-width="3.4"/>',
   },
 ];
 
@@ -121,17 +126,26 @@ const personalities = [
   <section class="section">
     <div class="container">
       <h2 class="center">How adoption works</h2>
-      <ol class="steps">
+      <ol class="path-steps">
         {steps.map((s, i) => (
-          <li class="step">
-            <span class="step-no" aria-hidden="true">{i + 1}</span>
-            <h3 class="step-title">{s.title}</h3>
+          <li class="pstep" data-reveal style={`transition-delay:${i * 0.12}s`}>
+            <span class="pstep-icon" aria-hidden="true">
+              <svg
+                viewBox="0 0 64 64"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                set:html={s.icon}
+              />
+            </span>
+            <h3 class="pstep-title">{s.title}</h3>
             <p>{s.text}</p>
           </li>
         ))}
       </ol>
       <div class="center-cta">
-        <Button href={href("/adoption/")}>Start your journey</Button>
+        <Button href={href("/adoption/")} variant="dark">Start your journey</Button>
       </div>
     </div>
   </section>
@@ -164,47 +178,53 @@ const personalities = [
   </section>
 
   <section class="section">
-    <div class="container why">
-      <Image
-        class="why-photo"
-        src={fosterFamily}
-        alt="Two kids cuddling a sleeping tabby foster kitten"
-        widths={[520]}
-        format="webp"
-        loading="lazy"
-      />
-      <div>
-        <h2>Why we do what we do</h2>
-        <p class="why-p">
-          Every cat deserves to feel safe, loved, and at home. We step in when
-          they've been abandoned, forgotten, or born without a place to go —
-          medical care first, then a foster sofa, then a family.
-        </p>
-        <p class="why-p">
-          It's not always easy. But every soft purr, headbutt, and happy tail
-          makes it worth it.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--cream">
-    <div class="container helped">
-      <div>
-        <h2>You've helped us save…</h2>
-        <p class="why-p">
-          Behind every number is a little life that got a fresh start — and
-          it's all thanks to fosters, adopters, donors, and people who simply
-          told a friend about us. We're just getting started.
-        </p>
-        <div class="hero-actions">
-          <Button href={href("/get-involved/#foster")}>Become a foster</Button>
-          <Button href={href("/get-involved/#donate")} variant="outline">Donate</Button>
+    <div class="container">
+      <div class="wh-row" data-reveal>
+        <Image
+          class="wh-photo"
+          src={fosterFamily}
+          alt="Two kids cuddling a sleeping tabby foster kitten"
+          widths={[520]}
+          format="webp"
+          loading="lazy"
+        />
+        <div>
+          <h2>Why we do what we do</h2>
+          <p class="why-p">
+            Every cat deserves to feel safe, loved, and at home. We step in
+            when they've been abandoned, forgotten, or born without a place to
+            go — medical care first, then a foster sofa, then a family.
+          </p>
+          <p class="why-p">
+            It's not always easy. But every soft purr, headbutt, and happy
+            tail makes it worth it.
+          </p>
         </div>
       </div>
-      <div class="helped-stat" aria-hidden="true">
-        <p class="helped-big">500+</p>
-        <p>cats rescued, fostered, and matched since day one</p>
+
+      <div class="wh-row wh-row--flip" data-reveal>
+        <div>
+          <h2>You've helped us save…</h2>
+          <p class="why-p">
+            Since day one, we've rescued over 500 cats, matched hundreds with
+            amazing families, and supported a growing team of foster homes.
+            Behind every number is a little life that got a fresh start — and
+            it's all thanks to fosters, adopters, donors, and people who
+            simply told a friend about us. We're just getting started.
+          </p>
+          <div class="hero-actions">
+            <Button href={href("/get-involved/#foster")}>Become a foster</Button>
+            <Button href={href("/get-involved/#donate")} variant="outline">Donate</Button>
+          </div>
+        </div>
+        <Image
+          class="wh-photo"
+          src={familyCouple}
+          alt="A smiling couple holding their two fluffy adopted ragdoll cats"
+          widths={[640]}
+          format="webp"
+          loading="lazy"
+        />
       </div>
     </div>
   </section>
@@ -275,32 +295,51 @@ const personalities = [
     max-width: 62ch;
   }
   .featured-cta { margin-top: var(--space-3); }
-  .steps {
+  /* the hi-fi three-step path: icons joined by a dashed line */
+  .path-steps {
     list-style: none;
-    margin: var(--space-4) 0 0;
+    margin: var(--space-5) 0 0;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-3);
+    gap: var(--space-4);
   }
-  .step {
-    background: var(--paw-white);
-    border-radius: var(--radius-card);
-    padding: var(--space-3);
-    box-shadow: var(--shadow-card);
+  .pstep {
+    position: relative;
+    text-align: center;
+    padding-inline: var(--space-2);
   }
-  .step-no {
+  .pstep:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 36px;
+    left: calc(50% + 62px);
+    width: calc(100% - 124px);
+    border-top: 3px dashed rgba(48, 24, 0, 0.3);
+  }
+  .pstep-icon {
     display: inline-grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--paw-orange);
     color: var(--paw-brown);
-    font: 600 1.3rem/1 var(--font-display);
+    transition: transform 0.3s var(--ease);
   }
-  .step-title { margin-top: 14px; }
-  .step p { margin-top: 8px; }
+  .pstep-icon svg {
+    width: 72px;
+    height: 72px;
+  }
+  .pstep:hover .pstep-icon {
+    transform: translateY(-6px) rotate(-3deg);
+  }
+  .pstep-title {
+    margin-top: var(--space-3);
+    font-size: 1.25rem;
+    color: var(--paw-orange-ink);
+  }
+  .pstep p {
+    margin: 10px auto 0;
+    max-width: 34ch;
+    font-size: var(--size-small);
+  }
   .center-cta {
     margin-top: var(--space-4);
     text-align: center;
@@ -346,51 +385,40 @@ const personalities = [
   .pers-card h3 { margin-top: 14px; }
   .pers-card p { margin-top: 6px; }
   .pers-cta { margin-top: auto; padding-top: var(--space-2); }
-  .why,
-  .helped {
+  /* why-we-do + you've-helped: one section, alternating photo/text rows */
+  .wh-row {
     display: grid;
     grid-template-columns: 0.9fr 1.1fr;
     gap: var(--space-5);
     align-items: center;
   }
-  .helped { grid-template-columns: 1.1fr 0.9fr; }
-  .why-photo {
+  .wh-row--flip {
+    grid-template-columns: 1.1fr 0.9fr;
+    margin-top: var(--space-6);
+  }
+  .wh-photo {
     width: 100%;
     height: auto;
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
   }
   .why-p { margin-top: var(--space-2); }
-  .helped-stat {
-    background: var(--paw-white);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
-    padding: var(--space-4);
-    text-align: center;
-  }
-  .helped-big {
-    font: 600 3.6rem/1 var(--font-display);
-    color: var(--paw-orange-ink);
-  }
-  .helped-stat p:last-child {
-    margin: 8px auto 0;
-    max-width: 24ch;
-  }
   @media (max-width: 900px) {
     .hero-grid,
     .featured,
     .pers-grid,
-    .steps,
-    .why,
-    .helped {
+    .path-steps,
+    .wh-row,
+    .wh-row--flip {
       grid-template-columns: 1fr;
     }
+    .pstep:not(:last-child)::after { display: none; }
     .hero-art { min-height: 260px; }
     .featured-photo {
       width: 240px;
       height: 240px;
       margin-inline: auto;
     }
-    .why-photo { order: 2; }
+    .wh-photo { order: 2; }
   }
 </style>
