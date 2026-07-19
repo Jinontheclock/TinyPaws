@@ -89,7 +89,9 @@ const others = cats.filter((c) => c.id !== cat.id && c.data.status === "availabl
         <div class="cta">
           <h3>Ready to adopt?</h3>
           <p>Start the process by sending an adoption application.</p>
-          <Button href={href(`/adoption/#apply`)}>Adoption form</Button>
+          <Button href={href(`/adoption/?cat=${encodeURIComponent(d.name)}#apply`)}>
+            Adoption form
+          </Button>
         </div>
         <div class="cta">
           <h3>Learn about adoption</h3>

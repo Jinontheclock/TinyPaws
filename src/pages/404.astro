@@ -1,0 +1,56 @@
+---
+import Base from "../layouts/Base.astro";
+import Button from "../components/Button.astro";
+import PawLogo from "../components/PawLogo.astro";
+import { href } from "../lib/url";
+---
+
+<Base
+  title="Page not found"
+  description="This page wandered off — head back to the TinyPaws home page or meet the cats."
+>
+  <section class="section">
+    <div class="container lost">
+      <PawLogo size={72} />
+      <p class="lost-code" aria-hidden="true">404</p>
+      <h1>This page wandered off.</h1>
+      <p class="lost-lead">
+        Like any curious kitten, it's probably hiding somewhere unexpected.
+        Let's get you back to the cats.
+      </p>
+      <div class="lost-actions">
+        <Button href={href("/")}>Back home</Button>
+        <Button href={href("/adopt/")} variant="outline">Meet the cats</Button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lost {
+    max-width: 620px;
+    text-align: center;
+    display: grid;
+    justify-items: center;
+    padding-block: var(--space-5);
+  }
+  .lost-code {
+    margin-top: var(--space-3);
+    font: 600 4.4rem/1 var(--font-display);
+    color: var(--paw-orange);
+  }
+  .lost h1 {
+    margin-top: 8px;
+  }
+  .lost-lead {
+    margin-top: var(--space-2);
+    max-width: 44ch;
+  }
+  .lost-actions {
+    margin-top: var(--space-4);
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+</style>

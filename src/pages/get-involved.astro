@@ -69,19 +69,96 @@ import { href } from "../lib/url";
         deworming, and spay/neuter run about $900. Donations go there first,
         then to food and supplies.
       </p>
-      <div class="donate-tiers">
-        <div class="tier"><p class="tier-amt">$25</p><p>vaccinates one kitten</p></div>
-        <div class="tier"><p class="tier-amt">$80</p><p>covers a spay or neuter</p></div>
-        <div class="tier"><p class="tier-amt">$150</p><p>funds a litter's first month</p></div>
+      <form class="donate-form">
+        <div class="donate-tiers" role="radiogroup" aria-label="Donation amount">
+          <label class="tier">
+            <input type="radio" name="amount" value="25" required />
+            <p class="tier-amt">$25</p>
+            <p>vaccinates one kitten</p>
+          </label>
+          <label class="tier">
+            <input type="radio" name="amount" value="80" />
+            <p class="tier-amt">$80</p>
+            <p>covers a spay or neuter</p>
+          </label>
+          <label class="tier">
+            <input type="radio" name="amount" value="150" />
+            <p class="tier-amt">$150</p>
+            <p>funds a litter's first month</p>
+          </label>
+        </div>
+        <div class="donate-custom">
+          <label for="donate-other">Or another amount</label>
+          <div class="donate-custom-row">
+            <span class="donate-currency" aria-hidden="true">$</span>
+            <input id="donate-other" name="other" type="number" min="1" max="10000" inputmode="numeric" placeholder="50" />
+          </div>
+        </div>
+        <p class="donate-note">
+          This demo doesn't process payments. In the live site this button leads
+          to the rescue's payment provider.
+        </p>
+        <button class="donate-submit" type="submit">Donate (demo)</button>
+      </form>
+      <div class="donate-thanks" role="status" aria-live="polite" hidden>
+        <h3>Thank you!</h3>
+        <p class="donate-thanks-line"></p>
+        <p class="donate-thanks-demo">
+          Demo only — no payment was processed and no details were collected.
+        </p>
+        <button class="donate-again" type="button">Choose a different amount</button>
       </div>
-      <p class="donate-note">
-        This demo doesn't process payments. In the live site this button leads
-        to the rescue's payment provider.
-      </p>
-      <Button href={href("/get-involved/#donate")}>Donate (demo)</Button>
     </div>
   </section>
 </Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>(".donate-form")!;
+  const thanks = document.querySelector<HTMLElement>(".donate-thanks")!;
+  const line = thanks.querySelector<HTMLElement>(".donate-thanks-line")!;
+  const other = form.querySelector<HTMLInputElement>("#donate-other")!;
+  const radios = [...form.querySelectorAll<HTMLInputElement>('input[name="amount"]')];
+
+  const IMPACT: Record<string, string> = {
+    "25": "vaccinates one kitten",
+    "80": "covers a spay or neuter",
+    "150": "funds a litter's first month",
+  };
+
+  // typing a custom amount releases the tier requirement, and vice versa
+  other.addEventListener("input", () => {
+    radios.forEach((r) => {
+      r.required = other.value.trim() === "";
+      if (other.value.trim() !== "") r.checked = false;
+    });
+  });
+  radios.forEach((r) =>
+    r.addEventListener("change", () => {
+      if (r.checked) other.value = "";
+    }),
+  );
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    const picked = radios.find((r) => r.checked)?.value;
+    const amount = picked ?? String(Math.round(Number(other.value)));
+    line.textContent = IMPACT[amount]
+      ? `A real $${amount} donation ${IMPACT[amount]}.`
+      : `A real $${amount} donation goes straight to veterinary care, food, and supplies.`;
+    form.hidden = true;
+    thanks.hidden = false;
+    thanks.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  thanks.querySelector(".donate-again")!.addEventListener("click", () => {
+    form.reset();
+    radios.forEach((r) => (r.required = true));
+    thanks.hidden = true;
+    form.hidden = false;
+    form.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+</script>
 
 <style>
   .split {
@@ -140,19 +217,101 @@ import { href } from "../lib/url";
   }
   .tier {
     background: var(--paw-cream);
+    border: 2px solid transparent;
     border-radius: var(--radius-card);
     padding: var(--space-3);
     text-align: center;
+    cursor: pointer;
+    display: block;
+  }
+  .tier:has(input:checked) {
+    border-color: var(--paw-orange);
+    background: var(--paw-white);
+    box-shadow: var(--shadow-card);
+  }
+  .tier input {
+    accent-color: var(--paw-orange);
+    display: block;
+    margin: 0 auto 10px;
   }
   .tier-amt {
     font: 600 2.2rem/1 var(--font-display);
     color: var(--paw-brown);
   }
   .tier p:last-child { margin: 8px auto 0; }
+  .donate-custom label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .donate-custom-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 220px;
+  }
+  .donate-currency {
+    font: 600 1.2rem/1 var(--font-display);
+    color: var(--paw-orange-ink);
+  }
+  .donate-custom input {
+    width: 100%;
+    font: inherit;
+    padding: 12px 16px;
+    border: 2px solid var(--paw-cream-deep);
+    border-radius: var(--radius-input);
+    background: var(--paw-white);
+  }
+  .donate-custom input:focus-visible {
+    outline: 3px solid var(--paw-orange);
+    outline-offset: 1px;
+    border-color: transparent;
+  }
   .donate-note {
     font-size: var(--size-small);
     color: rgba(48, 24, 0, 0.65);
-    margin-bottom: var(--space-3);
+    margin-block: var(--space-3);
+  }
+  .donate-submit {
+    font: 500 var(--size-button)/1 var(--font-display);
+    background: var(--paw-orange);
+    color: var(--paw-brown);
+    border: 0;
+    border-radius: var(--radius-pill);
+    padding: 16px 34px;
+    cursor: pointer;
+  }
+  .donate-submit:hover { background: #e97e14; }
+  .donate-thanks {
+    margin-top: var(--space-4);
+    background: var(--paw-brown);
+    color: var(--paw-cream);
+    border-radius: var(--radius-card);
+    padding: var(--space-4);
+  }
+  .donate-thanks h3 {
+    color: var(--paw-cream);
+    font-size: 1.6rem;
+  }
+  .donate-thanks-line { margin-top: 10px; }
+  .donate-thanks-demo {
+    margin-top: 8px;
+    font-size: var(--size-small);
+    opacity: 0.8;
+  }
+  .donate-again {
+    margin-top: var(--space-3);
+    font: 500 1rem/1 var(--font-display);
+    background: transparent;
+    color: var(--paw-cream);
+    border: 2px solid var(--paw-cream);
+    border-radius: var(--radius-pill);
+    padding: 12px 24px;
+    cursor: pointer;
+  }
+  .donate-again:hover {
+    background: var(--paw-cream);
+    color: var(--paw-brown);
   }
   @media (max-width: 900px) {
     .split,

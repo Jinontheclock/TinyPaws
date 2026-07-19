@@ -96,6 +96,7 @@ const questions = [
         <p class="result-why"></p>
         <p class="result-runner"></p>
         <a class="result-link" href="#">Meet <span class="result-name2"></span> →</a>
+        <button class="result-retake" type="button">Retake the quiz</button>
       </div>
     </div>
   </section>
@@ -169,6 +170,21 @@ const questions = [
     color: var(--paw-cream);
     font: 500 1.1rem/1 var(--font-display);
   }
+  .result-retake {
+    display: inline-block;
+    margin: var(--space-3) 0 0 var(--space-3);
+    font: 500 0.95rem/1 var(--font-display);
+    background: transparent;
+    color: var(--paw-cream);
+    border: 2px solid var(--paw-cream);
+    border-radius: var(--radius-pill);
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  .result-retake:hover {
+    background: var(--paw-cream);
+    color: var(--paw-brown);
+  }
 </style>
 
 <script define:vars={{ base: import.meta.env.BASE_URL }}>
@@ -210,5 +226,11 @@ const questions = [
     result.querySelector(".result-link").href =
       `${base.replace(/\/$/, "")}/cats/${best.cat.slug}/`;
     result.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  result.querySelector(".result-retake").addEventListener("click", () => {
+    form.reset();
+    result.hidden = true;
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 </script>

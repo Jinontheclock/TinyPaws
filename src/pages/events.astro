@@ -7,6 +7,33 @@ const events = (await getCollection("events")).sort(
   (a, b) => new Date(a.data.date).getTime() - new Date(b.data.date).getTime(),
 );
 const kindLabel = { adoption: "Adoption day", fundraiser: "Fundraiser", community: "Community" };
+
+/* build-time .ics payload per event so "Add to calendar" needs no runtime JS.
+   Times are floating local times ("11:00 – 15:00" on the card's date). */
+const pad = (n: number) => String(n).padStart(2, "0");
+const icsFor = (e: (typeof events)[number]) => {
+  const day = new Date(e.data.date);
+  const stamp = (hhmm: string) => {
+    const [h, m] = hhmm.split(":").map(Number);
+    return `${day.getFullYear()}${pad(day.getMonth() + 1)}${pad(day.getDate())}T${pad(h)}${pad(m)}00`;
+  };
+  const [start, end] = e.data.time.split("–").map((t) => t.trim());
+  const ics = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//TinyPaws//Events//EN",
+    "BEGIN:VEVENT",
+    `UID:${e.id}@tinypaws-demo`,
+    `DTSTART:${stamp(start)}`,
+    `DTEND:${stamp(end)}`,
+    `SUMMARY:${e.data.title}`,
+    `LOCATION:${e.data.place.replace(/,/g, "\\,")}`,
+    `DESCRIPTION:${e.data.blurb.replace(/,/g, "\\,")}`,
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
+  return `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`;
+};
 ---
 
 <Base
@@ -32,6 +59,9 @@ const kindLabel = { adoption: "Adoption day", fundraiser: "Fundraiser", communit
               <h2>{e.data.title}</h2>
               <p class="event-place">{e.data.place}</p>
               <p class="event-blurb">{e.data.blurb}</p>
+              <a class="event-cal" href={icsFor(e)} download={`${e.id}.ics`}>
+                Add to calendar
+              </a>
             </div>
           </article>
         ))}
@@ -79,6 +109,20 @@ const kindLabel = { adoption: "Adoption day", fundraiser: "Fundraiser", communit
     color: var(--paw-orange-ink);
   }
   .event-blurb { margin-top: 10px; }
+  .event-cal {
+    display: inline-block;
+    margin-top: 14px;
+    font: 500 0.95rem/1 var(--font-display);
+    color: var(--paw-brown);
+    text-decoration: none;
+    border: 2px solid var(--paw-brown);
+    border-radius: var(--radius-pill);
+    padding: 10px 20px;
+  }
+  .event-cal:hover {
+    background: var(--paw-brown);
+    color: var(--paw-cream);
+  }
   @media (max-width: 640px) {
     .event { grid-template-columns: 1fr; }
   }

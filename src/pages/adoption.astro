@@ -172,6 +172,14 @@ const steps = [
   const form = document.querySelector<HTMLFormElement>(".apply-form")!;
   const success = form.querySelector<HTMLElement>(".success")!;
 
+  // arriving from a cat profile (?cat=Name) preselects that cat
+  const wanted = new URLSearchParams(location.search).get("cat");
+  if (wanted) {
+    const sel = form.querySelector<HTMLSelectElement>("#f-cat")!;
+    const match = [...sel.options].find((o) => o.text.startsWith(wanted));
+    if (match) sel.value = match.value;
+  }
+
   const validators: Record<string, (v: string) => string> = {
     name: (v) => (v.trim().length >= 2 ? "" : "Please enter your name."),
     email: (v) => (/^\S+@\S+\.\S+$/.test(v) ? "" : "Please enter a valid email address."),
