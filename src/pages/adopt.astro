@@ -4,6 +4,8 @@ import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import bannerAdopt from "../assets/ui/banner-adopt.jpg";
 import CatCard from "../components/CatCard.astro";
+import Button from "../components/Button.astro";
+import { href } from "../lib/url";
 
 const cats = await getCollection("cats");
 const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoster);
@@ -19,6 +21,17 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
     title="Cats available for adoption"
     lead="Everyone here grew up in a foster home, so we can tell you exactly who you're meeting."
   />
+
+  <section class="learn-strip">
+    <div class="container learn-row">
+      <p class="learn-label">Learn more about:</p>
+      <div class="learn-pills">
+        <Button href={href("/adoption/")} variant="outline">How to adopt</Button>
+        <Button href={href("/adoption/")} variant="outline">Adoption fees</Button>
+        <Button href={href("/adoption/#apply")}>Apply to adopt</Button>
+      </div>
+    </div>
+  </section>
 
   <section class="section">
     <div class="container">
@@ -130,6 +143,26 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
     .cat-grid {
       grid-template-columns: 1fr;
     }
+  }
+  .learn-strip {
+    background: var(--paw-cream-deep);
+    padding-block: var(--space-3);
+  }
+  .learn-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .learn-label {
+    font: 500 1.1rem/1 var(--font-display);
+  }
+  .learn-pills {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    justify-content: center;
   }
 </style>
 

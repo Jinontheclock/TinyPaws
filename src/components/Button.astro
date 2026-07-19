@@ -1,14 +1,22 @@
 ---
 /* pill button from the style tile: orange fill (dark-brown text = AA) or
-   brown outline variant */
+   brown outline variant. With href it's a link; with type it's a real
+   <button> (e.g. form submits). */
 interface Props {
-  href: string;
+  href?: string;
+  type?: "submit" | "button";
   variant?: "primary" | "outline";
 }
-const { href, variant = "primary" } = Astro.props;
+const { href, type, variant = "primary" } = Astro.props;
 ---
 
-<a class={`btn btn--${variant}`} href={href}><slot /></a>
+{
+  href ? (
+    <a class={`btn btn--${variant}`} href={href}><slot /></a>
+  ) : (
+    <button class={`btn btn--${variant}`} type={type ?? "button"}><slot /></button>
+  )
+}
 
 <style>
   .btn {

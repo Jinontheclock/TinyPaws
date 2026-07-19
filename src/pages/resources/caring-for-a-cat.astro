@@ -1,0 +1,112 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import Button from "../../components/Button.astro";
+import { href } from "../../lib/url";
+
+/* the hi-fi "Caring for a Cat" article, restructured into anchored sections */
+const sections = [
+  {
+    id: "nutrition",
+    title: "Nutrition and feeding",
+    paras: [
+      "Kittens under six months eat little and often — three to four small meals of kitten-formula food a day. From six months, two meals works for most cats.",
+      "Fresh water always, and skip the milk: most cats are lactose intolerant. Treats are fine, but keep them under a tenth of the day's food.",
+    ],
+  },
+  {
+    id: "health",
+    title: "Health and wellness",
+    paras: [
+      "Every TinyPaws cat goes home vaccinated, dewormed, and spayed or neutered — your job is simply the yearly check-up after that.",
+      "Call a vet if a cat stops eating for more than a day, hides for days at a time, or has trouble breathing. Trust your gut; you'll know your cat's normal within weeks.",
+    ],
+  },
+  {
+    id: "behaviour",
+    title: "Behaviour basics",
+    paras: [
+      "Scratching is stretching, not sabotage — a good post next to the sofa beats any scolding. Midnight zoomies are normal kitten energy; a play session before bed helps everyone sleep.",
+      "A new cat may hide for the first days. Let them come to you: sit nearby, talk softly, and let curiosity win.",
+    ],
+  },
+  {
+    id: "bonded",
+    title: "Bonded pairs",
+    paras: [
+      "Some kittens grow up so attached to a sibling that separating them causes real distress — those go home together, always.",
+      "Two kittens are honestly easier than one: they burn energy on each other, learn social manners, and keep each other company while you're out.",
+    ],
+  },
+  {
+    id: "ages",
+    title: "Kittens and seniors",
+    paras: [
+      "Young kittens need warmth, frequent meals, and supervision — kitten-proof the cables and close the windows. They repay you by growing up confident.",
+      "Senior cats ask for less: a warm spot, a gentle routine, and patience with slower joints. They are the easiest roommates we know.",
+    ],
+  },
+];
+---
+
+<Base
+  title="Caring for a cat"
+  description="A practical guide to feeding, health, behaviour, bonded pairs, and caring for kittens and senior cats."
+>
+  <PageHero
+    title="Caring for a cat"
+    lead="Everything our fosters tell first-time adopters, in one place."
+  />
+
+  <section class="section">
+    <div class="container article">
+      <a class="back" href={href("/resources/")}>‹ All resources</a>
+      {sections.map((s) => (
+        <section class="article-sec" id={s.id}>
+          <h2>{s.title}</h2>
+          {s.paras.map((p) => <p class="article-p">{p}</p>)}
+        </section>
+      ))}
+      <div class="article-cta">
+        <p>Still unsure about something?</p>
+        <Button href={href("/resources/")} variant="outline">Ask a foster</Button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .article {
+    max-width: 720px;
+  }
+  .back {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: var(--space-3);
+  }
+  .article-sec {
+    padding-left: 24px;
+    border-left: 3px solid var(--paw-orange);
+  }
+  .article-sec + .article-sec {
+    margin-top: var(--space-4);
+  }
+  .article-p {
+    margin-top: var(--space-2);
+  }
+  .article-cta {
+    margin-top: var(--space-5);
+    background: var(--paw-cream);
+    border-radius: var(--radius-card);
+    padding: var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .article-cta p {
+    font: 500 1.1rem/1.4 var(--font-display);
+  }
+</style>

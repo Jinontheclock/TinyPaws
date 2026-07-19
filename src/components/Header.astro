@@ -2,12 +2,15 @@
 import PawLogo from "./PawLogo.astro";
 import { href } from "../lib/url";
 
+/* nav mirrors the hi-fi design: Adopt · Resources · Get Involved · Events ·
+   Gift Shop · About us, plus the search icon and the Donate Now pill */
 const links = [
   { label: "Adopt", path: "/adopt/" },
-  { label: "Match Quiz", path: "/quiz/" },
-  { label: "Adoption Info", path: "/adoption/" },
+  { label: "Resources", path: "/resources/" },
   { label: "Get Involved", path: "/get-involved/" },
   { label: "Events", path: "/events/" },
+  { label: "Gift Shop", path: "/shop/" },
+  { label: "About us", path: "/about/" },
 ];
 const current = Astro.url.pathname;
 ---
@@ -32,6 +35,14 @@ const current = Astro.url.pathname;
             <a href={href(l.path)} aria-current={current === href(l.path) ? "page" : undefined}>{l.label}</a>
           </li>
         ))}
+        <li class="nav-search">
+          <a href={href("/search/")} aria-label="Search the site">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2.4" />
+              <path d="M15.5 15.5 L21 21" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+            </svg>
+          </a>
+        </li>
         <li class="nav-cta">
           <a class="donate" href={href("/get-involved/#donate")}>Donate Now</a>
         </li>
@@ -87,6 +98,14 @@ const current = Astro.url.pathname;
     text-decoration: underline;
     text-underline-offset: 6px;
     text-decoration-thickness: 2px;
+  }
+  .nav-search a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px;
+  }
+  .nav-search svg {
+    display: block;
   }
   .nav-cta .donate {
     display: inline-block;
@@ -149,6 +168,9 @@ const current = Astro.url.pathname;
       display: block;
       padding: 14px 2px;
       font-size: 1.05rem;
+    }
+    .nav-search a {
+      padding: 14px 2px;
     }
     .nav-cta {
       padding-top: 12px;

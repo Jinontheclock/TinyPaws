@@ -1,0 +1,194 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import Button from "../components/Button.astro";
+import { Image } from "astro:assets";
+import fosterFamily from "../assets/ui/foster-family.jpg";
+import { href } from "../lib/url";
+
+/* mirrors the hi-fi About us: Our Story → Our Mission (icon trio) →
+   contact form */
+const mission = [
+  {
+    title: "Rescue",
+    text: "Kittens from tough starts — strays, surrenders, and litters born outside.",
+    icon: "M12 3 L21 10 V21 H14 V15 H10 V21 H3 V10 Z",
+  },
+  {
+    title: "Foster",
+    text: "No shelter building — every cat grows up in a real home, learning to be someone's cat.",
+    icon: "M12 21 C7 16.5 3 13 3 9.2 A4.7 4.7 0 0 1 12 7 A4.7 4.7 0 0 1 21 9.2 C21 13 17 16.5 12 21 Z",
+  },
+  {
+    title: "Match",
+    text: "Adoptions built on fit, not speed — so the home a cat lands in is the last one.",
+    icon: "M8 12 L11 15 L16.5 8.5 M12 22 A10 10 0 1 1 12 2 A10 10 0 0 1 12 22 Z",
+  },
+];
+---
+
+<Base
+  title="About us"
+  description="TinyPaws is a volunteer-run kitten rescue in Vancouver — no shelter building, just fosters, volunteers, and a lot of very small paws."
+>
+  <PageHero
+    title="About us"
+    lead="A volunteer-run kitten rescue in Vancouver — no shelter building, just people who can't walk past a cardboard box that meows."
+  />
+
+  <section class="section">
+    <div class="container story">
+      <div>
+        <h2>Our story</h2>
+        <p class="story-p">
+          TinyPaws started the way most rescues do: one litter too many, and a
+          group of neighbours who couldn't say no. What began as a spare
+          bathroom and a group chat grew into a foster network across the city.
+        </p>
+        <p class="story-p">
+          We still have no building, and we like it that way. Cats don't learn
+          to live in homes by living in cages — every TinyPaws kitten grows up
+          on someone's sofa, which is exactly where they're headed next.
+        </p>
+      </div>
+      <Image
+        class="story-photo"
+        src={fosterFamily}
+        alt="Two kids cuddling a sleeping tabby foster kitten"
+        widths={[520]}
+        format="webp"
+        loading="lazy"
+      />
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container">
+      <h2 class="center">Our mission</h2>
+      <div class="mission-grid">
+        {mission.map((m) => (
+          <div class="mission">
+            <span class="mission-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d={m.icon} stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" />
+              </svg>
+            </span>
+            <h3>{m.title}</h3>
+            <p>{m.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-wrap">
+      <h2>Want to know more?</h2>
+      <p class="contact-lead">Say hi — about a cat, a partnership, or a class project.</p>
+      <form class="contact-form">
+        <label class="sr-only" for="c-email">Email</label>
+        <input id="c-email" name="email" type="email" required placeholder="Your email" />
+        <label class="sr-only" for="c-msg">Message</label>
+        <textarea id="c-msg" name="msg" rows="4" required placeholder="Your message"></textarea>
+        <p class="contact-note">Demo form — nothing is sent anywhere.</p>
+        <Button type="submit">Contact us</Button>
+        <p class="contact-done" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>(".contact-form")!;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    form.reset();
+    form.querySelector<HTMLElement>(".contact-done")!.textContent =
+      "Message received (demo) — in the live rescue, a volunteer would reply by email.";
+  });
+</script>
+
+<style>
+  .story {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+  .story-p {
+    margin-top: var(--space-2);
+  }
+  .story-photo {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+  .center { text-align: center; }
+  .mission-grid {
+    margin-top: var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    text-align: center;
+  }
+  .mission {
+    background: var(--paw-white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-4) var(--space-3);
+  }
+  .mission-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--paw-orange);
+    color: var(--paw-brown);
+  }
+  .mission-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+  .mission h3 { margin-top: 14px; }
+  .mission p { margin-top: 8px; }
+  .contact-wrap { max-width: 640px; }
+  .contact-lead { margin-top: 10px; }
+  .contact-form {
+    margin-top: var(--space-3);
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    font: 400 1rem/1.4 var(--font-body);
+    color: var(--paw-brown);
+    background: var(--paw-white);
+    border: 2px solid rgba(48, 24, 0, 0.18);
+    border-radius: var(--radius-input);
+    padding: 14px 16px;
+  }
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--paw-orange);
+  }
+  .contact-note {
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.65);
+  }
+  .contact-done {
+    font-weight: 500;
+    color: #2c6b2f;
+  }
+  @media (max-width: 900px) {
+    .story,
+    .mission-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

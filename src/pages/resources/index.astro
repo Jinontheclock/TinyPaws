@@ -1,0 +1,136 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import Button from "../../components/Button.astro";
+import { href } from "../../lib/url";
+
+/* topic grid mirrors the hi-fi Resources page; the first card links to the
+   full article, the rest anchor into its sections */
+const topics = [
+  { title: "Caring for a cat", text: "Food, comfort, play, and everything the first weeks ask of you.", link: "/resources/caring-for-a-cat/" },
+  { title: "Nutrition & feeding", text: "What to feed at every age, and how much is enough.", link: "/resources/caring-for-a-cat/#nutrition" },
+  { title: "Health & wellness", text: "Vaccines, spay/neuter, and the signs worth a vet call.", link: "/resources/caring-for-a-cat/#health" },
+  { title: "Behaviour basics", text: "Scratching, hiding, midnight zoomies — what's normal and what helps.", link: "/resources/caring-for-a-cat/#behaviour" },
+  { title: "Bonded pairs", text: "Why some kittens go home in twos, and why that's easier than it sounds.", link: "/resources/caring-for-a-cat/#bonded" },
+  { title: "Kittens & seniors", text: "The two ages that need the most from you — and give the most back.", link: "/resources/caring-for-a-cat/#ages" },
+];
+---
+
+<Base
+  title="Resources"
+  description="Guides for cat adopters and fosters — feeding, health, behaviour, bonded pairs, and caring for kittens and seniors."
+>
+  <PageHero
+    title="Resources"
+    lead="Whatever you're wondering about a cat, someone here has wondered it first. Start with the guides — and if you don't find your answer, ask."
+  />
+
+  <section class="section">
+    <div class="container">
+      <h2 class="sr-only">Guides</h2>
+      <div class="topic-grid">
+        {topics.map((t) => (
+          <a class="topic" href={href(t.link)}>
+            <h3>{t.title}</h3>
+            <p>{t.text}</p>
+            <span class="topic-more" aria-hidden="true">Read the guide →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container ask-wrap">
+      <h2>Didn't find your answer?</h2>
+      <p class="ask-lead">Send us the question — a foster volunteer will know.</p>
+      <form class="ask-form">
+        <div class="ask-row">
+          <label class="sr-only" for="ask-email">Email</label>
+          <input id="ask-email" name="email" type="email" required placeholder="Your email" />
+          <label class="sr-only" for="ask-q">Your question</label>
+          <input id="ask-q" name="q" type="text" required placeholder="Your question" />
+        </div>
+        <p class="ask-note">Demo form — nothing is sent anywhere.</p>
+        <Button type="submit">Contact us</Button>
+        <p class="ask-done" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>(".ask-form")!;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    form.reset();
+    form.querySelector<HTMLElement>(".ask-done")!.textContent =
+      "Question received (demo) — in the live rescue, a volunteer would reply by email.";
+  });
+</script>
+
+<style>
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+  .topic {
+    display: block;
+    background: var(--paw-white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-3);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+  .topic:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(48, 24, 0, 0.14);
+  }
+  .topic p {
+    margin-top: 8px;
+  }
+  .topic-more {
+    display: inline-block;
+    margin-top: 14px;
+    font: 500 0.95rem/1 var(--font-display);
+    color: var(--paw-orange-ink);
+  }
+  .ask-wrap { max-width: 720px; }
+  .ask-lead { margin-top: 10px; }
+  .ask-form { margin-top: var(--space-3); }
+  .ask-row {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: var(--space-2);
+  }
+  .ask-row input {
+    font: 400 1rem/1.4 var(--font-body);
+    color: var(--paw-brown);
+    background: var(--paw-white);
+    border: 2px solid rgba(48, 24, 0, 0.18);
+    border-radius: var(--radius-input);
+    padding: 14px 16px;
+  }
+  .ask-row input:focus {
+    outline: none;
+    border-color: var(--paw-orange);
+  }
+  .ask-note {
+    margin-block: 12px;
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.65);
+  }
+  .ask-done {
+    margin-top: 12px;
+    font-weight: 500;
+    color: #2c6b2f;
+  }
+  @media (max-width: 900px) {
+    .topic-grid { grid-template-columns: 1fr; }
+    .ask-row { grid-template-columns: 1fr; }
+  }
+</style>

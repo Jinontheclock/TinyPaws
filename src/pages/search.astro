@@ -1,0 +1,142 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import { href } from "../lib/url";
+
+/* static site, static index: everything searchable is known at build time */
+const cats = await getCollection("cats");
+const index = [
+  ...cats.map((c) => ({
+    title: c.data.name,
+    kind: "Cat",
+    text: `${c.data.sex} · ${c.data.age} · ${c.data.breed} · ${c.data.temperament.join(" ")}`,
+    url: href(`/cats/${c.id}/`),
+  })),
+  { title: "Cats available for adoption", kind: "Page", text: "browse gallery adopt filter kittens", url: href("/adopt/") },
+  { title: "Match quiz", kind: "Page", text: "quiz match find your cat five questions", url: href("/quiz/") },
+  { title: "How adoption works", kind: "Page", text: "adoption process steps fee application form apply", url: href("/adoption/") },
+  { title: "Adoption application", kind: "Page", text: "apply form application", url: href("/adoption/#apply") },
+  { title: "Get involved", kind: "Page", text: "foster volunteer donate help", url: href("/get-involved/") },
+  { title: "Donate", kind: "Page", text: "donation give support vet bills", url: href("/get-involved/#donate") },
+  { title: "Events", kind: "Page", text: "adoption day fundraiser orientation calendar", url: href("/events/") },
+  { title: "Resources", kind: "Page", text: "guides help questions contact", url: href("/resources/") },
+  { title: "Caring for a cat", kind: "Guide", text: "nutrition feeding health wellness behaviour bonded pairs kittens seniors", url: href("/resources/caring-for-a-cat/") },
+  { title: "Gift shop", kind: "Page", text: "merch tee shirt mug tote stickers beanie print shop", url: href("/shop/") },
+  { title: "About us", kind: "Page", text: "story mission contact rescue vancouver", url: href("/about/") },
+];
+---
+
+<Base title="Search" description="Search TinyPaws — cats, guides, events, and pages.">
+  <PageHero title="Search" lead="Cats, guides, pages — start typing." />
+
+  <section class="section">
+    <div class="container search-wrap">
+      <form class="search-form" role="search" data-index={JSON.stringify(index)}>
+        <label class="sr-only" for="q">Search the site</label>
+        <input id="q" name="q" type="search" placeholder="Try “orange”, “foster”, or a cat's name…" autocomplete="off" />
+      </form>
+      <p class="search-count" role="status" aria-live="polite"></p>
+      <ul class="results"></ul>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>(".search-form")!;
+  const index: { title: string; kind: string; text: string; url: string }[] =
+    JSON.parse(form.dataset.index!);
+  const input = form.querySelector<HTMLInputElement>("#q")!;
+  const list = document.querySelector<HTMLElement>(".results")!;
+  const count = document.querySelector<HTMLElement>(".search-count")!;
+
+  const run = () => {
+    const q = input.value.trim().toLowerCase();
+    list.innerHTML = "";
+    if (q.length < 2) {
+      count.textContent = "";
+      return;
+    }
+    const hits = index.filter(
+      (e) => e.title.toLowerCase().includes(q) || e.text.toLowerCase().includes(q),
+    );
+    count.textContent = hits.length
+      ? `${hits.length} result${hits.length > 1 ? "s" : ""}`
+      : "No results — try a shorter word.";
+    for (const h of hits.slice(0, 12)) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = h.url;
+      const kind = document.createElement("span");
+      kind.className = "result-kind";
+      kind.textContent = h.kind;
+      const title = document.createElement("span");
+      title.className = "result-title";
+      title.textContent = h.title;
+      a.append(kind, title);
+      li.append(a);
+      list.append(li);
+    }
+  };
+
+  input.addEventListener("input", run);
+  form.addEventListener("submit", (e) => e.preventDefault());
+  // arriving from the header icon: focus, and honour ?q= if present
+  const preset = new URLSearchParams(location.search).get("q");
+  if (preset) input.value = preset;
+  input.focus();
+  run();
+</script>
+
+<style>
+  .search-wrap { max-width: 720px; }
+  #q {
+    width: 100%;
+    font: 400 1.15rem/1.4 var(--font-body);
+    color: var(--paw-brown);
+    background: var(--paw-white);
+    border: 2px solid rgba(48, 24, 0, 0.18);
+    border-radius: var(--radius-pill);
+    padding: 18px 26px;
+  }
+  #q:focus {
+    outline: none;
+    border-color: var(--paw-orange);
+  }
+  .search-count {
+    margin-top: var(--space-2);
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.65);
+  }
+  .results {
+    list-style: none;
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .results a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--paw-white);
+    border-radius: var(--radius-input);
+    box-shadow: var(--shadow-card);
+    padding: 14px 18px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .results a:hover .result-title {
+    color: var(--paw-orange-ink);
+  }
+  .result-kind {
+    flex: none;
+    font: 500 0.75rem/1 var(--font-body);
+    background: var(--paw-cream);
+    border-radius: var(--radius-pill);
+    padding: 6px 12px;
+  }
+  .result-title {
+    font: 500 1.05rem/1.3 var(--font-display);
+  }
+</style>
