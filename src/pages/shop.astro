@@ -154,9 +154,14 @@ import { SHOP_ITEMS } from "../lib/shop-items";
   .bag-line {
     font-weight: 500;
     white-space: nowrap;
+    min-height: 1.65em; /* reserved before JS fills it — no layout shift */
   }
   @media (max-width: 640px) {
-    .bag-line { font-size: 0.82rem; }
+    .bag-line {
+      font-size: 0.82rem;
+      /* full-width from the start so the link never reflows mid-load */
+      flex: 1 0 100%;
+    }
   }
   .bag-view {
     font: 500 0.9rem/1 var(--font-display);

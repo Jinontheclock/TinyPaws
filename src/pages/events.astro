@@ -3,10 +3,28 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import bannerEvents from "../assets/ui/banner-events.jpg";
 import PageHero from "../components/PageHero.astro";
+import CatPhoto from "../components/CatPhoto.astro";
+import { href } from "../lib/url";
 
 const events = (await getCollection("events")).sort(
   (a, b) => new Date(a.data.date).getTime() - new Date(b.data.date).getTime(),
 );
+
+/* adoption days show a few of the cats who'll be there — longest waiting
+   first, rotated per event so the strips differ */
+const allCats = await getCollection("cats");
+const adoptable = allCats
+  .filter((c) => c.data.status === "available" && c.data.photos?.length)
+  .sort((a, b) => b.data.daysInFoster - a.data.daysInFoster);
+let adoptionIdx = 0;
+const catsFor = () => {
+  const picks = [];
+  for (let i = 0; i < 3 && adoptable.length; i++) {
+    picks.push(adoptable[(adoptionIdx + i) % adoptable.length]);
+  }
+  adoptionIdx += 3;
+  return picks;
+};
 const kindLabel = { adoption: "Adoption day", fundraiser: "Fundraiser", community: "Community" };
 
 /* build-time .ics payload per event so "Add to calendar" needs no runtime JS.
@@ -83,6 +101,39 @@ const calendarData = events.map((e) => {
               </h2>
               <p class="event-place">{e.data.place}</p>
               <p class="event-blurb">{e.data.blurb}</p>
+
+              {e.data.kind === "adoption" && (
+                <div class="event-cats">
+                  <p class="event-cats-label">Meet them there:</p>
+                  <ul class="event-cats-row">
+                    {catsFor().map((c) => (
+                      <li>
+                        <a class="event-cat" href={href(`/cats/${c.id}/`)} aria-label={`${c.data.name}'s profile`}>
+                          <span class="event-cat-photo">
+                            <CatPhoto
+                              photo={c.data.photos![0]}
+                              photoAlt=""
+                              name={c.data.name}
+                              age={c.data.age}
+                              breed={c.data.breed}
+                              coat={c.data.coat}
+                              accent={c.data.accent}
+                              preset="card"
+                            />
+                          </span>
+                          <span class="event-cat-name">{c.data.name}</span>
+                        </a>
+                      </li>
+                    ))}
+                    <li>
+                      <a class="event-cat event-cat--more" href={href("/adopt/")}>
+                        <span class="event-cat-photo event-cat-more-circle" aria-hidden="true">+{adoptable.length - 3}</span>
+                        <span class="event-cat-name">more</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              )}
 
               <div class="event-panel" id={`ev-panel-${e.id}`} hidden>
                 <div class="event-panel-grid">
@@ -275,6 +326,57 @@ const calendarData = events.map((e) => {
   .event-chevron {
     font-size: 0.8em;
     transition: transform 0.2s var(--ease);
+  }
+  /* adoption-day avatar strip */
+  .event-cats {
+    margin-top: var(--space-2);
+  }
+  .event-cats-label {
+    font: 500 var(--size-small)/1.3 var(--font-display);
+    color: rgba(48, 24, 0, 0.7);
+  }
+  .event-cats-row {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-2);
+  }
+  .event-cat {
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: var(--paw-brown);
+  }
+  .event-cat-photo {
+    display: block;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--paw-orange);
+    transition: transform 0.2s var(--ease);
+  }
+  .event-cat:hover .event-cat-photo { transform: scale(1.08); }
+  .event-cat-photo :global(img),
+  .event-cat-photo :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .event-cat-name {
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+  .event-cat-more-circle {
+    display: grid;
+    place-items: center;
+    background: var(--paw-cream-deep);
+    font: 600 0.85rem/1 var(--font-display);
+    border-color: var(--paw-cream-deep);
+    color: var(--paw-brown);
   }
   .event-toggle[aria-expanded="true"] .event-chevron {
     transform: rotate(180deg);

@@ -22,17 +22,48 @@ const others = cats.filter((c) => c.id !== cat.id && c.data.status === "availabl
 
       <div class="profile">
         <div class="profile-media">
-          <CatPhoto
-            photo={d.photos?.[0]}
-            photoAlt={d.photoAlt}
-            name={d.name}
-            age={d.age}
-            breed={d.breed}
-            coat={d.coat}
-            accent={d.accent}
-            preset="profile"
-            eager
-          />
+          <div class="gallery">
+            {(d.photos?.length ? d.photos : [undefined]).map((ph, i) => (
+              <div class="g-main" data-i={i} hidden={i !== 0}>
+                <CatPhoto
+                  photo={ph}
+                  photoAlt={d.photoAlt}
+                  name={d.name}
+                  age={d.age}
+                  breed={d.breed}
+                  coat={d.coat}
+                  accent={d.accent}
+                  preset="profile"
+                  eager={i === 0}
+                />
+              </div>
+            ))}
+          </div>
+          {d.photos && d.photos.length > 1 && (
+            <div class="g-thumbs" role="tablist" aria-label={`Photos of ${d.name}`}>
+              {d.photos.map((ph, i) => (
+                <button
+                  class="g-thumb"
+                  type="button"
+                  data-i={i}
+                  role="tab"
+                  aria-selected={i === 0 ? "true" : "false"}
+                  aria-label={`Photo ${i + 1} of ${d.photos.length}`}
+                >
+                  <CatPhoto
+                    photo={ph}
+                    photoAlt=""
+                    name={d.name}
+                    age={d.age}
+                    breed={d.breed}
+                    coat={d.coat}
+                    accent={d.accent}
+                    preset="card"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
           {!d.photos?.length && (
             <p class="media-note">Illustrated portrait — photos coming with the next foster update.</p>
           )}
@@ -58,20 +89,6 @@ const others = cats.filter((c) => c.id !== cat.id && c.data.status === "availabl
         <div class="about-story">
           <h2>About me</h2>
           {d.story.map((p) => <p class="story-p">{p}</p>)}
-          {d.photos && d.photos.length > 1 && (
-            <div class="about-photo">
-              <CatPhoto
-                photo={d.photos[1]}
-                photoAlt={d.photoAlt}
-                name={d.name}
-                age={d.age}
-                breed={d.breed}
-                coat={d.coat}
-                accent={d.accent}
-                preset="card"
-              />
-            </div>
-          )}
         </div>
         <div class="about-side">
           <aside class="about-medical" aria-label="Medical record">
@@ -130,6 +147,19 @@ const others = cats.filter((c) => c.id !== cat.id && c.data.status === "availabl
     </div>
   </section>
 </Base>
+
+<script>
+  // photo gallery: thumbnails swap the main shot
+  const thumbs = [...document.querySelectorAll<HTMLButtonElement>(".g-thumb")];
+  const mains = [...document.querySelectorAll<HTMLElement>(".g-main")];
+  for (const t of thumbs) {
+    t.addEventListener("click", () => {
+      const i = t.dataset.i;
+      for (const m of mains) m.hidden = m.dataset.i !== i;
+      for (const o of thumbs) o.setAttribute("aria-selected", o === t ? "true" : "false");
+    });
+  }
+</script>
 
 <style>
   .back {
@@ -217,12 +247,33 @@ const others = cats.filter((c) => c.id !== cat.id && c.data.status === "availabl
     border-radius: var(--radius-card);
     padding: var(--space-3);
   }
-  .about-photo {
-    margin-top: var(--space-3);
-    max-width: 420px;
+  .gallery {
     border-radius: var(--radius-card);
     overflow: hidden;
-    box-shadow: var(--shadow-card);
+  }
+  .g-thumbs {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+  }
+  .g-thumb {
+    all: unset;
+    cursor: pointer;
+    width: 76px;
+    border-radius: var(--radius-input);
+    overflow: hidden;
+    border: 3px solid transparent;
+    transition: border-color 0.15s var(--ease), opacity 0.15s var(--ease);
+    opacity: 0.75;
+  }
+  .g-thumb:hover { opacity: 1; }
+  .g-thumb[aria-selected="true"] {
+    border-color: var(--paw-orange);
+    opacity: 1;
+  }
+  .g-thumb:focus-visible {
+    outline: 3px solid var(--paw-orange);
+    outline-offset: 2px;
   }
   .about-medical ul {
     list-style: none;

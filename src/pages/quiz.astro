@@ -96,10 +96,8 @@ const questions = [
       </form>
 
       <div class="result" role="status" aria-live="polite" hidden>
-        <h2>Your best match: <span class="result-name"></span></h2>
-        <p class="result-why"></p>
-        <p class="result-runner"></p>
-        <a class="result-link" href="#">Meet <span class="result-name2"></span> →</a>
+        <h2>Your top matches</h2>
+        <ol class="result-cards"></ol>
         <button class="result-retake" type="button">Retake the quiz</button>
       </div>
     </div>
@@ -165,9 +163,52 @@ const questions = [
     padding: var(--space-4);
   }
   .result h2 { color: var(--paw-cream); }
-  .result-name { color: var(--paw-orange); }
-  .result-why { margin-top: 12px; }
-  .result-runner { margin-top: 8px; font-size: var(--size-small); opacity: 0.8; }
+  .result-cards {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+  }
+  /* cards are created by JS, so they need :global under the scoped parent */
+  .result-cards :global(.match-card) {
+    background: var(--paw-white);
+    color: var(--paw-brown);
+    border-radius: var(--radius-card);
+    padding: var(--space-3);
+    display: grid;
+    gap: 8px;
+    justify-items: start;
+    align-content: start;
+  }
+  .result-cards :global(.match-rank) {
+    font: 500 0.78rem/1 var(--font-display);
+    background: var(--paw-orange);
+    color: var(--paw-brown);
+    border-radius: var(--radius-pill);
+    padding: 6px 12px;
+  }
+  .result-cards :global(.match-card:not(:first-child) .match-rank) {
+    background: var(--paw-cream-deep);
+  }
+  .result-cards :global(.match-name) {
+    font: 600 1.2rem/1.2 var(--font-display);
+  }
+  .result-cards :global(.match-why) { font-size: var(--size-small); }
+  .result-cards :global(.match-traits) {
+    font-size: 0.78rem;
+    color: rgba(48, 24, 0, 0.7);
+  }
+  .result-cards :global(.match-link) {
+    font-weight: 500;
+    color: var(--paw-orange-ink);
+    text-decoration: none;
+  }
+  .result-cards :global(.match-link:hover) { text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 720px) {
+    .result-cards { grid-template-columns: 1fr; }
+  }
   .result-link {
     display: inline-block;
     margin-top: var(--space-3);
@@ -217,18 +258,34 @@ const questions = [
       return { cat, score, why };
     }).sort((x, y) => y.score - x.score);
 
-    const best = scored[0];
-    const runner = scored[1];
+    const top = scored.slice(0, 3);
+    const list = result.querySelector(".result-cards");
+    list.innerHTML = "";
+    top.forEach((entry, i) => {
+      const li = document.createElement("li");
+      li.className = "match-card";
+      const rank = document.createElement("span");
+      rank.className = "match-rank";
+      rank.textContent = i === 0 ? "Best match" : i === 1 ? "Close second" : "Also great";
+      const name = document.createElement("p");
+      name.className = "match-name";
+      name.textContent = `${entry.cat.name} · ${entry.cat.age}`;
+      const why = document.createElement("p");
+      why.className = "match-why";
+      why.textContent = entry.why.length
+        ? `${entry.cat.name} ${entry.why[0]}.`
+        : `${entry.cat.name} fits your answers well.`;
+      const traits = document.createElement("p");
+      traits.className = "match-traits";
+      traits.textContent = entry.cat.temperament.slice(0, 3).join(" · ");
+      const link = document.createElement("a");
+      link.className = "match-link";
+      link.href = `${base.replace(/\/$/, "")}/cats/${entry.cat.slug}/`;
+      link.textContent = `Meet ${entry.cat.name} →`;
+      li.append(rank, name, why, traits, link);
+      list.append(li);
+    });
     result.hidden = false;
-    result.querySelector(".result-name").textContent = best.cat.name;
-    result.querySelector(".result-name2").textContent = best.cat.name;
-    result.querySelector(".result-why").textContent =
-      `${best.cat.name} (${best.cat.age}, ${best.cat.temperament.slice(0, 2).join(" · ").toLowerCase()}) ` +
-      (best.why.length ? best.why.join(", ") + "." : "fits your answers best.");
-    result.querySelector(".result-runner").textContent =
-      runner ? `Close second: ${runner.cat.name} — worth a look too.` : "";
-    result.querySelector(".result-link").href =
-      `${base.replace(/\/$/, "")}/cats/${best.cat.slug}/`;
     result.scrollIntoView({ behavior: "smooth", block: "center" });
   });
 

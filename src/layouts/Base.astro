@@ -6,6 +6,12 @@ import "@fontsource/fredoka/600.css";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+/* preloading the four core faces avoids the font-swap layout shift */
+import lexend400 from "@fontsource/lexend/files/lexend-latin-400-normal.woff2?url";
+import lexend500 from "@fontsource/lexend/files/lexend-latin-500-normal.woff2?url";
+import fredoka500 from "@fontsource/fredoka/files/fredoka-latin-500-normal.woff2?url";
+import fredoka600 from "@fontsource/fredoka/files/fredoka-latin-600-normal.woff2?url";
+const fonts = [lexend400, lexend500, fredoka500, fredoka600];
 
 interface Props {
   title: string;
@@ -22,6 +28,9 @@ const { title, description } = Astro.props;
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <title>{title} — TinyPaws</title>
+    {fonts.map((f) => (
+      <link rel="preload" as="font" type="font/woff2" href={f} crossorigin />
+    ))}
     <link rel="icon" href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/favicon.svg`} type="image/svg+xml" />
   </head>
   <body>

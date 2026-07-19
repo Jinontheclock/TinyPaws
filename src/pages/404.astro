@@ -1,52 +1,82 @@
 ---
 import Base from "../layouts/Base.astro";
 import Button from "../components/Button.astro";
-import PawLogo from "../components/PawLogo.astro";
+import CatPortrait from "../components/CatPortrait.astro";
 import { href } from "../lib/url";
 ---
 
 <Base
   title="Page not found"
-  description="This page wandered off — head back to the TinyPaws home page or meet the cats."
+  description="This page has already been adopted — but plenty of TinyPaws cats are still looking for homes."
 >
   <section class="section">
-    <div class="container lost">
-      <PawLogo size={72} />
-      <p class="lost-code" aria-hidden="true">404</p>
-      <h1>This page wandered off.</h1>
-      <p class="lost-lead">
-        Like any curious kitten, it's probably hiding somewhere unexpected.
-        Let's get you back to the cats.
+    <div class="container nf">
+      <div class="nf-art" aria-hidden="true">
+        <CatPortrait coat="#C1660F" accent="#EEE0C3" alt="" />
+        <span class="nf-badge">Adopted!</span>
+      </div>
+      <p class="nf-code" aria-hidden="true">404</p>
+      <h1>This page has already been adopted.</h1>
+      <p class="nf-lead">
+        Whatever lived here found its forever home — or never existed in the
+        first place. The cats below, though, are very real and very available.
       </p>
-      <div class="lost-actions">
-        <Button href={href("/")}>Back home</Button>
-        <Button href={href("/adopt/")} variant="outline">Meet the cats</Button>
+      <div class="nf-actions">
+        <Button href={href("/adopt/")}>Meet the cats</Button>
+        <Button href={href("/")} variant="outline">Back home</Button>
       </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .lost {
+  .nf {
     max-width: 620px;
     text-align: center;
     display: grid;
     justify-items: center;
     padding-block: var(--space-5);
   }
-  .lost-code {
-    margin-top: var(--space-3);
-    font: 600 4.4rem/1 var(--font-display);
-    color: var(--paw-orange);
+  .nf-art {
+    position: relative;
+    width: 210px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 7px solid var(--paw-white);
+    box-shadow: var(--shadow-card);
+    transform: rotate(-3deg);
   }
-  .lost h1 {
+  .nf-art :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .nf-badge {
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%) rotate(-4deg);
+    font: 500 0.9rem/1 var(--font-display);
+    background: var(--paw-orange);
+    color: var(--paw-brown);
+    border-radius: var(--radius-pill);
+    padding: 7px 14px;
+    box-shadow: 0 4px 12px rgba(48, 24, 0, 0.25);
+  }
+  .nf-code {
+    margin-top: var(--space-3);
+    font: 600 3.4rem/1 var(--font-display);
+    color: var(--paw-orange);
+    letter-spacing: 0.12em;
+  }
+  .nf h1 {
     margin-top: 8px;
   }
-  .lost-lead {
+  .nf-lead {
     margin-top: var(--space-2);
-    max-width: 44ch;
+    max-width: 46ch;
   }
-  .lost-actions {
+  .nf-actions {
     margin-top: var(--space-4);
     display: flex;
     gap: var(--space-2);
