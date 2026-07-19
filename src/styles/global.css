@@ -25,7 +25,7 @@ body {
   margin: 0;
   font: 400 var(--size-body) / 1.65 var(--font-body);
   color: var(--paw-brown);
-  background: var(--paw-white);
+  background: var(--paw-bg);
 }
 
 h1,

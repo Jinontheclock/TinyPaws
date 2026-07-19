@@ -46,7 +46,7 @@ export const SHOP_ITEMS: ShopItem[] = [
     price: 8,
     blurb: "Twelve tiny paws for laptops and water bottles.",
     art: svg(
-      '<rect x="45" y="35" width="110" height="90" rx="10" fill="#FFFFFF" stroke="#301800" stroke-width="5"/><circle cx="75" cy="65" r="10" fill="#DC6E00"/><circle cx="105" cy="65" r="10" fill="#301800"/><circle cx="135" cy="65" r="10" fill="#DC6E00"/><circle cx="90" cy="95" r="10" fill="#301800"/><circle cx="120" cy="95" r="10" fill="#DC6E00"/>',
+      '<rect x="45" y="35" width="110" height="90" rx="10" fill="#FFFDF6" stroke="#301800" stroke-width="5"/><circle cx="75" cy="65" r="10" fill="#DC6E00"/><circle cx="105" cy="65" r="10" fill="#301800"/><circle cx="135" cy="65" r="10" fill="#DC6E00"/><circle cx="90" cy="95" r="10" fill="#301800"/><circle cx="120" cy="95" r="10" fill="#DC6E00"/>',
     ),
   },
   {
@@ -64,7 +64,7 @@ export const SHOP_ITEMS: ShopItem[] = [
     price: 15,
     blurb: "The brand palette, straight from calico fur. A4.",
     art: svg(
-      '<rect x="55" y="30" width="90" height="110" fill="#FFFFFF" stroke="#301800" stroke-width="5"/><rect x="68" y="45" width="28" height="28" rx="8" fill="#DC6E00"/><rect x="104" y="45" width="28" height="28" rx="8" fill="#301800"/><rect x="68" y="81" width="28" height="28" rx="8" fill="#F5ECD8" stroke="#301800" stroke-width="3"/><rect x="104" y="81" width="28" height="28" rx="8" fill="#EEA02C"/>',
+      '<rect x="55" y="30" width="90" height="110" fill="#FFFDF6" stroke="#301800" stroke-width="5"/><rect x="68" y="45" width="28" height="28" rx="8" fill="#DC6E00"/><rect x="104" y="45" width="28" height="28" rx="8" fill="#301800"/><rect x="68" y="81" width="28" height="28" rx="8" fill="#F5ECD8" stroke="#301800" stroke-width="3"/><rect x="104" y="81" width="28" height="28" rx="8" fill="#EEA02C"/>',
     ),
   },
 ];

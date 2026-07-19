@@ -2,11 +2,11 @@
 import Base from "../layouts/Base.astro";
 import Button from "../components/Button.astro";
 import { Image } from "astro:assets";
-import colMiso from "../assets/cats/miso-1.jpg";
-import colClover from "../assets/cats/clover-1.jpg";
-import colWaffles from "../assets/cats/waffles-1.jpg";
-import colHazel from "../assets/cats/hazel-1.jpg";
-import colPebble from "../assets/cats/pebble-1.jpg";
+import colGotcha from "../assets/ui/people-exp-1.jpg";
+import colPurple from "../assets/ui/people-community.jpg";
+import colCradle from "../assets/ui/people-onboarding.jpg";
+import colFluffy from "../assets/ui/people-adopt-1.jpg";
+import colPair from "../assets/ui/people-adopt-2.jpg";
 import featuredMochi from "../assets/cats/mochi-1.jpg";
 import persBiscuit from "../assets/cats/biscuit-2.jpg";
 import persNori from "../assets/cats/nori-1.jpg";
@@ -78,22 +78,22 @@ const personalities = [
           <Button href={href("/quiz/")} variant="outline">Take the match quiz</Button>
         </div>
       </div>
-      <div class="collage" aria-label="Photos of adoptable TinyPaws cats">
+      <div class="collage" aria-label="Photos of TinyPaws adopters with their cats">
         <figure class="col-piece col-polaroid col-miso">
           <Image
-            src={colMiso}
-            alt="Miso, a grey-and-white tabby kitten mid-meow on a teal background"
+            src={colGotcha}
+            alt="A beaming adopter holding her two newly adopted kittens"
             widths={[420]}
             format="webp"
             loading="eager"
             fetchpriority="high"
           />
-          <figcaption>Miso!</figcaption>
+          <figcaption>Gotcha day!</figcaption>
         </figure>
         <figure class="col-piece col-pill col-clover">
           <Image
-            src={colClover}
-            alt="Clover, a calico cat rolling on her back in a teal cat bed"
+            src={colPurple}
+            alt="An adopter in a purple shirt holding her brown tabby cat"
             widths={[420]}
             format="webp"
             loading="eager"
@@ -101,8 +101,8 @@ const personalities = [
         </figure>
         <figure class="col-piece col-circle col-waffles">
           <Image
-            src={colWaffles}
-            alt="Waffles, a cream tabby kitten looking up with wide eyes"
+            src={colCradle}
+            alt="An adopter gently cradling a tiny tabby kitten"
             widths={[300]}
             format="webp"
             loading="eager"
@@ -110,18 +110,18 @@ const personalities = [
         </figure>
         <figure class="col-piece col-polaroid col-hazel">
           <Image
-            src={colHazel}
-            alt="Hazel, a brown tabby kitten sitting beside her cardboard house"
+            src={colFluffy}
+            alt="An adopter hugging her fluffy cream longhaired cat"
             widths={[360]}
             format="webp"
             loading="eager"
           />
-          <figcaption>Hazel</figcaption>
+          <figcaption>Forever home</figcaption>
         </figure>
         <figure class="col-piece col-circle col-pebble">
           <Image
-            src={colPebble}
-            alt="Pebble, a calico cat lying on warm pavement, looking up"
+            src={colPair}
+            alt="An adopter smiling with a pair of tabby kittens in her arms"
             widths={[260]}
             format="webp"
             loading="eager"
@@ -346,7 +346,7 @@ const personalities = [
     z-index: 3;
     animation-delay: -1s;
   }
-  .col-miso img { width: 218px; height: 300px; }
+  .col-miso img { width: 218px; height: 300px; object-position: 42% 22%; }
   .col-clover {
     --rot: 3deg;
     right: 0;
@@ -359,7 +359,7 @@ const personalities = [
     height: 282px;
     border-radius: 999px;
     box-shadow: 0 14px 30px rgba(48, 24, 0, 0.2);
-    object-position: 20% 70%;
+    object-position: 55% 25%;
   }
   .col-waffles {
     --rot: 0deg;
@@ -371,6 +371,7 @@ const personalities = [
   .col-waffles img {
     width: 150px;
     height: 150px;
+    object-position: 52% 28%;
     border-radius: 50%;
     border: 6px solid var(--paw-orange);
     box-shadow: 0 12px 26px rgba(48, 24, 0, 0.2);
@@ -382,7 +383,7 @@ const personalities = [
     z-index: 4;
     animation-delay: -0.6s;
   }
-  .col-hazel img { width: 176px; height: 168px; }
+  .col-hazel img { width: 176px; height: 168px; object-position: 50% 22%; }
   .col-pebble {
     --rot: -7deg;
     left: 0;
@@ -393,6 +394,7 @@ const personalities = [
   .col-pebble img {
     width: 118px;
     height: 118px;
+    object-position: 50% 30%;
     border-radius: 50%;
     border: 5px solid var(--paw-white);
     box-shadow: 0 10px 22px rgba(48, 24, 0, 0.18);

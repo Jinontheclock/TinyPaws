@@ -1,5 +1,6 @@
-/* TinyPaws design tokens — straight from the style tile.
-   Palette: #DC6E00 · #301800 · #000000 · #F5ECD8 · #FFFFFF
+/* TinyPaws design tokens — from the style tile, warmed per owner note:
+   base background #FFF7E6, no pure white or pure black anywhere.
+   Palette: #DC6E00 · #301800 · #2A1600 · #F5ECD8 · #FFFDF6 · #FFF7E6
    Type: Nexa Round 64/40/32/24/20 + Lexend 16 (Fredoka substitutes
    Nexa Round — commercial face, see README). */
 :root {
@@ -8,9 +9,10 @@
   /* AA-safe darkened orange for small text on cream (4.6:1) */
   --paw-orange-ink: #a65300;
   --paw-brown: #301800;
-  --paw-black: #000000;
+  --paw-black: #2a1600; /* darkest tone — deep brown, never pure black */
   --paw-cream: #f5ecd8;
-  --paw-white: #ffffff;
+  --paw-white: #fffdf6; /* card/off-white — never pure white */
+  --paw-bg: #fff7e6; /* unified page background */
   --paw-cream-deep: #eee0c3; /* section tint one step below cream */
   --paw-taupe: #86715e; /* the hi-fi's warm mid-brown band (Our Mission, wishlist) */
 
