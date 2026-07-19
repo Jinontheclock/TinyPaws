@@ -75,5 +75,5 @@ npm run preview    # serve the build
 
 Pushing to `main` triggers `.github/workflows/deploy.yml`
 (`withastro/action` → GitHub Pages). The site is served from
-`https://<owner>.github.io/TinyPaws-web/` — the `base` is set in
+`https://<owner>.github.io/TinyPaws/` — the `base` is set in
 `astro.config.mjs`.
