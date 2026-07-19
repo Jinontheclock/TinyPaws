@@ -1,0 +1,30 @@
+{
+  "name": "Pickles",
+  "age": "11 months",
+  "sex": "Female",
+  "breed": "Orange Tabby",
+  "location": "Foster home — Commercial Drive",
+  "daysInFoster": 47,
+  "temperament": [
+    "Adventurous",
+    "Chatty",
+    "Affectionate"
+  ],
+  "story": [
+    "Pickles spent her first months as a garden regular, charming an entire block for snacks before a neighbour called us. She still patrols windowsills like they're hedgerows.",
+    "She narrates her day in cheerful chirps and ends it on the nearest warm lap. A home with a sunny window — or a safe balcony — would make her whole year."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Fully vaccinated and spayed. One healed ear nick from her outdoor days — purely decorative."
+  },
+  "status": "available",
+  "coat": "#DC6E00",
+  "accent": "#F0E2C6",
+  "photos": [
+    "../../assets/cats/pickles-1.jpg"
+  ],
+  "photoAlt": "Pickles, an orange tabby, standing tall in a green garden",
+  "quiz": {"energy": "medium", "social": "balanced", "home": "any", "experience": "any"}
+}

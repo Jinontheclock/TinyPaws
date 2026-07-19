@@ -1,0 +1,30 @@
+{
+  "name": "Bean",
+  "age": "6 months",
+  "sex": "Male",
+  "breed": "Domestic Shorthair",
+  "location": "Foster home — Fraserhood",
+  "daysInFoster": 52,
+  "temperament": [
+    "Gentle",
+    "Observant",
+    "Loyal"
+  ],
+  "story": [
+    "Bean is a small black shadow who decides carefully and loves completely. He watches a new room from the doorway, then claims it — and you — for good.",
+    "Black cats wait longest for homes, and nobody has told Bean why. Whoever figures him out first gets a devoted, velvet-quiet companion."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Vaccinated and neutered. A clean check-up, twice in a row."
+  },
+  "status": "available",
+  "coat": "#301800",
+  "accent": "#EEE0C3",
+  "photos": [
+    "../../assets/cats/bean-1.jpg"
+  ],
+  "photoAlt": "Bean, a sleek black cat, sitting neatly with bright round eyes",
+  "quiz": {"energy": "low", "social": "independent", "home": "quiet", "experience": "any"}
+}

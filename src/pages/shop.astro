@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
+import { href } from "../lib/url";
 
 /* the hi-fi Gift Shop, demo-honest: illustrated products (same stand-in
    language as the cat portraits), a working bag, no checkout */
@@ -22,6 +23,13 @@ const items = [
     title="Gift shop"
     lead="Every dollar of profit goes straight to vet bills. The cats thank you — in their own way, eventually."
   />
+
+  <aside class="bag" aria-label="Shopping bag">
+    <div class="container bag-row">
+      <p class="bag-line" role="status" aria-live="polite"></p>
+      <a class="bag-view" href={href("/cart/")}>View bag</a>
+    </div>
+  </aside>
 
   <section class="section">
     <div class="container">
@@ -93,43 +101,27 @@ const items = [
     </div>
   </section>
 
-  <aside class="bag" aria-label="Shopping bag" hidden>
-    <div class="container bag-row">
-      <p class="bag-line" role="status" aria-live="polite"></p>
-      <button class="bag-clear" type="button">Empty bag</button>
-    </div>
-  </aside>
 </Base>
 
 <script>
-  const bag = document.querySelector<HTMLElement>(".bag")!;
-  const line = bag.querySelector<HTMLElement>(".bag-line")!;
-  const items = new Map<string, { name: string; price: number; qty: number }>();
+  import { addToBag, loadBag, bagCount, bagTotal } from "../lib/bag";
 
+  const line = document.querySelector<HTMLElement>(".bag-line")!;
   const render = () => {
-    const count = [...items.values()].reduce((n, i) => n + i.qty, 0);
-    if (!count) {
-      bag.hidden = true;
-      return;
-    }
-    const total = [...items.values()].reduce((n, i) => n + i.qty * i.price, 0);
-    line.textContent = `Bag: ${count} item${count > 1 ? "s" : ""} · $${total} — demo only, checkout isn't wired.`;
-    bag.hidden = false;
+    const bag = loadBag();
+    const count = bagCount(bag);
+    line.textContent = count
+      ? `Bag: ${count} item${count > 1 ? "s" : ""} · $${bagTotal(bag)} — demo only, no payments.`
+      : "Bag is empty — demo shop, no payments.";
   };
 
   document.querySelectorAll<HTMLElement>(".product").forEach((card) => {
     card.querySelector(".add-btn")!.addEventListener("click", () => {
-      const id = card.dataset.id!;
-      const cur = items.get(id) ?? { name: card.dataset.name!, price: Number(card.dataset.price), qty: 0 };
-      cur.qty += 1;
-      items.set(id, cur);
+      addToBag({ id: card.dataset.id!, name: card.dataset.name!, price: Number(card.dataset.price) });
       render();
     });
   });
-  bag.querySelector(".bag-clear")!.addEventListener("click", () => {
-    items.clear();
-    render();
-  });
+  render();
 </script>
 
 <style>
@@ -144,6 +136,8 @@ const items = [
     gap: var(--space-3);
   }
   .product {
+    display: flex;
+    flex-direction: column;
     background: var(--paw-white);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
@@ -165,7 +159,8 @@ const items = [
     color: rgba(48, 24, 0, 0.75);
   }
   .product-row {
-    margin-top: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-2);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -187,7 +182,8 @@ const items = [
   .add-btn:hover { background: #e97e14; }
   .bag {
     position: sticky;
-    bottom: 0;
+    top: 72px;
+    z-index: 30;
     background: var(--paw-brown);
     color: var(--paw-cream);
     padding-block: 14px;
@@ -200,16 +196,15 @@ const items = [
     flex-wrap: wrap;
   }
   .bag-line { font-weight: 500; }
-  .bag-clear {
+  .bag-view {
     font: 500 0.9rem/1 var(--font-display);
-    background: transparent;
     color: var(--paw-cream);
+    text-decoration: none;
     border: 2px solid var(--paw-cream);
     border-radius: var(--radius-pill);
     padding: 8px 18px;
-    cursor: pointer;
   }
-  .bag-clear:hover {
+  .bag-view:hover {
     background: var(--paw-cream);
     color: var(--paw-brown);
   }

@@ -44,6 +44,7 @@ const events = defineCollection({
     place: z.string(),
     blurb: z.string(),
     kind: z.enum(["adoption", "fundraiser", "community"]),
+    details: z.array(z.string()).optional(),
   }),
 });
 

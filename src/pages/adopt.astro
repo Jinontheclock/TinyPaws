@@ -36,20 +36,15 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
     <div class="container">
       <h2 class="sr-only">Browse and filter the cats</h2>
       <form class="filters" aria-label="Filter cats">
-        <fieldset>
-          <legend>Age</legend>
-          <label><input type="radio" name="age" value="all" checked /> All</label>
-          <label><input type="radio" name="age" value="kitten" /> Under 6 months</label>
-          <label><input type="radio" name="age" value="junior" /> 6 months +</label>
-        </fieldset>
-        <fieldset>
-          <legend>Status</legend>
-          <label><input type="radio" name="status" value="all" checked /> All</label>
-          <label><input type="radio" name="status" value="available" /> Available</label>
-        </fieldset>
+        <div class="filter-group" role="radiogroup" aria-label="Age">
+          <label class="fpill"><input type="radio" name="age" value="all" checked /><span>All ages</span></label>
+          <label class="fpill"><input type="radio" name="age" value="kitten" /><span>Under 6 months</span></label>
+          <label class="fpill"><input type="radio" name="age" value="junior" /><span>6 months +</span></label>
+        </div>
+        <span class="filter-sep" aria-hidden="true"></span>
+        <label class="fpill"><input type="checkbox" name="available" /><span>Available only</span></label>
+        <p class="filter-count" role="status" aria-live="polite"></p>
       </form>
-
-      <p class="filter-count" role="status" aria-live="polite"></p>
 
       <div class="cat-grid" id="cat-grid">
         {byWait.map((c) => {
@@ -82,47 +77,70 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
 </Base>
 
 <style>
+  /* one calm filter bar: age segments, a divider, an "available" toggle,
+     and the live count riding on the right */
   .filters {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-  }
-  .filters fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 10px;
-  }
-  .filters legend {
-    float: left;
-    margin-right: 6px;
-    font: 500 1rem/1 var(--font-display);
-    padding-top: 10px;
-  }
-  .filters label {
-    display: inline-flex;
-    align-items: center;
     gap: 8px;
     background: var(--paw-cream);
     border-radius: var(--radius-pill);
-    padding: 9px 16px;
-    cursor: pointer;
-    font-size: var(--size-small);
+    padding: 8px;
   }
-  .filters label:has(input:checked) {
+  .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .fpill {
+    position: relative;
+    cursor: pointer;
+  }
+  .fpill input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .fpill span {
+    display: inline-block;
+    font: 500 var(--size-small)/1 var(--font-body);
+    color: var(--paw-brown);
+    border-radius: var(--radius-pill);
+    padding: 11px 18px;
+    transition: background 0.15s var(--ease), color 0.15s var(--ease);
+  }
+  .fpill:hover span {
+    background: var(--paw-cream-deep);
+  }
+  .fpill:has(input:checked) span {
     background: var(--paw-brown);
     color: var(--paw-cream);
   }
-  .filters input {
-    accent-color: var(--paw-orange);
+  .fpill:has(input:focus-visible) span {
+    outline: 3px solid var(--paw-orange);
+    outline-offset: 1px;
+  }
+  .filter-sep {
+    width: 1px;
+    align-self: stretch;
+    margin-block: 6px;
+    background: rgba(48, 24, 0, 0.15);
   }
   .filter-count {
-    margin-top: var(--space-2);
+    margin-left: auto;
+    padding-right: 14px;
     font-size: var(--size-small);
     color: rgba(48, 24, 0, 0.65);
+  }
+  @media (max-width: 700px) {
+    .filters {
+      border-radius: var(--radius-card);
+    }
+    .filter-count {
+      width: 100%;
+      padding: 4px 14px 6px;
+    }
   }
   .cat-grid {
     margin-top: var(--space-3);
@@ -172,7 +190,7 @@ const byWait = [...cats].sort((a, b) => b.data.daysInFoster - a.data.daysInFoste
   const apply = () => {
     const data = new FormData(form);
     const age = data.get("age");
-    const status = data.get("status");
+    const status = data.get("available") ? "available" : "all";
     let shown = 0;
     for (const cell of cells) {
       const ok =

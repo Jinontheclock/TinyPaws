@@ -4,5 +4,10 @@
   "time": "18:30 – 20:00",
   "place": "Online — link after sign-up",
   "blurb": "Thinking about fostering? A 90-minute walkthrough of what a foster placement looks like, from supplies (we provide them) to vet visits.",
-  "kind": "community"
+  "kind": "community",
+  "details": [
+    "A 90-minute walkthrough of a typical foster placement",
+    "What we provide: food, litter, supplies, and vet coverage",
+    "Q&A with two current foster volunteers"
+  ]
 }

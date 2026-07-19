@@ -1,0 +1,30 @@
+{
+  "name": "Opal",
+  "age": "8 months",
+  "sex": "Female",
+  "breed": "Sphynx",
+  "location": "Foster home — Yaletown",
+  "daysInFoster": 26,
+  "temperament": [
+    "Warm",
+    "Clever",
+    "Demanding"
+  ],
+  "story": [
+    "Opal was surrendered by a breeder and has opinions about everything — blankets first among them. She runs warmer than other cats and knows exactly where the heater vent is.",
+    "Hairless means low on fur, high on personality: she wants to be under the covers, on your shoulder, or in the conversation. An indoor-only, draft-free home is a must."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Vaccinated and spayed. Sphynx skin needs a gentle monthly bath — instructions included."
+  },
+  "status": "available",
+  "coat": "#D8A48F",
+  "accent": "#F5ECD8",
+  "photos": [
+    "../../assets/cats/opal-1.jpg"
+  ],
+  "photoAlt": "Opal, a wrinkly sphynx cat with large ears, looking straight at the camera",
+  "quiz": {"energy": "medium", "social": "velcro", "home": "quiet", "experience": "any"}
+}

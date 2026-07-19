@@ -1,0 +1,30 @@
+{
+  "name": "Mittens",
+  "age": "10 months",
+  "sex": "Female",
+  "breed": "Domestic Longhair",
+  "location": "Foster home — Kerrisdale",
+  "daysInFoster": 33,
+  "temperament": [
+    "Goofy",
+    "Social",
+    "Vocal"
+  ],
+  "story": [
+    "Mittens is all fluff and no dignity — mid-groom she'll forget her tongue outside and hold the pose. Her foster family calls it her thinking face.",
+    "Under the fur is a social butterfly who follows the household from room to room. She'd suit a family that's home a lot and doesn't mind narration."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": true,
+    "notes": "Vaccinated and spayed. Needs a weekly brush — she mostly tolerates it."
+  },
+  "status": "available",
+  "coat": "#8A5A2B",
+  "accent": "#F5ECD8",
+  "photos": [
+    "../../assets/cats/mittens-1.jpg"
+  ],
+  "photoAlt": "Mittens, a fluffy brown longhair cat with her tongue peeking out",
+  "quiz": {"energy": "medium", "social": "velcro", "home": "busy", "experience": "first-timer"}
+}

@@ -23,7 +23,10 @@ const { href, type, variant = "primary" } = Astro.props;
     display: inline-block;
     font: 500 var(--size-button) / 1 var(--font-display);
     padding: 16px 34px;
+    border: 0;
     border-radius: var(--radius-pill);
+    background: none;
+    cursor: pointer;
     text-decoration: none;
     transition: transform 0.15s var(--ease), background 0.15s var(--ease),
       color 0.15s var(--ease);

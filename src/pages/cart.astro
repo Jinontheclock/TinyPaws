@@ -1,0 +1,182 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import Button from "../components/Button.astro";
+import { href } from "../lib/url";
+---
+
+<Base
+  title="Your bag"
+  description="Review your TinyPaws gift-shop bag — a demo cart with no payments."
+>
+  <PageHero title="Your bag" lead="Demo cart — quantities work, totals add up, and no money moves anywhere." />
+
+  <section class="section">
+    <div class="container cart-wrap">
+      <div class="cart-empty" hidden>
+        <p>Your bag is empty — the kittens suggest a mug.</p>
+        <Button href={href("/shop/")}>Back to the shop</Button>
+      </div>
+
+      <div class="cart-full" hidden>
+        <ul class="cart-list"></ul>
+        <div class="cart-summary">
+          <p class="cart-total"></p>
+          <div class="cart-actions">
+            <Button href={href("/shop/")} variant="outline">Keep shopping</Button>
+            <Button href={href("/checkout/")}>Proceed to checkout</Button>
+          </div>
+          <p class="cart-note">Demo — checkout collects nothing and charges nothing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { loadBag, saveBag, bagTotal } from "../lib/bag";
+
+  const empty = document.querySelector<HTMLElement>(".cart-empty")!;
+  const full = document.querySelector<HTMLElement>(".cart-full")!;
+  const list = document.querySelector<HTMLElement>(".cart-list")!;
+  const totalEl = document.querySelector<HTMLElement>(".cart-total")!;
+
+  const render = () => {
+    const bag = loadBag();
+    empty.hidden = bag.length > 0;
+    full.hidden = bag.length === 0;
+    if (!bag.length) return;
+    list.innerHTML = "";
+    for (const item of bag) {
+      const li = document.createElement("li");
+      li.className = "cart-row";
+
+      const name = document.createElement("span");
+      name.className = "row-name";
+      name.textContent = item.name;
+
+      const qty = document.createElement("span");
+      qty.className = "row-qty";
+      const minus = document.createElement("button");
+      minus.type = "button";
+      minus.textContent = "−";
+      minus.setAttribute("aria-label", `One fewer ${item.name}`);
+      const n = document.createElement("span");
+      n.textContent = String(item.qty);
+      const plus = document.createElement("button");
+      plus.type = "button";
+      plus.textContent = "+";
+      plus.setAttribute("aria-label", `One more ${item.name}`);
+      qty.append(minus, n, plus);
+
+      const line = document.createElement("span");
+      line.className = "row-line";
+      line.textContent = `$${item.qty * item.price}`;
+
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "row-remove";
+      remove.textContent = "Remove";
+
+      minus.addEventListener("click", () => {
+        item.qty -= 1;
+        saveBag(bag);
+        render();
+      });
+      plus.addEventListener("click", () => {
+        item.qty += 1;
+        saveBag(bag);
+        render();
+      });
+      remove.addEventListener("click", () => {
+        item.qty = 0;
+        saveBag(bag);
+        render();
+      });
+
+      li.append(name, qty, line, remove);
+      list.append(li);
+    }
+    totalEl.textContent = `Total: $${bagTotal(bag)}`;
+  };
+  render();
+</script>
+
+<style>
+  .cart-wrap { max-width: 720px; }
+  .cart-empty {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-3);
+  }
+  .cart-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .cart-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--paw-white);
+    border-radius: var(--radius-input);
+    box-shadow: var(--shadow-card);
+    padding: 14px 18px;
+  }
+  .row-name { font: 500 1.05rem/1.3 var(--font-display); }
+  .row-qty {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .row-qty button {
+    all: unset;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--paw-cream);
+    font-weight: 600;
+  }
+  .row-qty button:hover { background: var(--paw-cream-deep); }
+  .row-qty button:focus-visible { outline: 3px solid var(--paw-orange); }
+  .row-line { font-weight: 600; color: var(--paw-orange-ink); min-width: 46px; text-align: right; }
+  .row-remove {
+    all: unset;
+    cursor: pointer;
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.6);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .row-remove:hover { color: var(--paw-brown); }
+  .cart-summary {
+    margin-top: var(--space-4);
+    background: var(--paw-cream);
+    border-radius: var(--radius-card);
+    padding: var(--space-3);
+  }
+  .cart-total { font: 600 1.5rem/1 var(--font-display); }
+  .cart-actions {
+    margin-top: var(--space-3);
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .cart-note {
+    margin-top: var(--space-2);
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.65);
+  }
+  @media (max-width: 640px) {
+    .cart-row {
+      grid-template-columns: 1fr auto;
+      row-gap: 8px;
+    }
+  }
+</style>

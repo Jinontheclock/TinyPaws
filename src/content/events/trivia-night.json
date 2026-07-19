@@ -4,5 +4,10 @@
   "time": "19:00 – 22:00",
   "place": "Storm Crow Alehouse, Vancouver",
   "blurb": "Teams of four, three rounds of feline trivia, and a raffle. Entry fees cover spay and neuter surgeries for the fall intake.",
-  "kind": "fundraiser"
+  "kind": "fundraiser",
+  "details": [
+    "Doors open fifteen minutes early",
+    "Every dollar raised goes to veterinary care",
+    "Say hi at the TinyPaws table — we love questions"
+  ]
 }

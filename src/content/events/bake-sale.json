@@ -4,5 +4,10 @@
   "time": "10:00 – 14:00",
   "place": "Granville Island Public Market",
   "blurb": "Every cookie funds vaccines. Our volunteer bakers bring the goods; every dollar goes straight to veterinary care for rescued litters.",
-  "kind": "fundraiser"
+  "kind": "fundraiser",
+  "details": [
+    "Volunteer-baked goods from 10:00 until sold out",
+    "Cash and card accepted — every dollar goes to vet care",
+    "Look for the orange TinyPaws banner by the north entrance"
+  ]
 }

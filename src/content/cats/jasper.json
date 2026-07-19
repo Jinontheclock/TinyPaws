@@ -1,0 +1,30 @@
+{
+  "name": "Jasper",
+  "age": "4 months",
+  "sex": "Male",
+  "breed": "Ragdoll Mix",
+  "location": "Foster home — North Vancouver",
+  "daysInFoster": 21,
+  "temperament": [
+    "Floppy",
+    "Trusting",
+    "Sleepy"
+  ],
+  "story": [
+    "Jasper does the classic ragdoll flop: pick him up and he simply becomes softer. His blue eyes have talked three separate volunteers into overtime cuddles.",
+    "He's a slow-blinking, easy-going kitten who naps through vacuuming. First-time adopters could not ask for a gentler start."
+  ],
+  "medical": {
+    "vaccinated": true,
+    "spayed_neutered": false,
+    "notes": "First FVRCP done; neuter is booked for next month — we'll handle it before adoption day."
+  },
+  "status": "available",
+  "coat": "#E8DED2",
+  "accent": "#DCC9A8",
+  "photos": [
+    "../../assets/cats/jasper-1.jpg"
+  ],
+  "photoAlt": "Jasper, a cream ragdoll-mix kitten with blue eyes, lounging on a blanket",
+  "quiz": {"energy": "low", "social": "balanced", "home": "any", "experience": "first-timer"}
+}

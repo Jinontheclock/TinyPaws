@@ -4,5 +4,10 @@
   "time": "11:00 – 15:00",
   "place": "Trout Lake Community Centre, Vancouver",
   "blurb": "Meet this season's adoptable kittens in person. Our foster volunteers will be there to answer questions and take applications on the spot.",
-  "kind": "adoption"
+  "kind": "adoption",
+  "details": [
+    "Meet six to ten adoptable kittens with their foster volunteers",
+    "Applications taken on the spot — bring photo ID",
+    "Strollers and kids welcome; please leave dogs at home"
+  ]
 }

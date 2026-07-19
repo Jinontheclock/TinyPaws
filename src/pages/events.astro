@@ -34,6 +34,16 @@ const icsFor = (e: (typeof events)[number]) => {
   ].join("\r\n");
   return `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`;
 };
+
+const isOnline = (place: string) => place.toLowerCase().startsWith("online");
+const mapsUrl = (place: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}`;
+
+/* the mini calendar needs each event's day, keyed by month */
+const calendarData = events.map((e) => {
+  const d = new Date(e.data.date);
+  return { id: e.id, y: d.getFullYear(), m: d.getMonth(), day: d.getDate() };
+});
 ---
 
 <Base
@@ -46,19 +56,73 @@ const icsFor = (e: (typeof events)[number]) => {
   />
 
   <section class="section">
-    <div class="container">
+    <div class="container events-layout">
       <div class="event-list">
         {events.map((e) => (
-          <article class="event">
+          <article class="event" id={`ev-${e.id}`}>
             <div class="event-date">
               <span class="event-kind" data-kind={e.data.kind}>{kindLabel[e.data.kind]}</span>
               <p class="event-when">{e.data.date}</p>
               <p class="event-time">{e.data.time}</p>
             </div>
             <div class="event-body">
-              <h2>{e.data.title}</h2>
+              <h2>
+                <button
+                  class="event-toggle"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls={`ev-panel-${e.id}`}
+                >
+                  {e.data.title}
+                  <span class="event-chevron" aria-hidden="true">▾</span>
+                </button>
+              </h2>
               <p class="event-place">{e.data.place}</p>
               <p class="event-blurb">{e.data.blurb}</p>
+
+              <div class="event-panel" id={`ev-panel-${e.id}`} hidden>
+                <div class="event-panel-grid">
+                  <div>
+                    <h3 class="panel-head">Good to know</h3>
+                    <ul class="event-details">
+                      {(e.data.details ?? []).map((d) => <li>{d}</li>)}
+                    </ul>
+                  </div>
+                  <div class="event-map">
+                    {isOnline(e.data.place) ? (
+                      <div class="map-card map-card--online" aria-hidden="true">
+                        <svg viewBox="0 0 200 120">
+                          <rect width="200" height="120" rx="14" fill="#F5ECD8" />
+                          <circle cx="100" cy="52" r="26" fill="none" stroke="#DC6E00" stroke-width="5" />
+                          <path d="M100 30 v-12 M100 74 v12 M78 52 h-12 M134 52 h-12" stroke="#DC6E00" stroke-width="5" stroke-linecap="round" />
+                          <circle cx="100" cy="52" r="8" fill="#301800" />
+                        </svg>
+                      </div>
+                    ) : (
+                      <div class="map-card" aria-hidden="true">
+                        <svg viewBox="0 0 200 120">
+                          <rect width="200" height="120" rx="14" fill="#F5ECD8" />
+                          <path d="M-10 40 C 50 30, 90 60, 210 44" stroke="#FFFFFF" stroke-width="9" fill="none" />
+                          <path d="M-10 84 C 70 76, 120 96, 210 82" stroke="#FFFFFF" stroke-width="7" fill="none" />
+                          <path d="M64 -10 C 70 40, 56 80, 66 130" stroke="#FFFFFF" stroke-width="7" fill="none" />
+                          <path d="M138 -10 C 132 36, 148 84, 140 130" stroke="#EEE0C3" stroke-width="6" fill="none" />
+                          <path d="M100 34 a20 20 0 0 1 20 20 c0 14 -20 34 -20 34 s-20 -20 -20 -34 a20 20 0 0 1 20 -20 Z" fill="#DC6E00" stroke="#301800" stroke-width="4" />
+                          <circle cx="100" cy="54" r="7" fill="#F5ECD8" />
+                        </svg>
+                      </div>
+                    )}
+                    <p class="map-addr">{e.data.place}</p>
+                    {isOnline(e.data.place) ? (
+                      <p class="map-note">Online event — the link arrives after sign-up.</p>
+                    ) : (
+                      <a class="map-link" href={mapsUrl(e.data.place)} target="_blank" rel="noreferrer">
+                        Get directions ↗
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+
               <a class="event-cal" href={icsFor(e)} download={`${e.id}.ics`}>
                 Add to calendar
               </a>
@@ -66,15 +130,103 @@ const icsFor = (e: (typeof events)[number]) => {
           </article>
         ))}
       </div>
+
+      <aside class="cal-side" aria-label="Event calendar">
+        <div class="mini-cal" data-events={JSON.stringify(calendarData)}>
+          <div class="cal-head">
+            <button class="cal-nav" type="button" data-dir="-1" aria-label="Previous month">‹</button>
+            <p class="cal-title" aria-live="polite"></p>
+            <button class="cal-nav" type="button" data-dir="1" aria-label="Next month">›</button>
+          </div>
+          <div class="cal-grid"></div>
+          <p class="cal-hint">Orange days have events — tap one to jump to it.</p>
+        </div>
+      </aside>
     </div>
   </section>
 </Base>
 
+<script>
+  /* ── expandable event cards ── */
+  document.querySelectorAll<HTMLButtonElement>(".event-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const open = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!open));
+      const panel = document.getElementById(btn.getAttribute("aria-controls")!)!;
+      panel.hidden = open;
+    });
+  });
+
+  /* ── mini calendar: months with events, orange day dots jump to cards ── */
+  const cal = document.querySelector<HTMLElement>(".mini-cal")!;
+  const evts: { id: string; y: number; m: number; day: number }[] = JSON.parse(cal.dataset.events!);
+  const months = [...new Set(evts.map((e) => e.y * 12 + e.m))].sort((a, b) => a - b);
+  let cur = months[0];
+  const title = cal.querySelector<HTMLElement>(".cal-title")!;
+  const grid = cal.querySelector<HTMLElement>(".cal-grid")!;
+  const NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+  const render = () => {
+    const y = Math.floor(cur / 12);
+    const m = cur % 12;
+    title.textContent = `${NAMES[m]} ${y}`;
+    grid.innerHTML = "";
+    for (const d of ["S", "M", "T", "W", "T", "F", "S"]) {
+      const el = document.createElement("span");
+      el.className = "cal-dow";
+      el.textContent = d;
+      grid.append(el);
+    }
+    const first = new Date(y, m, 1).getDay();
+    const days = new Date(y, m + 1, 0).getDate();
+    for (let i = 0; i < first; i++) grid.append(document.createElement("span"));
+    for (let day = 1; day <= days; day++) {
+      const hit = evts.find((e) => e.y === y && e.m === m && e.day === day);
+      if (hit) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "cal-day cal-day--event";
+        b.textContent = String(day);
+        b.addEventListener("click", () => {
+          const card = document.getElementById(`ev-${hit.id}`)!;
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+          const t = card.querySelector<HTMLButtonElement>(".event-toggle")!;
+          if (t.getAttribute("aria-expanded") !== "true") t.click();
+        });
+        grid.append(b);
+      } else {
+        const s = document.createElement("span");
+        s.className = "cal-day";
+        s.textContent = String(day);
+        grid.append(s);
+      }
+    }
+    const idx = months.indexOf(cur);
+    cal.querySelector<HTMLButtonElement>('[data-dir="-1"]')!.disabled = idx <= 0;
+    cal.querySelector<HTMLButtonElement>('[data-dir="1"]')!.disabled = idx >= months.length - 1;
+  };
+  cal.querySelectorAll<HTMLButtonElement>(".cal-nav").forEach((b) =>
+    b.addEventListener("click", () => {
+      const idx = months.indexOf(cur) + Number(b.dataset.dir);
+      if (idx >= 0 && idx < months.length) {
+        cur = months[idx];
+        render();
+      }
+    }),
+  );
+  render();
+</script>
+
 <style>
+  .events-layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: var(--space-4);
+    align-items: start;
+  }
   .event-list {
     display: grid;
     gap: var(--space-3);
-    max-width: 860px;
   }
   .event {
     display: grid;
@@ -103,12 +255,89 @@ const icsFor = (e: (typeof events)[number]) => {
     color: rgba(48, 24, 0, 0.65);
   }
   .event h2 { font-size: var(--size-h4); }
+  .event-toggle {
+    all: unset;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .event-toggle:hover { color: var(--paw-orange-ink); }
+  .event-toggle:focus-visible {
+    outline: 3px solid var(--paw-orange);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  .event-chevron {
+    font-size: 0.8em;
+    transition: transform 0.2s var(--ease);
+  }
+  .event-toggle[aria-expanded="true"] .event-chevron {
+    transform: rotate(180deg);
+  }
   .event-place {
     margin-top: 4px;
     font-weight: 500;
     color: var(--paw-orange-ink);
   }
   .event-blurb { margin-top: 10px; }
+  .event-panel {
+    margin-top: var(--space-2);
+    background: var(--paw-cream);
+    border-radius: var(--radius-input);
+    padding: var(--space-3);
+  }
+  .event-panel-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: var(--space-3);
+    align-items: start;
+  }
+  .panel-head {
+    font-size: 1.05rem;
+  }
+  .event-details {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .event-details li {
+    padding-left: 26px;
+    position: relative;
+    font-size: var(--size-small);
+  }
+  .event-details li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--paw-orange-ink);
+    font-weight: 700;
+  }
+  .map-card svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-input);
+  }
+  .map-addr {
+    margin-top: 10px;
+    font: 500 0.95rem/1.4 var(--font-display);
+  }
+  .map-note {
+    margin-top: 4px;
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.65);
+  }
+  .map-link {
+    display: inline-block;
+    margin-top: 6px;
+    font: 500 0.95rem/1 var(--font-display);
+    color: var(--paw-orange-ink);
+    text-decoration: none;
+  }
+  .map-link:hover { text-decoration: underline; text-underline-offset: 3px; }
   .event-cal {
     display: inline-block;
     margin-top: 14px;
@@ -123,7 +352,88 @@ const icsFor = (e: (typeof events)[number]) => {
     background: var(--paw-brown);
     color: var(--paw-cream);
   }
-  @media (max-width: 640px) {
-    .event { grid-template-columns: 1fr; }
+  /* ── mini calendar ── */
+  .cal-side {
+    position: sticky;
+    top: 92px;
+  }
+  .mini-cal {
+    background: var(--paw-white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-3);
+  }
+  .cal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .cal-title {
+    font: 500 1.05rem/1 var(--font-display);
+  }
+  .cal-nav {
+    all: unset;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--paw-cream);
+    font-size: 1.1rem;
+  }
+  .cal-nav:hover:not(:disabled) { background: var(--paw-cream-deep); }
+  .cal-nav:disabled { opacity: 0.35; cursor: default; }
+  .cal-nav:focus-visible { outline: 3px solid var(--paw-orange); }
+  .cal-grid {
+    margin-top: var(--space-2);
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+  }
+  .cal-dow {
+    font: 500 0.75rem/1 var(--font-body);
+    color: rgba(48, 24, 0, 0.5);
+    padding-block: 6px;
+  }
+  .cal-day {
+    font-size: 0.85rem;
+    padding-block: 7px;
+    border-radius: 8px;
+    color: rgba(48, 24, 0, 0.75);
+  }
+  button.cal-day--event {
+    all: unset;
+    cursor: pointer;
+    font: 600 0.85rem/1 var(--font-body);
+    padding-block: 7px;
+    border-radius: 8px;
+    background: var(--paw-orange);
+    color: var(--paw-brown);
+    text-align: center;
+  }
+  button.cal-day--event:hover { background: #e97e14; }
+  button.cal-day--event:focus-visible { outline: 3px solid var(--paw-brown); }
+  .cal-hint {
+    margin-top: var(--space-2);
+    font-size: var(--size-small);
+    color: rgba(48, 24, 0, 0.6);
+  }
+  @media (max-width: 900px) {
+    .events-layout {
+      grid-template-columns: 1fr;
+    }
+    .cal-side {
+      position: static;
+      order: -1;
+    }
+    .event {
+      grid-template-columns: 1fr;
+    }
+    .event-panel-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
