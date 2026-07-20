@@ -13,7 +13,7 @@
   --paw-white: #fffdf6; /* card/off-white — never pure white */
   --paw-bg: #fff7e6; /* unified page background */
   --paw-cream-deep: #eee0c3; /* section tint one step below cream */
-  --paw-taupe: #86715e; /* the hi-fi's warm mid-brown band (Our Mission, wishlist) */
+  --paw-taupe: #6f5b4a; /* warm mid-brown band (Our Mission, wishlist) — darkened so peach titles + white body clear AA */
 
   /* type — Fredoka for display, Lexend for body */
   --font-display: "Fredoka", "Trebuchet MS", sans-serif;
