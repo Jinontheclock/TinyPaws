@@ -1,6 +1,6 @@
 /* TinyPaws design tokens — from the style tile, warmed per owner note:
    base background #FFF7E6, no pure white or pure black anywhere.
-   Palette: #DC6E00 · #301800 · #2A1600 · #F5ECD8 · #FFFDF6 · #FFF7E6
+   Palette: #DC6E00 · #301800 · #F5ECD8 · #FFFDF6 · #FFF7E6
    Type: Fredoka 64/40/32/24/20 (display) + Lexend 16 (body). */
 :root {
   /* colour */
@@ -8,7 +8,6 @@
   /* AA-safe darkened orange for small text on cream (4.6:1) */
   --paw-orange-ink: #a65300;
   --paw-brown: #301800;
-  --paw-black: #2a1600; /* darkest tone — deep brown, never pure black */
   --paw-cream: #f5ecd8;
   --paw-white: #fffdf6; /* card/off-white — never pure white */
   --paw-bg: #fff7e6; /* unified page background */
