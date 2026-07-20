@@ -18,6 +18,13 @@ interface Props {
   description: string;
 }
 const { title, description } = Astro.props;
+
+/* absolute URLs for social share cards — built from the configured site
+   origin + base so they resolve on both the standalone and embedded builds */
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const pageTitle = `${title} — TinyPaws`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(`${base}/og-cover.jpg`, Astro.site).href;
 ---
 
 <!doctype html>
@@ -27,7 +34,25 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <title>{title} — TinyPaws</title>
+    <title>{pageTitle}</title>
+    <link rel="canonical" href={canonical} />
+
+    {/* Open Graph — link-preview cards on Slack, iMessage, LinkedIn, etc. */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="TinyPaws" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="2400" />
+    <meta property="og:image:height" content="1260" />
+    <meta property="og:image:alt" content="TinyPaws — small paws, safe homes. A volunteer-run kitten rescue in Vancouver." />
+
+    {/* Twitter/X card */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     {fonts.map((f) => (
       <link rel="preload" as="font" type="font/woff2" href={f} crossorigin />
     ))}
