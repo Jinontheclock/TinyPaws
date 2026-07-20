@@ -1,8 +1,7 @@
 /* TinyPaws design tokens — from the style tile, warmed per owner note:
    base background #FFF7E6, no pure white or pure black anywhere.
    Palette: #DC6E00 · #301800 · #2A1600 · #F5ECD8 · #FFFDF6 · #FFF7E6
-   Type: Nexa Round 64/40/32/24/20 + Lexend 16 (Fredoka substitutes
-   Nexa Round — commercial face, see README). */
+   Type: Fredoka 64/40/32/24/20 (display) + Lexend 16 (body). */
 :root {
   /* colour */
   --paw-orange: #dc6e00;
@@ -16,7 +15,7 @@
   --paw-cream-deep: #eee0c3; /* section tint one step below cream */
   --paw-taupe: #86715e; /* the hi-fi's warm mid-brown band (Our Mission, wishlist) */
 
-  /* type — Fredoka for display (Nexa Round stand-in), Lexend for body */
+  /* type — Fredoka for display, Lexend for body */
   --font-display: "Fredoka", "Trebuchet MS", sans-serif;
   --font-body: "Lexend", "Segoe UI", sans-serif;
   --size-h1: clamp(2.5rem, 6vw, 4rem);      /* 64 */

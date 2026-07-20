@@ -31,13 +31,13 @@ From the TinyPaws style tile (Figma):
 | Dark brown | `#301800` |
 | Cream | `#F5ECD8` |
 | Black / White | `#000000` / `#FFFFFF` |
-| Display type | Nexa Round 64 / 40 / 32 / 24 / 20 |
+| Display type | Fredoka 64 / 40 / 32 / 24 / 20 |
 | Body type | Lexend Regular 16 |
 
-**Font note:** Nexa Round is a commercial face. This build substitutes
-**Fredoka** (a similarly rounded geometric sans, self-hosted via
-Fontsource) until a Nexa Round webfont licence is provided. Lexend is
-self-hosted from Fontsource as specified.
+**Font note:** Both faces are self-hosted via Fontsource under the SIL
+Open Font License — **Fredoka** (a rounded geometric sans) for display,
+**Lexend** (designed for reading proficiency) for body copy. The build
+ships no licence-restricted webfonts.
 
 **Contrast:** raw orange on cream measures 2.85:1, below WCAG AA — so
 body-size orange text uses the darkened `#A65300` (4.6:1) and orange
